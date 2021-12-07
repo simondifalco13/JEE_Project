@@ -21,14 +21,20 @@ public class Maintenance implements Serializable {
 	private MaintenanceStatus status;
 	private ArrayList<Worker> maintenanceWorkers;
 	private Leader maintenanceLeader;
+	private FactoryMachine machine;
 
 	public Maintenance() {
 		
 	}
 	
-	public Maintenance(int id,Date date,LocalTime start,MaintenanceStatus status,ArrayList<Worker> workers,Leader leader) {
+	public Maintenance(int id,Date date,LocalTime start,
+			FactoryMachine machine, 
+			MaintenanceStatus status,
+			ArrayList<Worker> workers,
+			Leader leader) {
 		this.maintenanceId=id;
 		this.maintenanceDate=date;
+		this.machine=machine;
 		this.startTime=start;
 		this.status=status;
 		this.maintenanceWorkers=workers;
@@ -69,8 +75,11 @@ public class Maintenance implements Serializable {
 	}
 
 	public String getDuration() {
-		duration=calculateDuration(this.getStartTime(),this.getEndTime());
+		if(this.getEndTime()!=null) {
+			duration=calculateDuration(this.getStartTime(),this.getEndTime());
+		}
 		return duration;
+		
 	}
 
 	public void setDuration(String duration) {
@@ -99,6 +108,18 @@ public class Maintenance implements Serializable {
 
 	public void setMaintenanceLeader(Leader maintenanceLeader) {
 		this.maintenanceLeader = maintenanceLeader;
+	}
+
+	public FactoryMachine getMachine() {
+		return machine;
+	}
+
+	public void setMachine(FactoryMachine machine) {
+		this.machine = machine;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	private String calculateDuration(LocalTime start,LocalTime end) {
