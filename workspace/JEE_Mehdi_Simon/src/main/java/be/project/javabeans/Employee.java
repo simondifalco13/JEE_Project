@@ -52,9 +52,7 @@ public class Employee extends User implements Serializable {
 		this.orders = orders;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	
 	//METHODS
 	public void addOrder(Order order) {

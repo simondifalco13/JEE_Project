@@ -8,6 +8,7 @@ public class Order implements Serializable {
 
 
 	private static final long serialVersionUID = -8787806183257791080L;
+	private int id;
 	private Map<SupplierMachine,Double> orderMachines;
 	private int orderNumber;
 	private Employee employee;
@@ -59,6 +60,14 @@ public class Order implements Serializable {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	//METHODS

@@ -118,9 +118,7 @@ public class Maintenance implements Serializable {
 		this.machine = machine;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 
 	private String calculateDuration(LocalTime start,LocalTime end) {
 		long hours = ChronoUnit.HOURS.between(start, end);

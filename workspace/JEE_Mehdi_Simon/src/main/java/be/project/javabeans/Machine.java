@@ -4,6 +4,7 @@ import be.project.enumerations.MachineType;
 
 public abstract class Machine {
 
+	private int id;
 	private String model;
 	private String brand;
 	private String description;
@@ -50,6 +51,14 @@ public abstract class Machine {
 
 	public void setType(MachineType type) {
 		this.type = type;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

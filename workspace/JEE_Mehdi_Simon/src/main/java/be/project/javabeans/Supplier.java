@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Supplier implements Serializable {
 
 	private static final long serialVersionUID = -1829190545470625389L;
+	private int id;
 	private String name;
 	private String phone;
 	private String email;
@@ -54,9 +55,14 @@ public class Supplier implements Serializable {
 		this.machines = machines;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getId() {
+		return id;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	
 	//methods
 	

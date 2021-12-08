@@ -84,9 +84,7 @@ public class FactoryMachine extends Machine implements Serializable {
 		this.machineMaintenances = machineMaintenances;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	
 	
 

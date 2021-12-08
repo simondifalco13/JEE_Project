@@ -8,6 +8,7 @@ public class Site implements Serializable {
 	
 	private static final long serialVersionUID = -2325842002428370742L;
 
+	private int id;
 	private String city;
 	private String address;
 	private ArrayList<Worker> siteWorkers;
@@ -67,8 +68,14 @@ public class Site implements Serializable {
 		this.siteAreas = siteAreas;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 

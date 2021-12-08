@@ -7,6 +7,7 @@ public class Control implements Serializable {
 
 	
 	private static final long serialVersionUID = -5876450231134059661L;
+	private int id;
 	private Date controlDate;
 	private String observations;
 	private Leader leader;
@@ -55,8 +56,13 @@ public class Control implements Serializable {
 		this.machine = machine;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getId() {
+		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
 }
