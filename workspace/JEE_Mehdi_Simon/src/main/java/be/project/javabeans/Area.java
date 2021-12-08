@@ -9,6 +9,7 @@ public class Area implements Serializable {
 
 	private static final long serialVersionUID = 2310261736651555419L;
 
+	private int id;
 	private String section;
 	private ColorCode dangerousness;
 	private Site areaSite;
@@ -60,8 +61,14 @@ public class Area implements Serializable {
 		this.areaMachines = areaMachines;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getId() {
+		return id;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
 
 }
