@@ -1,0 +1,65 @@
+----
+PACKAGE SITE_PKG
+
+CREATE OR REPLACE PACKAGE site_pkg AS
+
+function get_site(id IN site.site_id%TYPE) RETURN site%ROWTYPE;
+
+END site_pkg;
+
+CREATE OR REPLACE PACKAGE BODY site_pkg AS
+	FUNCTION get_site(id IN site.site_id%TYPE) 
+	RETURN site%ROWTYPE
+	IS
+  	   site_record site%ROWTYPE;
+ 	   CURSOR C_SITE (id IN site.site_id%TYPE) IS 
+	   SELECT * FROM site WHERE site_id=id;
+	BEGIN
+  	   OPEN C_SITE(id);
+  	   LOOP
+	      FETCH C_SITE INTO site_record ;
+	      Exit WHEN C_SITE%NOTFOUND ;
+  	   END LOOP;
+  	   CLOSE C_SITE;
+        return site_record;
+	END;
+END site_pkg;
+/
+
+----
+TEST OF PACKAGE FUNCTIONS 
+
+
+
+DECLARE 
+	l_row site%rowtype;
+BEGIN
+	l_row:= site_pkg.get_site(1);
+	dbms_output.put_line('id '|| l_row.site_id
+	      ||' city :' || l_row.city ||' address : '|| l_row.address) ;
+END;
+/
+
+
+____
+
+FUNCTIONS 
+
+
+CREATE OR REPLACE FUNCTION get_site(id IN site.site_id%TYPE) 
+RETURN site%ROWTYPE
+IS
+  site_record site%ROWTYPE;
+  CURSOR C_SITE (id IN site.site_id%TYPE) IS 
+	SELECT * FROM site WHERE site_id=id;
+BEGIN
+  OPEN C_SITE(id);
+  LOOP
+	FETCH C_SITE INTO site_record ;
+	Exit WHEN C_SITE%NOTFOUND ;
+	dbms_output.put_line('id '|| site_record.site_id
+	||' city :' || site_record.site_id) ;
+  END LOOP;
+  CLOSE C_SITE;
+END;
+/
