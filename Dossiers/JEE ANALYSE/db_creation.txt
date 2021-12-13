@@ -1,0 +1,201 @@
+Ordre de création : 
+
+1) Site 
+2) Area
+3) Worker
+4) Leader
+5) Machine
+6) Maintenance 
+7) Control
+8) Worker_Maintenance
+9) Machine Area
+----
+10) Employee
+11) Supplier
+12) Orders
+13) Supplier_machine
+14) Order_supplier_machine
+
+
+///////
+SCRIPTS SQL : 
+
+----
+site.sql
+
+CREATE TABLE site (
+  site_id NUMBER(5) NOT NULL,
+  city VARCHAR2(100) NOT NULL,
+  address VARCHAR2(100) NOT NULL,
+  CONSTRAINT site_pk PRIMARY KEY (site_id)
+) 
+
+
+----
+area.sql
+
+CREATE TABLE area(
+  area_id NUMBER(5) NOT NULL,
+  section VARCHAR2(15) NOT NULL,
+  dangerousness VARCHAR2(50) NOT NULL,
+  site_id NUMBER(5) NOT NULL,
+  CONSTRAINT area_pk PRIMARY KEY (area_id),
+  CONSTRAINT check_dangerousness_type CHECK (dangerousness IN ('green', 'orange', 'red','black')),
+  CONSTRAINT fk_site_area FOREIGN KEY (site_id) REFERENCES site(site_id)
+)
+
+----
+worker.sql
+
+CREATE TABLE worker(
+  worker_id NUMBER(5) NOT NULL,
+  worker_firstname VARCHAR2(100) NOT NULL,
+  worker_lastname VARCHAR2(100) NOT NULL,
+  worker_mail VARCHAR2(100) NOT NULL,
+  worker_password VARCHAR2(200) NOT NULL,
+  site_id NUMBER(5) NOT NULL, 
+  CONSTRAINT worker_pk PRIMARY KEY (worker_id),
+  CONSTRAINT fk_site_worker FOREIGN KEY (site_id) REFERENCES site(site_id)
+)
+
+
+---
+leader.sql
+
+CREATE TABLE leader(
+  leader_id NUMBER(5) NOT NULL,
+  leader_firstname VARCHAR2(100) NOT NULL,
+  leader_lastname VARCHAR2(100) NOT NULL,
+  leader_mail VARCHAR2(100) NOT NULL,
+  leader_password VARCHAR2(200) NOT NULL,
+  site_id NUMBER(5) NOT NULL, 
+  CONSTRAINT leader_pk PRIMARY KEY (leader_id),
+  CONSTRAINT fk_site_leader FOREIGN KEY (site_id) REFERENCES site(site_id)
+)
+
+
+--- 
+machine.sql
+
+CREATE TABLE machine(
+  machine_id NUMBER(5) NOT NULL,
+  machine_type VARCHAR(50) NOT NULL,
+  machine_status VARCHAR(100) NOT NULL,
+  site_id NUMBER(5) NOT NULL,
+  CONSTRAINT machine_pk PRIMARY KEY (machine_id),
+  CONSTRAINT fk_site_machine FOREIGN KEY (site_id) REFERENCES site(site_id),
+  CONSTRAINT check_machine_type CHECK (machine_type IN ('production','assembly','sorting')),
+  CONSTRAINT check_machine_status CHECK (machine_status IN ('running','off','down','waitingformaintenance','toreplace'))
+)
+
+---
+maintenance.sql
+
+CREATE TABLE maintenance(
+   maintenance_id NUMBER(5) NOT NULL,
+   maintenance_date DATE NOT NULL,
+   maintenance_status VARCHAR2(100) NOT NULL,
+   duration INTERVAL DAY TO SECOND,
+   machine_id NUMBER(5) NOT NULL,
+   leader_id NUMBER(5) NOT NULL,
+   CONSTRAINT maintenance_pk PRIMARY KEY (maintenance_id),
+   CONSTRAINT fk_maintenance_machine FOREIGN KEY (machine_id) REFERENCES machine(machine_id),
+   CONSTRAINT fk_maintenance_leader FOREIGN KEY (leader_id) REFERENCES leader(leader_id),
+   CONSTRAINT check_maintenance_status CHECK (maintenance_status IN ('todo','done','ongoing','toredo','validated'))	
+   
+)
+
+----
+control.sql
+
+CREATE TABLE control(
+   control_id NUMBER(5) NOT NULL,
+   control_date DATE NOT NULL,
+   observations VARCHAR2(500) NOT NULL,
+   machine_id NUMBER(5) NOT NULL,
+   leader_id NUMBER(5) NOT NULL,
+   CONSTRAINT control_pk PRIMARY KEY (control_id),
+   CONSTRAINT fk_control_machine FOREIGN KEY (machine_id) REFERENCES machine(machine_id),
+   CONSTRAINT fk_control_leader FOREIGN KEY (leader_id) REFERENCES leader(leader_id)
+
+)
+
+
+----
+worker_maintenance.sql
+
+CREATE TABLE worker_maintenance(
+   maintenance_id NUMBER(5) NOT NULL,
+   worker_id NUMBER(5) NOT NULL,
+   rapport VARCHAR2(500) NOT NULL,
+   CONSTRAINT worker_maintenance_pk PRIMARY KEY (maintenance_id,worker_id)
+)
+
+----
+machine_area.sql
+
+CREATE TABLE machine_area(
+  machine_id NUMBER(5) NOT NULL,
+  area_id NUMBER(5) NOT NULL,
+  CONSTRAINT machine_area_pk PRIMARY KEY (machine_id,area_id)
+)
+
+----
+employee.sql
+
+ CREATE TABLE employee(
+	employee_id NUMBER(5) NOT NULL,
+	employee_firstname VARCHAR2(100) NOT NULL,
+	employee_lastname VARCHAR2(100) NOT NULL,
+	employee_mail VARCHAR2(100) NOT NULL,
+	employee_password VARCHAR2(200) NOT NULL,
+	CONSTRAINT employee_pk PRIMARY KEY (employee_id)
+);
+
+----
+supplier.sql
+
+ CREATE TABLE supplier(
+	supplier_id NUMBER(5) NOT NULL,
+	supplier_name VARCHAR2(100) NOT NULL,
+	supplier_phone VARCHAR2(50) NOT NULL,
+	supplier_mail VARCHAR2(100) NOT NULL,
+	CONSTRAINT supplier_pk PRIMARY KEY (supplier_id)
+);
+
+----
+orders.sql
+
+ CREATE TABLE orders(
+	order_id NUMBER(5) NOT NULL,
+	order_date DATE NOT NULL,
+	price NUMBER(10,2) NOT NULL,
+	employee_id NUMBER(5) NOT NULL,
+	CONSTRAINT orders_pk PRIMARY KEY (order_id),
+	CONSTRAINT fk_orders FOREIGN KEY (employee_id) REFERENCES employee (employee_id)
+);
+
+----
+order_supplier_machine.sql
+
+ CREATE TABLE order_supplier_machine(
+	order_id NUMBER(5) NOT NULL,
+	quantity SMALLINT NOT NULL,
+	machine_id NUMBER(5) NOT NULL,
+	CONSTRAINT order_supplier_machine_pk PRIMARY KEY (machine_id,order_id)
+);
+----
+supplier_machine.sql
+
+ CREATE TABLE supplier_machine(
+	supplier_machine_id NUMBER(5) NOT NULL,
+	model VARCHAR2(50) NOT NULL,
+	brand VARCHAR2(50) NOT NULL,
+	price number(10,2) NOT NULL,
+	description VARCHAR2(200)NOT NULL, 
+	supplier_id NUMBER(5) NOT NULL,
+	CONSTRAINT supplier_machine_pk PRIMARY KEY (supplier_machine_id),
+	CONSTRAINT fk_supplier_machine FOREIGN KEY (supplier_id) REFERENCES supplier
+	(supplier_id)
+);
+
