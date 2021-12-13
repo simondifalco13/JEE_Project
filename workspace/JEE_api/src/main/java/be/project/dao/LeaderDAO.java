@@ -8,7 +8,7 @@ import be.project.models.Leader;
 public class LeaderDAO implements DAO<Leader> {
 
 	@Override
-	public boolean create(Leader obj) {
+	public boolean insert(Leader obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -35,6 +35,12 @@ public class LeaderDAO implements DAO<Leader> {
 	public ArrayList<Leader> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

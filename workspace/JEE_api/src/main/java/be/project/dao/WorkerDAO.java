@@ -7,7 +7,7 @@ import be.project.models.Worker;
 public class WorkerDAO implements DAO<Worker> {
 
 	@Override
-	public boolean create(Worker obj) {
+	public boolean insert(Worker obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,6 +34,12 @@ public class WorkerDAO implements DAO<Worker> {
 	public ArrayList<Worker> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

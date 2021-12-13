@@ -7,13 +7,13 @@ import be.project.models.Area;
 public class AreaDAO implements DAO<Area> {
 
 	@Override
-	public boolean create(Area obj) {
+	public boolean delete(Area obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
-	public boolean delete(Area obj) {
+	public boolean delete(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -35,5 +35,13 @@ public class AreaDAO implements DAO<Area> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean insert(Area obj) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	
 
 }

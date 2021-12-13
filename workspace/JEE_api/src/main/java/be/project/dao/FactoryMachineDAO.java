@@ -7,7 +7,7 @@ import be.project.models.FactoryMachine;
 public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
-	public boolean create(FactoryMachine obj) {
+	public boolean insert(FactoryMachine obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,6 +34,12 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	public ArrayList<FactoryMachine> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

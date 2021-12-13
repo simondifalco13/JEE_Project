@@ -14,6 +14,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import be.project.dao.DatabaseConnection;
+import be.project.enumerations.ColorCode;
+import be.project.models.Area;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -21,31 +25,18 @@ import javax.naming.NamingException;
 @Path("/test")
 public class TestApi {
 
-	String co="jdbc:oracle:thin:@//193.190.64.10:1522/XEPDB1";
-	String us="student03_06";
-	String pwd="root";
 	public Connection connection;
-	
-	
-	
+
 	public TestApi() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			connection=DriverManager.getConnection(
-					co,
-					us,
-					pwd);
-			Context ctx = new InitialContext();
-		    Context env = (Context) ctx.lookup("java:comp/env");
-		    final String fileName = (String) env.lookup("db");
-		    System.out.println("file "+ fileName);
+		    connection=DatabaseConnection.getInstance();    
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-
 	
+
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)

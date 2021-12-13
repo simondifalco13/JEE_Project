@@ -7,7 +7,7 @@ import be.project.javabeans.Order;
 public class OrderDAO implements DAO<Order> {
 
 	@Override
-	public boolean create(Order obj) {
+	public boolean insert(Order obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

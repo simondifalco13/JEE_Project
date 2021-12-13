@@ -7,7 +7,7 @@ import be.project.javabeans.Employee;
 public class EmployeeDAO implements DAO<Employee> {
 
 	@Override
-	public boolean create(Employee obj) {
+	public boolean insert(Employee obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

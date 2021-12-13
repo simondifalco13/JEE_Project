@@ -3,25 +3,30 @@ package be.project.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
 public class DatabaseConnection {
 
-
-	String co="jdbc:oracle:thin:@//193.190.64.10:1522/XEPDB1";
-	String us="student03_06";
-	String pwd="root";
 	public Connection connection;
 	private static Connection instance = null;
 
 	private DatabaseConnection(){
+		
 		try{ 
+			Context ctx = new InitialContext();
+		    Context env = (Context) ctx.lookup("java:comp/env");
+		    final String connectionString = (String) env.lookup("connectionString");
+		    final String username = (String) env.lookup("dbUser");
+		    final String pwd = (String) env.lookup("dbUserPwd");
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			instance=DriverManager.getConnection(
-					co,
-					us,
+					connectionString,
+					username,
 					pwd);
 		}
 		catch (Exception ex) {
-			//gestion d'erreur
+			System.out.println(ex.getMessage());
 		}
 		
 	}

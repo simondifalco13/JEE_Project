@@ -7,7 +7,7 @@ import be.project.models.Maintenance;
 public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
-	public boolean create(Maintenance obj) {
+	public boolean insert(Maintenance obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,6 +34,12 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	public ArrayList<Maintenance> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

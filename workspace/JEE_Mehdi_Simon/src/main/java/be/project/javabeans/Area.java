@@ -7,6 +7,8 @@ import be.project.enumerations.ColorCode;
 
 public class Area implements Serializable {
 
+	
+
 	private static final long serialVersionUID = 2310261736651555419L;
 
 	private int id;
@@ -68,6 +70,7 @@ public class Area implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+
 
 	
 

@@ -7,7 +7,7 @@ import be.project.javabeans.Site;
 public class SiteDAO implements DAO<Site> {
 
 	@Override
-	public boolean create(Site obj) {
+	public boolean insert(Site obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

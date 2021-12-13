@@ -7,7 +7,7 @@ import be.project.javabeans.Supplier;
 public class SupplierDAO implements DAO<Supplier> {
 
 	@Override
-	public boolean create(Supplier obj) {
+	public boolean insert(Supplier obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

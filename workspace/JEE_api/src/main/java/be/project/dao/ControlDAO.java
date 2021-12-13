@@ -6,11 +6,7 @@ import be.project.models.Control;
 
 public class ControlDAO implements DAO<Control> {
 
-	@Override
-	public boolean create(Control obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public boolean delete(Control obj) {
@@ -34,6 +30,18 @@ public class ControlDAO implements DAO<Control> {
 	public ArrayList<Control> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean insert(Control obj) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

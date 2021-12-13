@@ -7,7 +7,7 @@ import be.project.javabeans.Leader;
 public class LeaderDAO implements DAO<Leader> {
 
 	@Override
-	public boolean create(Leader obj) {
+	public boolean insert(Leader obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

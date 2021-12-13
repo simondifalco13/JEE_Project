@@ -26,6 +26,7 @@ public class Site implements Serializable {
 		this.siteLeaders=siteLeaders;
 	}
 	
+
 	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Worker> siteWorkers) {
 		this(city,address,siteAreas,siteLeaders);
 		this.siteWorkers=siteWorkers;

@@ -7,7 +7,7 @@ import be.project.javabeans.Control;
 public class ControlDAO implements DAO<Control> {
 
 	@Override
-	public boolean create(Control obj) {
+	public boolean insert(Control obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

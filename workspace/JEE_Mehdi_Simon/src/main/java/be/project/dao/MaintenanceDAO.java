@@ -7,7 +7,7 @@ import be.project.javabeans.Maintenance;
 public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
-	public boolean create(Maintenance obj) {
+	public boolean insert(Maintenance obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

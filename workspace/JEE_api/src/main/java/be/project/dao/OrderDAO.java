@@ -7,7 +7,7 @@ import be.project.models.Order;
 public class OrderDAO implements DAO<Order> {
 
 	@Override
-	public boolean create(Order obj) {
+	public boolean insert(Order obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -34,6 +34,12 @@ public class OrderDAO implements DAO<Order> {
 	public ArrayList<Order> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

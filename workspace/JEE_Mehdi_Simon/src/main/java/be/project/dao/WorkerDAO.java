@@ -7,7 +7,7 @@ import be.project.javabeans.Worker;
 public class WorkerDAO implements DAO<Worker> {
 
 	@Override
-	public boolean create(Worker obj) {
+	public boolean insert(Worker obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

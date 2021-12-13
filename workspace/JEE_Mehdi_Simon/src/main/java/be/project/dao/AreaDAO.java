@@ -7,7 +7,7 @@ import be.project.javabeans.Area;
 public class AreaDAO implements DAO<Area> {
 
 	@Override
-	public boolean create(Area obj) {
+	public boolean insert(Area obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -7,7 +7,7 @@ import be.project.javabeans.FactoryMachine;
 public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
-	public boolean create(FactoryMachine obj) {
+	public boolean insert(FactoryMachine obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

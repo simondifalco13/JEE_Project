@@ -5,9 +5,11 @@ import java.util.ArrayList;
 
 public interface DAO<T> {
 
-	public boolean create(T obj);
+	public boolean insert(T obj);
 	
 	public boolean delete(T obj);
+	
+	public boolean delete(int id);
 	
 	public boolean update(T obj);
 	
