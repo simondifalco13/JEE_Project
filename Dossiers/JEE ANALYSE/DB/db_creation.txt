@@ -25,6 +25,11 @@ ATTENTION : SANS COMMIT RIEN NE SE VALIDE -> inateignable par API
 ----
 site.sql
 
+DROP TABLE site
+
+DROP SEQUENCE site_sequence
+
+
 CREATE TABLE site (
   site_id NUMBER(5) NOT NULL,
   city VARCHAR2(100) NOT NULL,
@@ -47,6 +52,10 @@ END;
 
 ----
 area.sql
+
+DROP TABLE area
+
+DROP SEQUENCE area_sequence
 
 CREATE TABLE area(
   area_id NUMBER(5) NOT NULL,
@@ -72,6 +81,10 @@ END;
 
 ----
 worker.sql
+
+DROP TABLE worker
+
+DROP SEQUENCE worker_sequence
 
 CREATE TABLE worker(
   worker_id NUMBER(5) NOT NULL,
@@ -99,6 +112,10 @@ END;
 ---
 leader.sql
 
+DROP TABLE leader
+
+DROP SEQUENCE leader_sequence
+
 CREATE TABLE leader(
   leader_id NUMBER(5) NOT NULL,
   leader_firstname VARCHAR2(100) NOT NULL,
@@ -123,6 +140,10 @@ END;
 
 --- 
 machine.sql
+
+DROP TABLE machine
+
+DROP SEQUENCE machine_sequence
 
 CREATE TABLE machine(
   machine_id NUMBER(5) NOT NULL,
@@ -149,6 +170,10 @@ END;
 ---
 maintenance.sql
 
+DROP TABLE maintenance
+
+DROP SEQUENCE maintenance_sequence
+
 CREATE TABLE maintenance(
    maintenance_id NUMBER(5) NOT NULL,
    maintenance_date DATE NOT NULL,
@@ -163,7 +188,6 @@ CREATE TABLE maintenance(
    
 )
 
-
 CREATE SEQUENCE maintenance_sequence
 
 CREATE OR REPLACE TRIGGER maintenance_on_insert
@@ -177,6 +201,10 @@ END;
 
 ----
 control.sql
+
+DROP TABLE control
+
+DROP SEQUENCE control_sequence
 
 CREATE TABLE control(
    control_id NUMBER(5) NOT NULL,
@@ -204,6 +232,7 @@ END;
 ----
 worker_maintenance.sql
 
+
 CREATE TABLE worker_maintenance(
    maintenance_id NUMBER(5) NOT NULL,
    worker_id NUMBER(5) NOT NULL,
@@ -211,16 +240,6 @@ CREATE TABLE worker_maintenance(
    CONSTRAINT worker_maintenance_pk PRIMARY KEY (maintenance_id,worker_id)
 )
 
-CREATE SEQUENCE maintenance_sequence
-
-CREATE OR REPLACE TRIGGER maintenance_on_insert
-  BEFORE INSERT ON maintenance
-  FOR EACH ROW
-BEGIN
-  SELECT maintenance_sequence.nextval
-  INTO :new.maintenance_id
-  FROM dual;
-END;
 
 ----
 machine_area.sql
@@ -233,6 +252,10 @@ CREATE TABLE machine_area(
 
 ----
 employee.sql
+
+DROP TABLE employee
+
+DROP SEQUENCE employee_sequence
 
  CREATE TABLE employee(
 	employee_id NUMBER(5) NOT NULL,
@@ -257,6 +280,10 @@ END;
 ----
 supplier.sql
 
+DROP TABLE supplier
+
+DROP SEQUENCE supplier_sequence
+
  CREATE TABLE supplier(
 	supplier_id NUMBER(5) NOT NULL,
 	supplier_name VARCHAR2(100) NOT NULL,
@@ -277,6 +304,12 @@ BEGIN
 END;
 ----
 orders.sql
+
+
+DROP TABLE orders
+
+DROP SEQUENCE orders_sequence
+
 
  CREATE TABLE orders(
 	order_id NUMBER(5) NOT NULL,
@@ -300,6 +333,10 @@ END;
 
 ----
 supplier_machine.sql
+
+DROP TABLE supplier_machine
+
+DROP SEQUENCE supplier_machine_sequence
 
  CREATE TABLE supplier_machine(
 	supplier_machine_id NUMBER(5) NOT NULL,
