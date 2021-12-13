@@ -8,7 +8,7 @@ employee 27000-28000
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
 
 
-5) "des triggers et séquences pour générer tous vos ID primaires" ???
+5) "des triggers et séquences pour générer tous vos ID primaires" ??? Est ce que dans ligne détail aussi???
 6) Ligne éclatement -> fk et pk ou juste pk???
 
 

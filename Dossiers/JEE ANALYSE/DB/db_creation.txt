@@ -19,7 +19,7 @@ Ordre de création :
 
 ///////
 SCRIPTS SQL : 
-
+https://chartio.com/resources/tutorials/how-to-define-an-auto-increment-primary-key-in-oracle/ 
 ----
 site.sql
 
@@ -28,7 +28,19 @@ CREATE TABLE site (
   city VARCHAR2(100) NOT NULL,
   address VARCHAR2(100) NOT NULL,
   CONSTRAINT site_pk PRIMARY KEY (site_id)
-) 
+)
+
+CREATE SEQUENCE site_sequence
+
+CREATE OR REPLACE TRIGGER site_on_insert
+  BEFORE INSERT ON site
+  FOR EACH ROW
+BEGIN
+  SELECT site_sequence.nextval
+  INTO :new.site_id
+  FROM dual;
+END;
+
 
 
 ----
@@ -44,6 +56,18 @@ CREATE TABLE area(
   CONSTRAINT fk_site_area FOREIGN KEY (site_id) REFERENCES site(site_id)
 )
 
+CREATE SEQUENCE area_sequence
+
+CREATE OR REPLACE TRIGGER area_on_insert
+  BEFORE INSERT ON area
+  FOR EACH ROW
+BEGIN
+  SELECT area_sequence.nextval
+  INTO :new.area_id
+  FROM dual;
+END;
+
+
 ----
 worker.sql
 
@@ -57,6 +81,17 @@ CREATE TABLE worker(
   CONSTRAINT worker_pk PRIMARY KEY (worker_id),
   CONSTRAINT fk_site_worker FOREIGN KEY (site_id) REFERENCES site(site_id)
 )
+
+CREATE SEQUENCE worker_sequence
+
+CREATE OR REPLACE TRIGGER worker_on_insert
+  BEFORE INSERT ON worker
+  FOR EACH ROW
+BEGIN
+  SELECT worker_sequence.nextval
+  INTO :new.worker_id
+  FROM dual;
+END;
 
 
 ---
@@ -73,6 +108,16 @@ CREATE TABLE leader(
   CONSTRAINT fk_site_leader FOREIGN KEY (site_id) REFERENCES site(site_id)
 )
 
+CREATE SEQUENCE leader_sequence
+
+CREATE OR REPLACE TRIGGER leader_on_insert
+  BEFORE INSERT ON leader
+  FOR EACH ROW
+BEGIN
+  SELECT leader_sequence.nextval
+  INTO :new.leader_id
+  FROM dual;
+END;
 
 --- 
 machine.sql
@@ -87,6 +132,17 @@ CREATE TABLE machine(
   CONSTRAINT check_machine_type CHECK (machine_type IN ('production','assembly','sorting')),
   CONSTRAINT check_machine_status CHECK (machine_status IN ('running','off','down','waitingformaintenance','toreplace'))
 )
+
+CREATE SEQUENCE machine_sequence
+
+CREATE OR REPLACE TRIGGER machine_on_insert
+  BEFORE INSERT ON machine
+  FOR EACH ROW
+BEGIN
+  SELECT machine_sequence.nextval
+  INTO :new.machine_id
+  FROM dual;
+END;
 
 ---
 maintenance.sql
@@ -105,6 +161,18 @@ CREATE TABLE maintenance(
    
 )
 
+
+CREATE SEQUENCE maintenance_sequence
+
+CREATE OR REPLACE TRIGGER maintenance_on_insert
+  BEFORE INSERT ON maintenance
+  FOR EACH ROW
+BEGIN
+  SELECT maintenance_sequence.nextval
+  INTO :new.maintenance_id
+  FROM dual;
+END;
+
 ----
 control.sql
 
@@ -120,6 +188,16 @@ CREATE TABLE control(
 
 )
 
+CREATE SEQUENCE control_sequence
+
+CREATE OR REPLACE TRIGGER control_on_insert
+  BEFORE INSERT ON control
+  FOR EACH ROW
+BEGIN
+  SELECT control_sequence.nextval
+  INTO :new.control_id
+  FROM dual;
+END;
 
 ----
 worker_maintenance.sql
@@ -130,6 +208,17 @@ CREATE TABLE worker_maintenance(
    rapport VARCHAR2(500) NOT NULL,
    CONSTRAINT worker_maintenance_pk PRIMARY KEY (maintenance_id,worker_id)
 )
+
+CREATE SEQUENCE maintenance_sequence
+
+CREATE OR REPLACE TRIGGER maintenance_on_insert
+  BEFORE INSERT ON maintenance
+  FOR EACH ROW
+BEGIN
+  SELECT maintenance_sequence.nextval
+  INTO :new.maintenance_id
+  FROM dual;
+END;
 
 ----
 machine_area.sql
@@ -152,6 +241,17 @@ employee.sql
 	CONSTRAINT employee_pk PRIMARY KEY (employee_id)
 );
 
+
+CREATE SEQUENCE employee_sequence
+
+CREATE OR REPLACE TRIGGER employee_on_insert
+  BEFORE INSERT ON employee
+  FOR EACH ROW
+BEGIN
+  SELECT employee_sequence.nextval
+  INTO :new.employee_id
+  FROM dual;
+END;
 ----
 supplier.sql
 
@@ -163,6 +263,16 @@ supplier.sql
 	CONSTRAINT supplier_pk PRIMARY KEY (supplier_id)
 );
 
+CREATE SEQUENCE supplier_sequence
+
+CREATE OR REPLACE TRIGGER supplier_on_insert
+  BEFORE INSERT ON supplier
+  FOR EACH ROW
+BEGIN
+  SELECT supplier_sequence.nextval
+  INTO :new.supplier_id
+  FROM dual;
+END;
 ----
 orders.sql
 
@@ -175,15 +285,17 @@ orders.sql
 	CONSTRAINT fk_orders FOREIGN KEY (employee_id) REFERENCES employee (employee_id)
 );
 
-----
-order_supplier_machine.sql
+CREATE SEQUENCE orders_sequence
 
- CREATE TABLE order_supplier_machine(
-	order_id NUMBER(5) NOT NULL,
-	quantity SMALLINT NOT NULL,
-	machine_id NUMBER(5) NOT NULL,
-	CONSTRAINT order_supplier_machine_pk PRIMARY KEY (machine_id,order_id)
-);
+CREATE OR REPLACE TRIGGER orders_on_insert
+  BEFORE INSERT ON orders
+  FOR EACH ROW
+BEGIN
+  SELECT orders_sequence.nextval
+  INTO :new.orders_id
+  FROM dual;
+END;
+
 ----
 supplier_machine.sql
 
@@ -198,3 +310,24 @@ supplier_machine.sql
 	CONSTRAINT fk_supplier_machine FOREIGN KEY (supplier_id) REFERENCES supplier (supplier_id)
 );
 
+CREATE SEQUENCE supplier_machine_sequence
+
+CREATE OR REPLACE TRIGGER supplier_machine_on_insert
+  BEFORE INSERT ON supplier_machine
+  FOR EACH ROW
+BEGIN
+  SELECT supplier_machine_sequence.nextval
+  INTO :new.supplier_machine_id
+  FROM dual;
+END;
+
+
+----
+order_supplier_machine.sql
+
+ CREATE TABLE order_supplier_machine(
+	order_id NUMBER(5) NOT NULL,
+	quantity SMALLINT NOT NULL,
+	machine_id NUMBER(5) NOT NULL,
+	CONSTRAINT order_supplier_machine_pk PRIMARY KEY (machine_id,order_id)
+);
