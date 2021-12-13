@@ -1,5 +1,6 @@
 package be.project.dao;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public interface DAO<T> {
@@ -13,6 +14,8 @@ public interface DAO<T> {
 	public T find(int id);
 	
 	public ArrayList<T> findAll();
+	
+	static final Connection conn = DatabaseConnection.getInstance();
 	
 	
 }
