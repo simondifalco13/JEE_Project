@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Supplier;
 
-public class SupplierDAO extends DAO<Supplier> {
+public class SupplierDAO implements DAO<Supplier> {
 
 	@Override
 	public boolean create(Supplier obj) {

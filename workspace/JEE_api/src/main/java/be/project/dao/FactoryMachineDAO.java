@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.FactoryMachine;
 
-public class FactoryMachineDAO extends DAO<FactoryMachine> {
+public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public boolean create(FactoryMachine obj) {

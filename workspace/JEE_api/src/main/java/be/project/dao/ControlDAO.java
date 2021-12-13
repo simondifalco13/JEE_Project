@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Control;
 
-public class ControlDAO extends DAO<Control> {
+public class ControlDAO implements DAO<Control> {
 
 	@Override
 	public boolean create(Control obj) {

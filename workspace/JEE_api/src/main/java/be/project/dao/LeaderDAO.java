@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import be.project.models.Leader;
 
-public class LeaderDAO extends DAO<Leader> {
+public class LeaderDAO implements DAO<Leader> {
 
 	@Override
 	public boolean create(Leader obj) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Maintenance;
 
-public class MaintenanceDAO extends DAO<Maintenance> {
+public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean create(Maintenance obj) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Site;
 
-public class SiteDAO extends DAO<Site> {
+public class SiteDAO implements DAO<Site> {
 
 	@Override
 	public boolean create(Site obj) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Worker;
 
-public class WorkerDAO extends DAO<Worker> {
+public class WorkerDAO implements DAO<Worker> {
 
 	@Override
 	public boolean create(Worker obj) {

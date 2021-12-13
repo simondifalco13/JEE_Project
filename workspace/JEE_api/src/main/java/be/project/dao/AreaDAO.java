@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Area;
 
-public class AreaDAO extends DAO<Area> {
+public class AreaDAO implements DAO<Area> {
 
 	@Override
 	public boolean create(Area obj) {

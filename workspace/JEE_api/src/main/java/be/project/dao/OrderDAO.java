@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import be.project.models.Order;
 
-public class OrderDAO extends DAO<Order> {
+public class OrderDAO implements DAO<Order> {
 
 	@Override
 	public boolean create(Order obj) {
