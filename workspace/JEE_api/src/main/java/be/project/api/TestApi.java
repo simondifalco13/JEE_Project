@@ -14,6 +14,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 @Path("/test")
 public class TestApi {
 
@@ -31,6 +35,10 @@ public class TestApi {
 					co,
 					us,
 					pwd);
+			Context ctx = new InitialContext();
+		    Context env = (Context) ctx.lookup("java:comp/env");
+		    final String fileName = (String) env.lookup("db");
+		    System.out.println("file "+ fileName);
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
