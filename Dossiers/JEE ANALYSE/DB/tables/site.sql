@@ -1,0 +1,6 @@
+CREATE TABLE site (
+  site_id NUMBER(5) NOT NULL,
+  city VARCHAR2(100) NOT NULL,
+  address VARCHAR2(100) NOT NULL,
+  CONSTRAINT site_pk PRIMARY KEY (site_id)
+) 
