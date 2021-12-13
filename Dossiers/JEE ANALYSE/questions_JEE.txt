@@ -1,7 +1,13 @@
 
 1) est ce qu'on gèrer les id selon le matricule ?? genre on utilise le matricule comme id et on démarre l'index a 2000 par exemple 
+worker 20000-> 25000 
+leader 25000-> 27000
+employee 27000-28000
+
 2) la connexion dans quel fichier pour initialiser chaque DAO ?
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
+
+
 5) "des triggers et séquences pour générer tous vos ID primaires" ???
 6) Ligne éclatement -> fk et pk ou juste pk???
 
