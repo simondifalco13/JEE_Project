@@ -33,7 +33,6 @@ public class SiteAPI {
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll() {
-		System.out.println("1");
 		ArrayList<Site> sites=siteDAO.findAll();
 		return Response.status(Status.OK).entity(sites).build();
 	}

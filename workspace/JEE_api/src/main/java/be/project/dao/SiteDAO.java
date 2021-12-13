@@ -58,21 +58,21 @@ public class SiteDAO implements DAO<Site> {
 	@Override
 	public ArrayList<Site> findAll() {
 		ArrayList<Site> sites=new ArrayList<Site>();
+		//faire appel à une méthode du package 
 //		Site site=null;
 //		String city="",address="";
 //		int id;
-//		System.out.println("2");
 //		try {
 //			PreparedStatement preparedStatement = conn.prepareStatement("SELECT site_id,city,address FROM site");
 //			ResultSet resultSet=preparedStatement.executeQuery();
-//			System.out.println("3");
 //			while(resultSet.next()) {
 //				city=resultSet.getString("city");
 //				System.out.println(city);
 //				address=resultSet.getString("address");
-//				id=resultSet.getInt("id");
-//				//site=new Site(id,city,address);
-//				//sites.add(site);
+//				id=resultSet.getInt("site_id");
+//				site=new Site(id,city,address);
+//				System.out.println("id "+site.getId()+" , city "+site.getCity());
+//				sites.add(site);
 //			}
 //
 //		} catch (Exception e) {

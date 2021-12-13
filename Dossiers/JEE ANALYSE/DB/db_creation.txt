@@ -20,6 +20,8 @@ Ordre de création :
 ///////
 SCRIPTS SQL : 
 https://chartio.com/resources/tutorials/how-to-define-an-auto-increment-primary-key-in-oracle/ 
+
+ATTENTION : SANS COMMIT RIEN NE SE VALIDE -> inateignable par API 
 ----
 site.sql
 
