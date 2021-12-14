@@ -1,5 +1,6 @@
 ----
 PACKAGE SITE_PKG
+----
 
 CREATE OR REPLACE PACKAGE site_pkg AS
 
@@ -46,20 +47,18 @@ ____
 FUNCTIONS 
 
 
-CREATE OR REPLACE FUNCTION get_site(id IN site.site_id%TYPE) 
-RETURN site%ROWTYPE
-IS
-  site_record site%ROWTYPE;
-  CURSOR C_SITE (id IN site.site_id%TYPE) IS 
-	SELECT * FROM site WHERE site_id=id;
-BEGIN
-  OPEN C_SITE(id);
-  LOOP
-	FETCH C_SITE INTO site_record ;
-	Exit WHEN C_SITE%NOTFOUND ;
-	dbms_output.put_line('id '|| site_record.site_id
-	||' city :' || site_record.site_id) ;
-  END LOOP;
-  CLOSE C_SITE;
-END;
-/
+FUNCTION get_site(id IN site.site_id%TYPE) 
+	RETURN site%ROWTYPE
+	IS
+  	   site_record site%ROWTYPE;
+ 	   CURSOR C_SITE (id IN site.site_id%TYPE) IS 
+	   SELECT * FROM site WHERE site_id=id;
+	BEGIN
+  	   OPEN C_SITE(id);
+  	   LOOP
+	      FETCH C_SITE INTO site_record ;
+	      Exit WHEN C_SITE%NOTFOUND ;
+  	   END LOOP;
+  	   CLOSE C_SITE;
+        return site_record;
+	END;
