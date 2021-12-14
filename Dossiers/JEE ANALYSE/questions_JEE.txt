@@ -3,6 +3,7 @@
 worker 20000-> 25000 
 leader 25000-> 27000
 employee 27000-28000
+CREER SEQUENCE commencant a X et terminant à Y; 
 OU alors
 on fait des matricules du style 
 EMP/OUVR/RESP + ID (de la table correspondante) -> rajouter un champs 
