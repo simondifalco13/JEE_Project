@@ -3,13 +3,17 @@
 worker 20000-> 25000 
 leader 25000-> 27000
 employee 27000-28000
-
+OU alors
+on fait des matricules du style 
+EMP/OUVR/RESP + ID (de la table correspondante) -> rajouter un champs 
 
 2) la connexion dans quel fichier pour initialiser chaque DAO ?
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
 
 6) Ligne éclatement -> fk et pk ou juste pk???
 7) Pkg par fonctionnalité !
+
+
 
 
 
