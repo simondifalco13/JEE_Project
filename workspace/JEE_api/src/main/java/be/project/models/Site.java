@@ -13,6 +13,7 @@ public class Site implements Serializable {
 	private String address;
 	private ArrayList<Worker> siteWorkers;
 	private ArrayList<Leader> siteLeaders;
+	private ArrayList<Employee> siteEmployee;
 	private ArrayList<Area> siteAreas;
 	
 	public Site() {
@@ -26,10 +27,14 @@ public class Site implements Serializable {
 		this.siteLeaders=siteLeaders;
 	}
 	
-
 	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Worker> siteWorkers) {
 		this(city,address,siteAreas,siteLeaders);
 		this.siteWorkers=siteWorkers;
+	}
+	
+	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Employee> siteEmployee,ArrayList<Worker> siteWorkers) {
+		this(city,address,siteAreas,siteLeaders,siteWorkers);
+		this.siteEmployee=siteEmployee;
 	}
 	
 	public ArrayList<Worker> getSiteWorkers() {
@@ -77,6 +82,14 @@ public class Site implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public ArrayList<Employee> getSiteEmployee() {
+		return siteEmployee;
+	}
+
+	public void setSiteEmployee(ArrayList<Employee> siteEmployee) {
+		this.siteEmployee = siteEmployee;
 	}
 	
 

@@ -3,6 +3,11 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.models.Control;
+import be.project.models.Maintenance;
+import be.project.models.Site;
+import be.project.models.User;
+
 public class Leader extends User implements Serializable {
 
 	private static final long serialVersionUID = 4637814402818196339L;
@@ -11,7 +16,6 @@ public class Leader extends User implements Serializable {
 	}
 
 	private ArrayList<Maintenance> maintenances;
-	private Site site;
 	private ArrayList<Control> controls;
 
 	public Leader() {
@@ -19,8 +23,7 @@ public class Leader extends User implements Serializable {
 	}
 
 	public Leader(int serialNumber, String firstname, String lastname, String password, String email,Site site) {
-		super(serialNumber, firstname, lastname, password, email);
-		this.setSite(site);
+		super(serialNumber, firstname, lastname, password, email,site);
 	}
 	
 	
@@ -42,13 +45,7 @@ public class Leader extends User implements Serializable {
 		this.maintenances = maintenances;
 	}
 
-	public Site getSite() {
-		return site;
-	}
-
-	public void setSite(Site site) {
-		this.site = site;
-	}
+	
 
 	public ArrayList<Control> getControls() {
 		return controls;

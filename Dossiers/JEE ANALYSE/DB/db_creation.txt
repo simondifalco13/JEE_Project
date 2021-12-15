@@ -234,10 +234,10 @@ worker_maintenance.sql
 
 
 CREATE TABLE worker_maintenance(
-   maintenance_id NUMBER(5) NOT NULL,
-   worker_id NUMBER(5) NOT NULL,
-   rapport VARCHAR2(500) NOT NULL,
-   CONSTRAINT worker_maintenance_pk PRIMARY KEY (maintenance_id,worker_id)
+   maintenance_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_worker_maintenance REFERENCES maintenance(maintenance_id),
+   worker_id NUMBER(5) NOT NULL CONSTRAINT fk_worker_worker_maintenance REFERENCES worker(worker_id),
+   rapport VARCHAR2(500),
+   CONSTRAINT uc_worker_maintenance UNIQUE (maintenance_id,worker_id)
 )
 
 
@@ -245,9 +245,9 @@ CREATE TABLE worker_maintenance(
 machine_area.sql
 
 CREATE TABLE machine_area(
-  machine_id NUMBER(5) NOT NULL,
-  area_id NUMBER(5) NOT NULL,
-  CONSTRAINT machine_area_pk PRIMARY KEY (machine_id,area_id)
+  machine_id NUMBER(5) NOT NULL CONSTRAINT fk_machine_machine_area REFERENCES machine(machine_id),
+  area_id NUMBER(5) NOT NULL CONSTRAINT fk_area_machine_area REFERENCES area(area_id),
+  CONSTRAINT uc_machine_area UNIQUE (machine_id,area_id)
 )
 
 ----
@@ -365,8 +365,8 @@ END;
 order_supplier_machine.sql
 
  CREATE TABLE order_supplier_machine(
-	order_id NUMBER(5) NOT NULL,
+	order_id NUMBER(5) NOT NULL CONSTRAINT fk_order_order_supplier_machine REFERENCES orders(order_id),
 	quantity SMALLINT NOT NULL,
-	machine_id NUMBER(5) NOT NULL,
-	CONSTRAINT order_supplier_machine_pk PRIMARY KEY (machine_id,order_id)
+	machine_id NUMBER(5) NOT NULL CONSTRAINT fk_machine_order_supplier_machine REFERENCES supplier_machine(machine_id),
+	CONSTRAINT uc_order_supplier_machine UNIQUE (machine_id,order_id)
 );

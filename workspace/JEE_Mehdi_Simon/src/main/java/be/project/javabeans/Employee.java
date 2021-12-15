@@ -9,24 +9,25 @@ public class Employee extends User implements Serializable {
 	private ArrayList<Maintenance> allMaintenances;
 	private ArrayList<Order> orders;
 	
+	
 
 	public Employee() {
 		
 	}
 
-	public Employee(int serialNumber, String firstname, String lastname, String password, String email) {
-		super(serialNumber, firstname, lastname, password, email);
+	public Employee(int serialNumber, String firstname, String lastname, String password, String email,Site site) {
+		super(serialNumber, firstname, lastname, password, email,site);
 		
 	}
 	
-	public Employee(int serialNumber, String firstname, String lastname, String password, String email,ArrayList<Maintenance> maintenances) {
-		this(serialNumber, firstname, lastname, password, email);
+	public Employee(int serialNumber, String firstname, String lastname, String password, String email,Site site,ArrayList<Maintenance> maintenances) {
+		this(serialNumber, firstname, lastname, password, email,site);
 		this.allMaintenances=maintenances;
 		
 	}
 	
-	public Employee(int serialNumber, String firstname, String lastname, String password, String email,ArrayList<Order> orders,ArrayList<Maintenance> maintenances) {
-		this(serialNumber, firstname, lastname, password, email);
+	public Employee(int serialNumber, String firstname, String lastname, String password, String email,Site site,ArrayList<Order> orders,ArrayList<Maintenance> maintenances) {
+		this(serialNumber, firstname, lastname, password, email,site);
 		this.setOrders(orders);
 		this.allMaintenances=maintenances;
 	}

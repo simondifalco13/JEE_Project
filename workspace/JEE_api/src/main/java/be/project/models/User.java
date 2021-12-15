@@ -1,5 +1,7 @@
 package be.project.models;
 
+import be.project.models.Site;
+
 public abstract class User  {
 
 	
@@ -8,17 +10,19 @@ public abstract class User  {
 	private String lastname;
 	private String password;
 	private String email;
+	private Site site;
 	
 	public User() {
 		
 	}
 	
-	public User(int serialNumber,String firstname,String lastname,String password,String email) {
+	public User(int serialNumber,String firstname,String lastname,String password,String email,Site site) {
 		this.serialNumber=serialNumber;
 		this.firstname=firstname;
 		this.lastname=lastname;
 		this.password=password;
 		this.email=email;
+		this.site=site;
 	}
 
 	public int getSerialNumber() {
@@ -59,6 +63,14 @@ public abstract class User  {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Site getSite() {
+		return site;
+	}
+
+	public void setSite(Site site) {
+		this.site = site;
 	}
 
 }

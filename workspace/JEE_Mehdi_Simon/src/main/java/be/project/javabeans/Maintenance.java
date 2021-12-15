@@ -5,8 +5,13 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import be.project.enumerations.MaintenanceStatus;
+import be.project.javabeans.FactoryMachine;
+import be.project.javabeans.Leader;
+import be.project.javabeans.Worker;
 
 public class Maintenance implements Serializable {
 
@@ -22,9 +27,25 @@ public class Maintenance implements Serializable {
 	private ArrayList<Worker> maintenanceWorkers;
 	private Leader maintenanceLeader;
 	private FactoryMachine machine;
+	private Map<Worker,String> maintenanceReports;
 
 	public Maintenance() {
 		
+	}
+	
+	
+	public Maintenance(Date date,LocalTime start,
+			FactoryMachine machine, 
+			MaintenanceStatus status,
+			ArrayList<Worker> workers,
+			Leader leader) {
+		this.maintenanceDate=date;
+		this.machine=machine;
+		this.startTime=start;
+		this.status=status;
+		this.maintenanceWorkers=workers;
+		this.maintenanceLeader=leader;
+		setMaintenanceReports(new HashMap<Worker,String>());
 	}
 	
 	public Maintenance(int id,Date date,LocalTime start,
@@ -32,13 +53,21 @@ public class Maintenance implements Serializable {
 			MaintenanceStatus status,
 			ArrayList<Worker> workers,
 			Leader leader) {
+		this(date,start,machine,status,workers,leader);
 		this.maintenanceId=id;
-		this.maintenanceDate=date;
-		this.machine=machine;
-		this.startTime=start;
-		this.status=status;
-		this.maintenanceWorkers=workers;
-		this.maintenanceLeader=leader;
+		
+	}
+	
+	public Maintenance(int id,Date date,LocalTime start,
+			FactoryMachine machine, 
+			MaintenanceStatus status,
+			ArrayList<Worker> workers,
+			Leader leader,
+			LocalTime end,
+			 Map<Worker,String> maintenanceReports) {
+		this(id,date,start,machine,status,workers,leader);
+		this.setMaintenanceReports(maintenanceReports);
+		this.endTime=end;
 	}
 	
 	
@@ -119,6 +148,16 @@ public class Maintenance implements Serializable {
 	}
 
 	
+
+	public Map<Worker,String> getMaintenanceReports() {
+		return maintenanceReports;
+	}
+
+
+	public void setMaintenanceReports(Map<Worker,String> maintenanceReports) {
+		this.maintenanceReports = maintenanceReports;
+	}
+
 
 	private String calculateDuration(LocalTime start,LocalTime end) {
 		long hours = ChronoUnit.HOURS.between(start, end);

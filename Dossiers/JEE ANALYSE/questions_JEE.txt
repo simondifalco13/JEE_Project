@@ -4,20 +4,25 @@ worker 20000-> 25000
 leader 25000-> 27000
 employee 27000-28000
 CREER SEQUENCE commencant a X et terminant à Y; 
-OU alors
-on fait des matricules du style 
-EMP/OUVR/RESP + ID (de la table correspondante) -> rajouter un champs 
+
 
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
  
-Ligne éclatement -> fk et pk ou juste pk??? CONTRAINTE UNIQUE SUR LES 2 COLONNES ET FK REFRENCES SUR CHAUCNE DES TABLES
-Pkg par fonctionnalité ! 
 
-Pour contraintes soit faire à côté ou en dessous, mais bien à côté selon le prof. 
+En premier lieu : 
+-faire les procédures et fonctions 
+-regrouper procédures et fonctions dans pkg -> BONUS si le temps 
 
 
 Dans notre projet 1 seule  API clé sera suffisante dans le web.xml dans l’application client et sera utilisée pour envoyer des REQ
 https://codepen.io/corenominal/pen/rxOmMJ 
+
+
+ENLEVER TOUT CE QUI CONCERNE CONTROLE !!! 
+CREER UN USER DAO AVEC METHODE AUTHENTICATION 
+----
+FINIR LA DB
+
 
 
 

@@ -1,0 +1,49 @@
+
+-SERVELET (-> 1 par JSP == IMPORTANT)
+-JSP 
+
+Pages : 
+  * authentification 
+  (* Page d'acceuil) : afficher ce qu'il peut faire et c'est bon 
+  * Page des maintenances : terminées et en cours et a refaire (worker,responsable)
+    *Page de maintenance-> via la maintenance (button ou autre) on est redirigé vers une page de la maintenance (plus précis)
+    Si on est worker -> button rapport et button "done" (si maintenance en cours)
+    *page de rapport (rapport obligatoire) : si maintenance ne contient pas de rapport (WORKER)
+	-> forcer AU MOINS celui qui "cloture" la maintenance d'en faire un
+    
+  *Page des machines : listing des différentes machines avec leur status etc (POUR LEADER)
+   --> on peut modifier leur status selon le controle (hors appli) fait par le leader
+       --> *modification du status de la machine => mais si c'est besoin de maintenance
+		--> créer une maintenance 
+			--> * page créer maintenance : sur la machine choisie et choisir parmi les ouvriers 
+							(date et heure == actuel : donc choisir parmi les ouvriers pas en maintenance, et du même site que la machine)
+
+   
+  *Page de consultation de l'historique des maintenances (EMPLOYEE): 
+	--> Ordonées selon la machine contenue dans chacune des maintenance
+	--> Si une machine dépasse X maintenances ==> commander une nouvelle machine 
+		--> via un button s'affichant dans la zone prévue
+   			--> *Page avec les machines des fournisseur : AVEC le même TYPE que la machine
+			--> On peut ajouter au "panier" 
+			--> "valider la commande". --> message de validation de commande. 
+
+  *Page d'erreurs globale 
+
+--------------------------
+Répartition : 
+
+DAO , API et La DB -> Simon 
+	--> Authentification : appeler methode statique authentication de UserDAO-> peu importe la classe ca arrive dans un point précis de l'api qui 
+	va aller chercher dans la bonne table selon le matricule recu 
+		==> /user/login 
+	--> Ce qui concerne LEADER
+	--> ce qui concerne WORKER
+	--> ce qui concerne EMPLOYEE
+
+JSP et Servlets et DAO-> Mehdi 
+	--> Authentification : appeler methode statique authentication de UserDAO
+	--> Ce qui concerne LEADER
+	--> ce qui concerne WORKER
+	--> ce qui concerne EMPLOYEE
+
+FILTERS -> a deux, peu importe

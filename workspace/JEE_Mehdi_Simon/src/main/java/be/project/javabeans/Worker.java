@@ -8,7 +8,6 @@ public class Worker extends User implements Serializable {
 	private static final long serialVersionUID = -7383376761861387496L;
 	
 	private ArrayList<Maintenance> maintenances;
-	private Site site;
 	
 
 	public Worker() {
@@ -16,8 +15,8 @@ public class Worker extends User implements Serializable {
 	}
 
 	public Worker(int serialNumber, String firstname, String lastname, String password, String email,Site site) {
-		super(serialNumber, firstname, lastname, password, email);
-		this.setSite(site);
+		super(serialNumber, firstname, lastname, password, email,site);
+		
 
 	}
 	
@@ -44,12 +43,6 @@ public class Worker extends User implements Serializable {
 		return serialVersionUID;
 	}
 
-	public Site getSite() {
-		return site;
-	}
-
-	public void setSite(Site site) {
-		this.site = site;
-	}
+	
 
 }
