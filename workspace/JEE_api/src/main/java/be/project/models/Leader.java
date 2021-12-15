@@ -3,7 +3,6 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import be.project.models.Control;
 import be.project.models.Maintenance;
 import be.project.models.Site;
 import be.project.models.User;
@@ -16,7 +15,7 @@ public class Leader extends User implements Serializable {
 	}
 
 	private ArrayList<Maintenance> maintenances;
-	private ArrayList<Control> controls;
+	
 
 	public Leader() {
 		// TODO Auto-generated constructor stub
@@ -46,19 +45,5 @@ public class Leader extends User implements Serializable {
 	}
 
 	
-
-	public ArrayList<Control> getControls() {
-		return controls;
-	}
-
-	public void setControls(ArrayList<Control> controls) {
-		this.controls = controls;
-	}
-	
-	//METHODS
-	public void addControl(Control control) {
-		if(control!=null)
-			this.getControls().add(control);
-	}
 
 }

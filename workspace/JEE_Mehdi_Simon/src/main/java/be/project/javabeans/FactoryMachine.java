@@ -14,7 +14,7 @@ public class FactoryMachine extends Machine implements Serializable {
 	private OperationState operationState;
 	private ArrayList<Maintenance> machineMaintenances;
 	private ArrayList<Area> machineAreas;
-	private ArrayList<Control> controls;
+	
 	
 	public FactoryMachine() {
 		
@@ -40,16 +40,7 @@ public class FactoryMachine extends Machine implements Serializable {
 		
 	}
 	
-	public FactoryMachine(String model, 
-			String brand, String description, 
-			MachineType type,OperationState operationState,
-			ArrayList<Area> machineAreas,
-			ArrayList<Maintenance> maintenances,
-			ArrayList<Control> controls) {
-		this(model, brand, description, type,operationState,machineAreas,maintenances);
-		this.controls=controls;
-		
-	}
+	
 	
 
 	public ArrayList<Area> getMachineAreas() {
@@ -60,13 +51,6 @@ public class FactoryMachine extends Machine implements Serializable {
 		this.machineAreas = machineAreas;
 	}
 
-	public ArrayList<Control> getControls() {
-		return controls;
-	}
-
-	public void setControls(ArrayList<Control> controls) {
-		this.controls = controls;
-	}
 
 	public OperationState getOperationState() {
 		return operationState;

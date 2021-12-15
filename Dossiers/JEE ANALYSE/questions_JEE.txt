@@ -18,8 +18,6 @@ Dans notre projet 1 seule  API clé sera suffisante dans le web.xml dans l’app
 https://codepen.io/corenominal/pen/rxOmMJ 
 
 
-ENLEVER TOUT CE QUI CONCERNE CONTROLE !!! 
-CREER UN USER DAO AVEC METHODE AUTHENTICATION 
 ----
 FINIR LA DB
 
