@@ -50,7 +50,6 @@ public class WorkerDAO implements DAO<Worker> {
 				Site site=new Site();
 				site.setId(siteId);
 				worker=new Worker(id,firstname,lastname,null,mail,site);
-				System.out.println("firstname : "+worker.getFirstname());
 			}
 	
 		} catch (Exception e) {

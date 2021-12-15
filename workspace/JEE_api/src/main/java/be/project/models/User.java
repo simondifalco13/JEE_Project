@@ -88,9 +88,7 @@ public abstract class User  {
 			 success=WorkerDAO.login(matricule, pwd);
 			 if(success) {
 				 Worker worker=workerDAO.find(matricule);
-//				 MultivaluedMap<String, Object> workerJsonMap = new MultivaluedMapImpl();
-//				 workerJsonMap.add("worker",worker);
-//				return Response.status(Status.OK).entity(workerJsonMap).build();
+				return Response.status(Status.OK).entity(worker).build();
 			 }else {
 				 //QUE RENVOYER? 
 				 //return Response.status(Status.OK).entity().build();
