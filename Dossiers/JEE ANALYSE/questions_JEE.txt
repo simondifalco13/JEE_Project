@@ -1,13 +1,10 @@
 
-1) est ce qu'on gèrer les id selon le matricule ?? genre on utilise le matricule comme id et on démarre l'index a 2000 par exemple 
-worker 20000-> 25000 
-leader 25000-> 27000
-employee 27000-28000
-CREER SEQUENCE commencant a X et terminant à Y; 
-
 
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
  
+1) Comment gérer ce qu'on doit renvoyer, où faire les vérifications ?? Est ce qu'on doit récuperer TOUT de l'objet? Mettre le pwd dans objet?
+
+
 
 En premier lieu : 
 -faire les procédures et fonctions 
@@ -19,6 +16,7 @@ https://codepen.io/corenominal/pen/rxOmMJ
 
 
 ----
+
 FINIR LA DB
 
 

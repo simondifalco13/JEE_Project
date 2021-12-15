@@ -12,10 +12,10 @@ import be.project.models.Site;
 
 public class SiteDAO implements DAO<Site> {
 
-	public Connection connection;
-	public SiteDAO() {
-		connection=DatabaseConnection.getInstance();
-	}
+//	public Connection connection;
+//	public SiteDAO() {
+//		connection=DatabaseConnection.getInstance();
+//	}
 
 	@Override
 	public boolean insert(Site obj) {

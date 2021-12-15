@@ -1,5 +1,13 @@
 package be.project.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import be.project.dao.WorkerDAO;
 import be.project.models.Site;
 
 public abstract class User  {
@@ -71,6 +79,32 @@ public abstract class User  {
 
 	public void setSite(Site site) {
 		this.site = site;
+	}
+	
+	public static Response login(int matricule,String pwd) {
+		boolean success;
+		if(matricule>=20000 && matricule<30000) {
+			 WorkerDAO workerDAO=new WorkerDAO();
+			 success=WorkerDAO.login(matricule, pwd);
+			 if(success) {
+				 Worker worker=workerDAO.find(matricule);
+//				 MultivaluedMap<String, Object> workerJsonMap = new MultivaluedMapImpl();
+//				 workerJsonMap.add("worker",worker);
+//				return Response.status(Status.OK).entity(workerJsonMap).build();
+			 }else {
+				 //QUE RENVOYER? 
+				 //return Response.status(Status.OK).entity().build();
+			 }
+		}
+		if(matricule>=30000 && matricule<40000) {
+			//appel du LeaderDAO
+		}
+		if(matricule>=40000 && matricule<50000) {
+			//appel du EmployeeDAO
+		}
+		
+		return null;
+		
 	}
 
 }

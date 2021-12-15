@@ -22,6 +22,11 @@ SCRIPTS SQL :
 https://chartio.com/resources/tutorials/how-to-define-an-auto-increment-primary-key-in-oracle/ 
 
 ATTENTION : SANS COMMIT RIEN NE SE VALIDE -> inateignable par API 
+
+
+INSERT INTO worker (worker_firstname,worker_lastname,worker_mail,worker_password,site_id)
+VALUES ('Daniel','Craig','daniel.craig@gmail.com','Lstbnd070',1);
+
 ----
 site.sql
 
@@ -200,36 +205,7 @@ BEGIN
 END;
 
 ----
-control.sql
 
-DROP TABLE control
-
-DROP SEQUENCE control_sequence
-
-CREATE TABLE control(
-   control_id NUMBER(5) NOT NULL,
-   control_date DATE NOT NULL,
-   observations VARCHAR2(500) NOT NULL,
-   machine_id NUMBER(5) NOT NULL,
-   leader_id NUMBER(5) NOT NULL,
-   CONSTRAINT control_pk PRIMARY KEY (control_id),
-   CONSTRAINT fk_control_machine FOREIGN KEY (machine_id) REFERENCES machine(machine_id),
-   CONSTRAINT fk_control_leader FOREIGN KEY (leader_id) REFERENCES leader(leader_id)
-
-)
-
-CREATE SEQUENCE control_sequence
-
-CREATE OR REPLACE TRIGGER control_on_insert
-  BEFORE INSERT ON control
-  FOR EACH ROW
-BEGIN
-  SELECT control_sequence.nextval
-  INTO :new.control_id
-  FROM dual;
-END;
-
-----
 worker_maintenance.sql
 
 
