@@ -8,13 +8,16 @@ OU alors
 on fait des matricules du style 
 EMP/OUVR/RESP + ID (de la table correspondante) -> rajouter un champs 
 
-2) la connexion dans quel fichier pour initialiser chaque DAO ?
 3) le baseURI dans WEB.XML et envoyer au DAO via la servlet
  
 Ligne éclatement -> fk et pk ou juste pk??? CONTRAINTE UNIQUE SUR LES 2 COLONNES ET FK REFRENCES SUR CHAUCNE DES TABLES
 Pkg par fonctionnalité ! 
 
 Pour contraintes soit faire à côté ou en dessous, mais bien à côté selon le prof. 
+
+
+Dans notre projet 1 seule  API clé sera suffisante dans le web.xml dans l’application client et sera utilisée pour envoyer des REQ
+https://codepen.io/corenominal/pen/rxOmMJ 
 
 
 
