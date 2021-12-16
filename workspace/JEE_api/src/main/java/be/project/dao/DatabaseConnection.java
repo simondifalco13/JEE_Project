@@ -5,11 +5,13 @@ import java.sql.DriverManager;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import be.project.utils.Error;
 
 public class DatabaseConnection {
 
 	public Connection connection;
 	private static Connection instance = null;
+	private static Error error=null;
 
 	private DatabaseConnection(){
 		
@@ -26,7 +28,8 @@ public class DatabaseConnection {
 					pwd);
 		}
 		catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			error=Error.DATABASE_CONNECTION_ERROR;
+			error.setDescription("Connection to database failed");
 		}
 		
 	}
@@ -37,5 +40,13 @@ public class DatabaseConnection {
 		}
 		return instance;
 	}
+
+	public static Error getError() {
+		return error;
+	}
+
+	
+	
+	
 
 }

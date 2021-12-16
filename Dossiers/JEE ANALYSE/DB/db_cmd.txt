@@ -10,7 +10,7 @@ DROP TABLE leader;
 DROP TABLE machine;
 DROP TABLE maintenance;
 DROP TABLE order_supplier_machine;
-DROP TABLE employee;
+DROP TABLE factory_employee;
 DROP TABLE supplier;
 DROP TABLE orders;
 DROP TABLE supplier_machine;
@@ -84,14 +84,13 @@ CREATE TABLE maintenance(
    duration INTERVAL DAY TO SECOND,
    machine_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_machine REFERENCES machine(machine_id),
    leader_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_leader REFERENCES leader(leader_id),
-   CONSTRAINT check_maintenance_status CHECK (maintenance_status IN ('todo','done','ongoing','toredo','validated'))	
-   
+   CONSTRAINT check_maintenance_status CHECK (maintenance_status IN ('todo','done','ongoing','toredo','validated'))
 );
 
 CREATE TABLE worker_maintenance(
    maintenance_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_worker_maintenance REFERENCES maintenance(maintenance_id),
    worker_id NUMBER(5) NOT NULL CONSTRAINT fk_worker_worker_maintenance REFERENCES worker(worker_id),
-   rapport VARCHAR2(500),
+   report VARCHAR2(500),
    CONSTRAINT uc_worker_maintenance UNIQUE (maintenance_id,worker_id)
 );
 
@@ -153,7 +152,7 @@ INCREMENT BY 1
 START WITH 1
 NOCACHE;
 
-CREATE SEQUENCE area_sequence
+CREATE SEQUENCE areas_sequence
 INCREMENT BY 1
 START WITH 1
 NOCACHE;
@@ -216,11 +215,11 @@ BEGIN
 END;
 
 
-CREATE OR REPLACE TRIGGER area_on_insert
+CREATE OR REPLACE TRIGGER areas_on_insert
   BEFORE INSERT ON areas
   FOR EACH ROW
 BEGIN
-  SELECT area_sequence.nextval
+  SELECT areas_sequence.nextval
   INTO :new.areas_id
   FROM dual;
 END;
@@ -296,15 +295,13 @@ END;
 
 
 
-/**********************/
-/*	WORKER	      */
-/**********************/
+
 
 
 /*-------INSERTIONS-----*/
 INSERT INTO site(city,address) VALUES('Charleroi','Chaussee de marcinelle');
 
-
+INSERT INTO areas(section,dangerousness,site_id) VALUES ('A','green',1);
 
 INSERT INTO worker (worker_firstname,worker_lastname,worker_mail,worker_password,site_id)
 VALUES ('Daniel','Craig','daniel.craig@gmail.com','Lstbnd070',1);
@@ -318,3 +315,86 @@ VALUES ('Martin','Garix','garix.martin@gmail.com','Mdrtsf85',1);
 INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail,employee_password,site_id)
 VALUES ('Cliff','Richard','cliff.richard@gmail.com','Clifsq8d',1);
 
+
+exec insert_machine ('assembly',1,'running');
+exec insert_machine ('sorting',1,'down');
+exec insert_maintenance('29-12-2021','todo',1,30000);
+exec insert_maintenance('29-15-2021','todo',2,30000);
+exec insert_worker_maintenance(20000,4,null);
+exec insert_worker_maintenance(20001,4,null);
+
+/*************TO DO **********/
+
+
+/**********************/
+/*	MACHINE	      */
+/**********************/
+--Procedure of insertion in machine:
+
+
+CREATE OR REPLACE PROCEDURE insert_machine(
+	type IN machine.machine_type%TYPE,
+	site_id IN site.site_id%TYPE,
+	status IN machine.machine_status%TYPE ) 
+AS
+BEGIN
+	INSERT INTO machine(machine_type,site_id,machine_status) 
+	VALUES (type,site_id,status);
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new machine');	
+	
+END;
+
+
+/**********************/
+/*	MAINTENANCE   */
+/**********************/
+
+--Procedure of insertion in maintenance :
+
+
+CREATE OR REPLACE PROCEDURE insert_maintenance(
+	date_m IN maintenance.maintenance_date%TYPE,
+	status IN maintenance.maintenance_status%TYPE,
+	machine_id IN machine.machine_id%TYPE,
+	leader_id IN leader.leader_id%TYPE ) 
+AS
+	ex_date_format exception;
+  	pragma exception_init(ex_date_format, -1843);
+BEGIN
+	INSERT INTO maintenance (maintenance_date,maintenance_status,machine_id,leader_id) 
+	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id);
+	COMMIT;
+	EXCEPTION
+		WHEN ex_date_format THEN 
+			DBMS_OUTPUT.PUT_lINE('Date not valid : neeed DD-MM-YYYY format');
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new maintenance');	
+	
+END;
+
+
+--Procedure of insertion in worker_maintenance:
+
+
+CREATE OR REPLACE PROCEDURE insert_worker_maintenance(
+	worker_id IN worker.worker_id%TYPE,
+	maintenance_id IN maintenance.maintenance_id%TYPE,
+	report IN worker_maintenance.report%TYPE  ) 
+AS
+BEGIN
+	INSERT INTO worker_maintenance (worker_id,maintenance_id,report) 
+	VALUES (worker_id,maintenance_id,report);
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');	
+	
+END;
+
+
+/**********************/
+/*	WORKER	      */
+/**********************/
