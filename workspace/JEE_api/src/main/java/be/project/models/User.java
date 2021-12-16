@@ -7,6 +7,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import be.project.dao.EmployeeDAO;
+import be.project.dao.LeaderDAO;
 import be.project.dao.WorkerDAO;
 import be.project.models.Site;
 
@@ -81,24 +83,38 @@ public abstract class User  {
 		this.site = site;
 	}
 	
-	public static Response login(int matricule,String pwd) {
+	public static User login(int matricule,String pwd) {
 		boolean success;
 		if(matricule>=20000 && matricule<30000) {
 			 WorkerDAO workerDAO=new WorkerDAO();
-			 success=WorkerDAO.login(matricule, pwd);
+			 success=workerDAO.login(matricule, pwd);
 			 if(success) {
 				 Worker worker=workerDAO.find(matricule);
-				return Response.status(Status.OK).entity(worker).build();
+				 return worker;
 			 }else {
-				 //QUE RENVOYER? 
-				 //return Response.status(Status.OK).entity().build();
+				return null;
 			 }
 		}
 		if(matricule>=30000 && matricule<40000) {
 			//appel du LeaderDAO
+			LeaderDAO leaderDAO=new LeaderDAO();
+			success=leaderDAO.login(matricule, pwd);
+			if(success) {
+				Leader leader=leaderDAO.find(matricule);
+				return leader;
+			}else {
+				return null;
+			}
 		}
 		if(matricule>=40000 && matricule<50000) {
-			//appel du EmployeeDAO
+			EmployeeDAO employeeDAO=new EmployeeDAO();
+			success=employeeDAO.login(matricule,pwd);
+			if(success) {
+				Employee leader=employeeDAO.find(matricule);
+				return leader;
+			}else {
+				return null;
+			}
 		}
 		
 		return null;

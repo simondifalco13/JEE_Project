@@ -6,12 +6,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import be.project.models.User;
+import be.project.utils.Error;
 
 @Path("/user")
 public class UserAPI {
 
+	private Error error = null;
 	public UserAPI() {
 		// TODO Auto-generated constructor stub
 	}
@@ -23,7 +26,14 @@ public class UserAPI {
 			@FormParam("matricule") int matricule, 
 			@FormParam("pwd") String password) {
 	
-		return User.login(matricule, password);
+		User user= User.login(matricule, password);
+		if(user!=null) {
+			return Response.status(Status.OK).entity(user).build();
+		}else {
+			error=Error.USER_AUTHENTICATION_FAILED;
+			error.setDescription("Invalid data for the login, verify your login and password");
+			return Response.status(Status.OK).entity(error.getJSON()).build();
+		}
 		
 	}
 

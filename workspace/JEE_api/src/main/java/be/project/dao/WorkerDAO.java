@@ -51,7 +51,6 @@ public class WorkerDAO implements DAO<Worker> {
 				site.setId(siteId);
 				worker=new Worker(id,firstname,lastname,null,mail,site);
 			}
-	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -71,14 +70,13 @@ public class WorkerDAO implements DAO<Worker> {
 	}
 	
 	
-	public static boolean login(int matricule,String password) {
+	public  boolean login(int matricule,String password) {
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT worker_id,worker_password FROM worker WHERE worker_id=?");
 			preparedStatement.setInt(1, matricule);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				if(password.equals(resultSet.getString("worker_password"))) {
-					System.out.println("SAME");
 					return true;
 				}
 			}

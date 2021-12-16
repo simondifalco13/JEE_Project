@@ -16,6 +16,7 @@ https://codepen.io/corenominal/pen/rxOmMJ
 
 
 ----
+AUTHENTIFICATION API : OK 
 
 FINIR LA DB
 

@@ -304,9 +304,17 @@ END;
 /*-------INSERTIONS-----*/
 INSERT INTO site(city,address) VALUES('Charleroi','Chaussee de marcinelle');
 
+
+
 INSERT INTO worker (worker_firstname,worker_lastname,worker_mail,worker_password,site_id)
 VALUES ('Daniel','Craig','daniel.craig@gmail.com','Lstbnd070',1);
 
 INSERT INTO worker (worker_firstname,worker_lastname,worker_mail,worker_password,site_id)
 VALUES ('Michel','Platini','miche.platini@gmail.com','PlFr19or',1);
+
+INSERT INTO leader (leader_firstname,leader_lastname,leader_mail,leader_password,site_id)
+VALUES ('Martin','Garix','garix.martin@gmail.com','Mdrtsf85',1);
+
+INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail,employee_password,site_id)
+VALUES ('Cliff','Richard','cliff.richard@gmail.com','Clifsq8d',1);
 
