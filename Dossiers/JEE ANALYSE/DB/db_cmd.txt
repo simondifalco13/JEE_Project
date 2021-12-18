@@ -29,7 +29,6 @@ DROP SEQUENCE orders_sequence;
 DROP SEQUENCE supplier_machine_sequence;
 
 
-
 /*********CREATION DES TABLES*********/
 
 CREATE TABLE site (
