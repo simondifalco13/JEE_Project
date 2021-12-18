@@ -163,6 +163,7 @@ START WITH 20000
 MAXVALUE 29999
 NOCACHE;
 
+
 CREATE SEQUENCE leader_sequence
 INCREMENT BY 1
 START WITH 30000
@@ -316,15 +317,17 @@ INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail
 VALUES ('Cliff','Richard','cliff.richard@gmail.com','Clifsq8d',1);
 
 
-exec insert_machine ('assembly',1,'running');
-exec insert_machine ('sorting',1,'down');
-exec insert_maintenance('29-12-2021','todo',1,30000);
-exec insert_maintenance('29-15-2021','todo',2,30000);
+exec insert_machine ('assembly',1,'running',0);
+exec insert_machine ('sorting',1,'down',0);
+exec insert_maintenance('29-12-2021','todo',1,30000,0);
+exec insert_maintenance('29-15-2021','todo',2,30000,0);
 exec insert_worker_maintenance(20000,4,null);
 exec insert_worker_maintenance(20001,4,null);
 
-/*************TO DO **********/
 
+
+/*************TO DO **********/
+DANS LES INSERT UTILISER RETURNING INTO ! 
 
 /**********************/
 /*	MACHINE	      */
@@ -335,17 +338,40 @@ exec insert_worker_maintenance(20001,4,null);
 CREATE OR REPLACE PROCEDURE insert_machine(
 	type IN machine.machine_type%TYPE,
 	site_id IN site.site_id%TYPE,
-	status IN machine.machine_status%TYPE ) 
+	status IN machine.machine_status%TYPE,
+	areas_id IN areas.areas_id%TYPE,
+	created_machine_id OUT machine.machine_id%TYPE) 
 AS
 BEGIN
 	INSERT INTO machine(machine_type,site_id,machine_status) 
-	VALUES (type,site_id,status);
+	VALUES (type,site_id,status) 
+	RETURNING machine_id INTO created_machine_id;
+	insert_machine_areas(created_machine_id,areas_id);
 	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new machine');	
 	
 END;
+
+
+
+--Procedure of insertion of machine in machine_areas
+
+CREATE OR REPLACE PROCEDURE insert_machine_areas(
+	machine_id IN machine.machine_id%TYPE,
+	areas_id IN areas.areas_id%TYPE)
+AS
+BEGIN
+	INSERT INTO machine_areas(machine_id,areas_id)
+	VALUES (machine_id,areas_id);
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN
+			DBMS_OUTPUT.PUT_lINE('Error while inserting machine in area');		
+END;
+
+
 
 
 /**********************/
@@ -359,13 +385,15 @@ CREATE OR REPLACE PROCEDURE insert_maintenance(
 	date_m IN maintenance.maintenance_date%TYPE,
 	status IN maintenance.maintenance_status%TYPE,
 	machine_id IN machine.machine_id%TYPE,
-	leader_id IN leader.leader_id%TYPE ) 
+	leader_id IN leader.leader_id%TYPE ,
+	created_maintenance_id OUT maintenance.maintenance_id%TYPE) 
 AS
 	ex_date_format exception;
   	pragma exception_init(ex_date_format, -1843);
 BEGIN
 	INSERT INTO maintenance (maintenance_date,maintenance_status,machine_id,leader_id) 
-	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id);
+	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id)
+	RETURNING maintenance_id INTO created_maintenance_id;
 	COMMIT;
 	EXCEPTION
 		WHEN ex_date_format THEN 
@@ -394,7 +422,59 @@ BEGIN
 	
 END;
 
+--Procedure of updating maintenance
+
+CREATE OR REPLACE PROCEDURE update_maintenance(
+	maintenance_id IN maintenance.maintenance_id%TYPE
+	status IN maintenance.maintenance_status%TYPE
+	duration IN maintenance.duration%TYPE)
+BEGIN
+	UPDATE maintenance 
+	SET maintenance_status=status,
+	duration=duration
+	WHERE maintenance_id=maintenance_id;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while updating maintenance');
+END;
+
 
 /**********************/
-/*	WORKER	      */
+/*	ORDER	      */
 /**********************/
+
+--Procedure of insertion in orders
+
+CREATE OR REPLACE PROCEDURE insert_orders(
+	order_date IN orders.order_date%TYPE,
+	price IN orders.price%TYPE,
+	empl_id IN factory_employee.employee_id%TYPE
+	created_orders_id OUT orders.order_id%TYPE)
+AS
+BEGIN
+	INSERT INTO orders (order_date,price,employee_id)
+	VALUES (order_date,price,empl_id) 
+	RETURNING order_id INTO created_orders_id;
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+	
+END;
+
+
+--Procedure of insertion in order_supplier_machine
+
+CREATE OR REPLACE PROCEDURE insert_order_supplier_machine(
+	machine_id IN machine.machine_id%TYPE,
+	order_id IN orders.order_id%TYPE,
+	quantity IN order_supplier_machine.quantity%TYPE)
+AS
+BEGIN
+	INSERT INTO order_supplier_machine(machine_id,order_id,quantity)
+	VALUES (machine_id,order_id,quantity);
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+END;

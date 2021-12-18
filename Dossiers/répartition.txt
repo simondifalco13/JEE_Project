@@ -4,6 +4,7 @@
 
 Pages : 
   * authentification 
+
   (* Page d'acceuil) : afficher ce qu'il peut faire et c'est bon 
   * Page des maintenances : terminées et en cours et a refaire (worker,responsable)
     *Page de maintenance-> via la maintenance (button ou autre) on est redirigé vers une page de la maintenance (plus précis)
