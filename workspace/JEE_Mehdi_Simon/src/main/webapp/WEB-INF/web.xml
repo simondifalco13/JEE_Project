@@ -14,6 +14,10 @@
   	<param-name>apiUrl</param-name>
   	<param-value>http://localhost:8080/JEE_API/api</param-value>
   </context-param>
+  <context-param>
+  	<param-name>adminMail</param-name>
+  	<param-value>iam.admin@gmail.com</param-value>
+  </context-param>
   <!-- ENVIRONNEMENT ENTRIES -->
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>

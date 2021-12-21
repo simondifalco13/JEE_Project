@@ -95,10 +95,15 @@ public class UserDAO implements DAO<User> {
 		status=res.getStatus();
 		JSONObject jsonResponse = new JSONObject(response);
 		if(status==200) {
-			//verifier si on recoit bien le user
+			//verifier si on est bien connecté
+			if(jsonResponse.getString("connected") !=null) {
+				String connected=jsonResponse.getString("connected");
+				if(connected.equals("true")) {
+					success=true;
+				}
+			}
+		
 		}
-		
-		
 		return success;
 	}
 

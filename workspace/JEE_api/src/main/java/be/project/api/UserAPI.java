@@ -28,15 +28,16 @@ public class UserAPI {
 	public Response login(
 			@FormParam("matricule") int matricule, 
 			@FormParam("pwd") String password) {
-		
+		String responseJSON;
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
 			return Response.status(Status.OK).entity(DatabaseConnection.getError()).build();
 		}
 	
-		User user= User.login(matricule, password);
-		if(user!=null) {
-			return Response.status(Status.OK).entity(user).build();
+		boolean success= User.login(matricule, password);
+		if(success) {
+			responseJSON="{\"connected\":true}";
+			return Response.status(Status.OK).entity(responseJSON).build();
 		}else {
 			error=Error.USER_AUTHENTICATION_FAILED;
 			error.setDescription("Invalid data for the login, verify your login and password");

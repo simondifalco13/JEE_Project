@@ -83,41 +83,22 @@ public abstract class User  {
 		this.site = site;
 	}
 	
-	public static User login(int matricule,String pwd) {
-		boolean success;
+	public static boolean login(int matricule,String pwd) {
+		boolean success=false;
 		if(matricule>=20000 && matricule<30000) {
 			 WorkerDAO workerDAO=new WorkerDAO();
 			 success=workerDAO.login(matricule, pwd);
-			 if(success) {
-				 Worker worker=workerDAO.find(matricule);
-				 return worker;
-			 }else {
-				return null;
-			 }
 		}
 		if(matricule>=30000 && matricule<40000) {
-			//appel du LeaderDAO
 			LeaderDAO leaderDAO=new LeaderDAO();
 			success=leaderDAO.login(matricule, pwd);
-			if(success) {
-				Leader leader=leaderDAO.find(matricule);
-				return leader;
-			}else {
-				return null;
-			}
 		}
 		if(matricule>=40000 && matricule<50000) {
 			EmployeeDAO employeeDAO=new EmployeeDAO();
 			success=employeeDAO.login(matricule,pwd);
-			if(success) {
-				Employee leader=employeeDAO.find(matricule);
-				return leader;
-			}else {
-				return null;
-			}
 		}
 		
-		return null;
+		return success;
 		
 	}
 

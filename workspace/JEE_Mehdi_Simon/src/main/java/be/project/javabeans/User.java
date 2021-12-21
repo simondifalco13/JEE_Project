@@ -86,5 +86,12 @@ public abstract class User  {
 		}
 		return success;
 	}
+	
+	public static User getUser(int serialNumber) {
+		User user=null;
+		UserDAO userDAO=new UserDAO();
+		user=userDAO.find(serialNumber);
+		return user;
+	}
 
 }

@@ -33,14 +33,28 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
-		String pwd=request.getParameter("pwd");
-		boolean success=User.login(serialNumber, pwd);
-		if(success) {
-			System.out.println("SUCCESS");
-		}else {
-			//ajout d'un param d'erreur, et si existant on affiche une erreur dans le form
+		request.setAttribute("error", null);
+		int serialNumber;
+		String pwd;
+		try {
+			serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
+			pwd=request.getParameter("pwd");
+			boolean success=User.login(serialNumber, pwd);
+			if(success) {
+				System.out.println("SUCCESS");
+				//find user
+				//redirection selon la classe
+			}else {
+				request.setAttribute("error", "Identifiant ou mot de passe incorect");
+			}
+			
+		}catch(Exception e) {
+			request.setAttribute("error", " Entrez un matricule correct : des des chiffres uniquement.");
+			doGet(request,response);
 		}
+		
+		
+		
 	}
 
 }
