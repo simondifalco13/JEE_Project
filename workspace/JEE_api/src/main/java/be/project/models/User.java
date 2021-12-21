@@ -101,5 +101,23 @@ public abstract class User  {
 		return success;
 		
 	}
+	
+	public static User getUser(int matricule) {
+		User user=null;
+		if(matricule>=20000 && matricule<30000) {
+			 WorkerDAO workerDAO=new WorkerDAO();
+			 user= workerDAO.find(matricule);
+			 
+		}
+		if(matricule>=30000 && matricule<40000) {
+			LeaderDAO leaderDAO=new LeaderDAO();
+			user= leaderDAO.find(matricule);
+		}
+		if(matricule>=40000 && matricule<50000) {
+			EmployeeDAO employeeDAO=new EmployeeDAO();
+			user = employeeDAO.find(matricule);
+		}
+		return user;
+	}
 
 }

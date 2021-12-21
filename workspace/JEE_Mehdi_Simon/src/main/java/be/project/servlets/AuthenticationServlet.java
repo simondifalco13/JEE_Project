@@ -34,24 +34,41 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("error", null);
+		String errors="";
 		int serialNumber;
 		String pwd;
-		try {
-			serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
-			pwd=request.getParameter("pwd");
-			boolean success=User.login(serialNumber, pwd);
-			if(success) {
-				System.out.println("SUCCESS");
-				//find user
-				//redirection selon la classe
-			}else {
-				request.setAttribute("error", "Identifiant ou mot de passe incorect");
+		if(request.getParameter("password")==null || request.getParameter("password").isEmpty() || request.getParameter("password").equals("")){
+			errors+="Remplissez le mot de passe.";
+		}else {
+			try {
+				serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
+				pwd=request.getParameter("password");
+				boolean success=User.login(serialNumber, pwd);
+				System.out.println(success);
+				if(success) {
+					System.out.println("SUCCESS");
+					//find user
+					User connectedUser=User.getUser(serialNumber);
+					if(connectedUser!=null) {
+						System.out.println("User : "+connectedUser.getFirstname());
+					}
+					//création de session 
+					//redirection vers page 
+				}else {
+					errors+="Identifiant ou mot de passe incorect";
+				}
+				
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+				errors+=" Entrez un matricule correct : des chiffres uniquement.";
 			}
-			
-		}catch(Exception e) {
-			request.setAttribute("error", " Entrez un matricule correct : des des chiffres uniquement.");
+		}
+		
+		if(!errors.equals("")) {
+			request.setAttribute("error", errors);
 			doGet(request,response);
 		}
+		
 		
 		
 		

@@ -22,7 +22,7 @@
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>http://localhost:8080/JEE_API/api</env-entry-value> 
+    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
  </env-entry>
   <!-- SERVLETS -->
   <servlet>

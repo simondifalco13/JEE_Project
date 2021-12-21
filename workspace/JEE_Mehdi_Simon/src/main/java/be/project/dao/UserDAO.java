@@ -2,6 +2,7 @@ package be.project.dao;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -13,6 +14,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.json.JSONObject;
 
 import be.project.javabeans.User;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -25,11 +28,11 @@ public class UserDAO implements DAO<User> {
 	private Client client;
 	private WebResource resource;
 	
-	public static URI getBaseUri() {
+	private static URI getBaseUri() {
 		return UriBuilder.fromUri(apiUrl).build();
 	}
 	
-	public static String getApiUrl() {
+	private static String getApiUrl() {
 		Context ctx;
 		String api="";
 		try {
@@ -41,6 +44,18 @@ public class UserDAO implements DAO<User> {
 		}
 		return api;
 	}
+	
+	private static void saveApiKey(String apiKey) {
+		Context ctx;
+		try {
+			ctx = new InitialContext();
+			Context env = (Context) ctx.lookup("java:comp/env");
+		    env.addToEnvironment("apiKey", apiKey);
+		} catch (NamingException e) {
+			System.out.println("Error save api key");
+		}
+	}
+	
 	
 	public UserDAO() {
 		ClientConfig config=new DefaultClientConfig();
@@ -69,8 +84,19 @@ public class UserDAO implements DAO<User> {
 
 	@Override
 	public User find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String responseJSON=resource
+				.path("user")
+				.path(String.valueOf(id))
+				.accept(MediaType.APPLICATION_JSON)
+				.get(String.class);
+		User user=null;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			user=(User) mapper.readValue(responseJSON, User.class);
+			return user=(User) mapper.readValue(responseJSON, User.class);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -96,10 +122,17 @@ public class UserDAO implements DAO<User> {
 		JSONObject jsonResponse = new JSONObject(response);
 		if(status==200) {
 			//verifier si on est bien connecté
-			if(jsonResponse.getString("connected") !=null) {
-				String connected=jsonResponse.getString("connected");
-				if(connected.equals("true")) {
-					success=true;
+			if(jsonResponse.has("connected")) {
+				if(jsonResponse.getString("connected") !=null) {
+					String connected=jsonResponse.getString("connected");
+					if(connected.equals("true")) {
+						//récuperer api-key
+						MultivaluedMap<String, String> headers;
+						headers=res.getHeaders();
+						List<String> apiKey=headers.get("api-key");
+						saveApiKey(apiKey.get(0));
+						success=true;
+					}
 				}
 			}
 		
