@@ -2,6 +2,8 @@ package be.project.javabeans;
 
 import java.io.Serializable;
 
+import be.project.dao.UserDAO;
+
 public abstract class User  {
 
 	
@@ -71,6 +73,18 @@ public abstract class User  {
 
 	public void setSite(Site site) {
 		this.site = site;
+	}
+	
+	public static boolean login(int serialNumber,String pwd) {
+		boolean success=false;
+		UserDAO userDAO;
+		if(serialNumber!=0 && !pwd.isEmpty() && !pwd.equals("")) {
+			userDAO=new UserDAO();
+			success=userDAO.login(serialNumber, pwd);
+		}else {
+			success=false;
+		}
+		return success;
 	}
 
 }

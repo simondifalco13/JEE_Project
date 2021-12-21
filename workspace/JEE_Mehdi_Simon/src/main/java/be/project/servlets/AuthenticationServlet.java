@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import be.project.javabeans.User;
+
 /**
  * Servlet implementation class AuthenticationServlet
  */
@@ -24,16 +26,21 @@ public class AuthenticationServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.getRequestDispatcher("/WEB-INF/JSP/authentication.jsp").forward(request,response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		int serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
+		String pwd=request.getParameter("pwd");
+		boolean success=User.login(serialNumber, pwd);
+		if(success) {
+			System.out.println("SUCCESS");
+		}else {
+			//ajout d'un param d'erreur, et si existant on affiche une erreur dans le form
+		}
 	}
 
 }
