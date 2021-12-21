@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Order implements Serializable {
 
-
+	
 	private static final long serialVersionUID = -8787806183257791080L;
 	private int id;
 	private Map<SupplierMachine,Double> orderMachines;
