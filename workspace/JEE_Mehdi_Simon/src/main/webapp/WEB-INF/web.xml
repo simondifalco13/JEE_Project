@@ -24,6 +24,17 @@
   	<param-name>adminMail</param-name>
   	<param-value>iam.admin@gmail.com</param-value>
   </context-param>
+  <!--FILTERS-->
+  
+  <!-- <filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>be.project.filters.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<servlet-name>Homepage</servlet-name>
+	</filter-mapping>-->
+	
   <!-- ENVIRONNEMENT ENTRIES -->
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
@@ -35,10 +46,27 @@
   	<servlet-name>AuthenticationServlet</servlet-name>
   	<servlet-class>be.project.servlets.AuthenticationServlet</servlet-class>
   </servlet>
+  <servlet>
+		<servlet-name>Homepage</servlet-name>
+		<servlet-class>be.project.servlets.Homepage</servlet-class>
+	</servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
   	<url-pattern>/connexion</url-pattern>
   	<url-pattern>/authentication</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+		<servlet-name>Homepage</servlet-name>
+		<url-pattern>/homepage</url-pattern>
+		<url-pattern>/home</url-pattern>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+
+	
+	<session-config>
+		<!-- Par défaut valable 30min -->
+		<session-timeout>60</session-timeout>
+	</session-config>
+
 </web-app>
