@@ -10,7 +10,11 @@
 <body>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container" >
-		<h2>Authentication</h2>
+		<div class="row justify-content-center">
+		    <div class="col-3">
+		      <h2>Authentication</h2>
+		    </div>
+		 </div>
 		<% if(request.getAttribute("error")!=null){%>
 			<div class="alert alert-danger" role="alert">
   				<%= request.getAttribute("error") %>

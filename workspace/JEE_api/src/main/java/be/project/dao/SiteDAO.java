@@ -38,20 +38,20 @@ public class SiteDAO implements DAO<Site> {
 	@Override
 	public Site find(int id) {
 		Site site=null;
-//		String city="",address="";
-//		try {
-//			PreparedStatement preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
-//			preparedStatement.setInt(1, id);
-//			ResultSet resultSet=preparedStatement.executeQuery();
-//			if(resultSet.next()) {
-//				city=resultSet.getString("city");
-//				address=resultSet.getString("address");
-//				site=new Site(id,city,address);
-//			}
-//
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
+		String city="",address="";
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				city=resultSet.getString("city");
+				address=resultSet.getString("address");
+				site=new Site(id,city,address,null,null,null,null);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return site;
 	}
 

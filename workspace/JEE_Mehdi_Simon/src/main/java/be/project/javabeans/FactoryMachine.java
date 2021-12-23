@@ -68,7 +68,11 @@ public class FactoryMachine extends Machine implements Serializable {
 		this.machineMaintenances = machineMaintenances;
 	}
 
-	
+	public static ArrayList<FactoryMachine> getAllFactoryMachines(Site site) {
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		//call DAO
+		return machines;
+	}
 	
 	
 

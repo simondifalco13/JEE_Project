@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import be.project.enumerations.MachineType;
 import be.project.enumerations.OperationState;
+import be.project.models.FactoryMachine;
+import be.project.models.Site;
 
 public class FactoryMachine extends Machine implements Serializable {
 
@@ -67,7 +69,11 @@ public class FactoryMachine extends Machine implements Serializable {
 		this.machineMaintenances = machineMaintenances;
 	}
 
-	
+	public static ArrayList<FactoryMachine> getAllFactoryMachines(int siteId) {
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		//call DAO
+		return machines;
+	}
 	
 	
 

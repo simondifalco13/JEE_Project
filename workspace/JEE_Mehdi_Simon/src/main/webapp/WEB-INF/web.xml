@@ -55,6 +55,10 @@
   	<servlet-name>HomeServlet</servlet-name>
   	<servlet-class>be.project.servlets.HomeServlet</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>MachineServlet</servlet-name>
+  	<servlet-class>be.project.servlets.MachineServlet</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -66,6 +70,10 @@
   	<url-pattern>/homepage</url-pattern>
   	<url-pattern>/home</url-pattern>
   	<url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>MachineServlet</servlet-name>
+  	<url-pattern>/machines</url-pattern>
   </servlet-mapping>
 	
 

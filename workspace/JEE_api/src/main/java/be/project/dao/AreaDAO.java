@@ -1,8 +1,14 @@
 package be.project.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import be.project.enumerations.ColorCode;
+import be.project.enumerations.MachineType;
+import be.project.enumerations.OperationState;
 import be.project.models.Area;
+import be.project.models.Site;
 
 public class AreaDAO implements DAO<Area> {
 
@@ -26,8 +32,32 @@ public class AreaDAO implements DAO<Area> {
 
 	@Override
 	public Area find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Area area=null;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT  "
+					+ "section,dangerousness,areas.site_id,"
+					+ "city,address"
+					+ "FROM areas "
+					+ "LEFT JOIN site ON site.site_id=areas.site_id "
+					+ "WHERE areas_id=?"
+					);
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				String section=resultSet.getString("section");
+				ColorCode areaDangerousness=ColorCode.valueOf(resultSet.getString("dangerousness"));
+				int site_id=resultSet.getInt("areas.site_id");
+				String city=resultSet.getString("city");
+				String address=resultSet.getString("address");
+				Site site=new Site(site_id,city,address,null,null,null,null);
+				area=new Area(id,section,areaDangerousness,site);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		//SELECT * FROM areas LEFT JOIN site ON site.site_id=areas.site_id;
+		return area;
 	}
 
 	@Override

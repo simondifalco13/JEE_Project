@@ -3,6 +3,8 @@ package be.project.dao;
 import java.util.ArrayList;
 
 import be.project.javabeans.FactoryMachine;
+import be.project.javabeans.Machine;
+import be.project.javabeans.Site;
 
 public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
@@ -32,8 +34,16 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public ArrayList<FactoryMachine> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		//call API
+		return machines;
+	}
+	
+	
+	public ArrayList<FactoryMachine> findAllSiteMachine(Site site) {
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		//call API
+		return machines;
 	}
 
 }

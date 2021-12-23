@@ -81,19 +81,21 @@ public class AuthenticationServlet extends HttpServlet {
 						if(connectedUser instanceof Worker) {
 							Worker user=(Worker)connectedUser;
 							session.setAttribute("connectedUser", user);
+							response.sendRedirect("home");
 						}
 						if(connectedUser instanceof Employee) {
 							Employee user=(Employee)connectedUser;
 							session.setAttribute("connectedUser", user);
+							
 						}
 						if(connectedUser instanceof Leader) {
 							Leader user=(Leader)connectedUser;
 							session.setAttribute("connectedUser", user);
+							response.sendRedirect("machines");
 						}
 						
 						//url avec sessionID 
 						//redirection
-						response.sendRedirect("home");
 						//RequestDispatcher requestDispatcher=request.getRequestDispatcher("HomeServlet");
 						//requestDispatcher.forward(request, response);
 						
