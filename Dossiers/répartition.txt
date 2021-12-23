@@ -4,14 +4,15 @@ AJOUTER CLASSE POUR ORDER
 -JSP 
 
 Pages : 
-  * authentification 
+  * authentification : OK 
 
-  (* Page d'acceuil) : afficher ce qu'il peut faire et c'est bon 
+  (* Page d'acceuil) : afficher ce qu'il peut faire et c'est bon  
   * Page des maintenances : terminées et en cours et a refaire (worker,responsable)
     *Page de maintenance-> via la maintenance (button ou autre) on est redirigé vers une page de la maintenance (plus précis)
     Si on est worker -> button rapport et button "done" (si maintenance en cours)
     *page de rapport (rapport obligatoire) : si maintenance ne contient pas de rapport (WORKER)
-	-> forcer AU MOINS celui qui "cloture" la maintenance d'en faire un
+	-> forcer AU MOINS celui qui "cloture" la maintenance d'en faire un 
+	==> MEHDI
     
   *Page des machines : listing des différentes machines avec leur status etc (POUR LEADER)
    --> on peut modifier leur status selon le controle (hors appli) fait par le leader
@@ -19,7 +20,7 @@ Pages :
 		--> créer une maintenance 
 			--> * page créer maintenance : sur la machine choisie et choisir parmi les ouvriers 
 							(date et heure == actuel : donc choisir parmi les ouvriers pas en maintenance, et du même site que la machine)
-
+	==> SIMON
    
   *Page de consultation de l'historique des maintenances (EMPLOYEE): 
 	--> Ordonées selon la machine contenue dans chacune des maintenance
