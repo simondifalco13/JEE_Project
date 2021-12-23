@@ -73,5 +73,25 @@ public class AreaDAO implements DAO<Area> {
 	}
 
 	
+	public ArrayList<Area> getMachineAreas(int machineId){
+		ArrayList<Area> areas = new ArrayList<Area>();
+		int area_id;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT machine_areas.areas_id FROM machine_areas LEFT JOIN areas ON machine_areas.areas_id=areas.areas_id WHERE machine_id=?"
+					);
+			preparedStatement.setInt(1, machineId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				area_id=resultSet.getInt("machine_areas.areas_id");
+				Area area=Area.getArea(area_id);
+				areas.add(area);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return areas;
+	}
+	
 
 }

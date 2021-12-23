@@ -52,7 +52,8 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	
 	public ArrayList<FactoryMachine> findAllSiteMachine(int siteId) {
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
-		int machineId,site_id,area_id;
+		FactoryMachine machine;
+		int machineId=0,site_id,area_id;
 		String siteCity,siteAddress,section;
 		ColorCode dangerousness;
 		MachineType type;
@@ -62,36 +63,27 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT "
-					+ "machine.machine_id,machine_type,machine.site_id,machine_status, "
-					+ "site.city,site.address,"
-					+ "areas.areas_id,section,dangerousness"
+					+ "machine_id,machine_type,site_id,machine_status, "
 					+ "FROM machine "
-					+ "LEFT JOIN site ON machine.site_id=site.site_id "
-					+ "LEFT join machine_areas ON machine.machine_id=machine_areas.machine_id "
-					+ "LEFT JOIN areas ON machine_areas.areas_id=areas.areas_id "
-					+ "WHERE machine.site_id=? AND areas.site_id=machine.site_id"
+					+ "WHERE site_id=? "
 					);
 			preparedStatement.setInt(1, siteId);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			int i=0;
 			while(resultSet.next()) {
-				if(i==0) {
-					machineId=resultSet.getInt("machine.machine_id");
-					type=MachineType.valueOf(resultSet.getString("machine_type"));
-					site_id=resultSet.getInt("machine.site_id");
-					status=OperationState.valueOf(resultSet.getString("machine_status"));
-					siteCity=resultSet.getString("site.city");
-					siteAddress=resultSet.getString("site.city");
-					site=new Site(siteId,siteCity,siteAddress,null,null,null,null);
-					i++;
-				}
-				area_id=resultSet.getInt("areas.areas_id");
-				section=resultSet.getString("section");
-				dangerousness=ColorCode.valueOf(resultSet.getString("dangerousness"));
-				Area area=new Area(area_id,section,dangerousness,site);
-				machineAreas.add(area);
+				machineAreas=new  ArrayList<Area>();
+				machineId=resultSet.getInt("machine_id");
+				type=MachineType.valueOf(resultSet.getString("machine_type"));
+				site_id=resultSet.getInt("site_id");
+				status=OperationState.valueOf(resultSet.getString("machine_status"));
+				site=Site.getSite(site_id);
+
 
 			}
+			if(machineId!=0) {
+				machineAreas=Area.getMachineAreas(machineId);
+			}
+			machine=new FactoryMachine();
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

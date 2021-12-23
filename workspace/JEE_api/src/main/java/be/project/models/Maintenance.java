@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.project.dao.MaintenanceDAO;
 import be.project.enumerations.MaintenanceStatus;
 import be.project.models.Report;
 import be.project.models.FactoryMachine;
@@ -49,26 +50,33 @@ public class Maintenance implements Serializable {
 		this.maintenanceReports=new ArrayList<Report>();
 	}
 	
-	public Maintenance(int id,Date date,LocalTime start,
+	
+	
+	public Maintenance(int id,Date date,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
 			ArrayList<Worker> workers,
-			Leader leader) {
-		this(date,start,machine,status,workers,leader);
-		this.maintenanceId=id;
-		
+			Leader leader
+			) {
+		this.maintenanceDate=date;
+		this.machine=machine;
+		this.status=status;
+		this.maintenanceWorkers=workers;
+		this.maintenanceLeader=leader;
 	}
 	
-	public Maintenance(int id,Date date,LocalTime start,
+	public Maintenance(int id,Date date,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
 			ArrayList<Worker> workers,
 			Leader leader,
-			LocalTime end,
-			ArrayList<Report> maintenanceReports) {
-		this(id,date,start,machine,status,workers,leader);
-		this.maintenanceReports=maintenanceReports;
+			LocalTime start,
+			LocalTime end
+			) {
+		this(id,date,machine,status,workers,leader);
+		this.startTime=start;
 		this.endTime=end;
+		this.duration=String.valueOf(this.startTime.minusNanos(this.endTime.toNanoOfDay()));
 	}
 	
 	
@@ -169,4 +177,12 @@ public class Maintenance implements Serializable {
         return hours+":"+minutes+":"+seconds;
 	}
 
+	
+	public static ArrayList<Maintenance> getMachineMaintenances(int machineId){
+		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
+		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
+		maintenances=maintenanceDAO.getMachineMaintenances(machineId);
+		return maintenances;
+		
+	}
 }

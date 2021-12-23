@@ -83,6 +83,13 @@ public class Area implements Serializable {
 		area=areaDAO.find(id);
 		return area;
 	}
+	
+	public static ArrayList<Area> getMachineAreas(int machineId) {
+		ArrayList<Area> areas = new ArrayList<Area>();
+		AreaDAO areaDAO=new AreaDAO();
+		areas=areaDAO.getMachineAreas(machineId);
+		return areas;
+	}
 
 	
 
