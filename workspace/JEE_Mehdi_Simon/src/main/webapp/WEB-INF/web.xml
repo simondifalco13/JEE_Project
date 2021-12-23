@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>JEE_Mehdi_Simon</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<context-param>
+		<description>Connection string to the DB</description>
+		<param-name>ConnectionString</param-name>
+		<param-value>DBSimon</param-value>
+	</context-param>
+	<!-- <filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>be.project.filters.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<servlet-name>Homepage</servlet-name>
+	</filter-mapping>-->
+	
+	
+	<session-config>
+		<!-- Par défaut valable 30min -->
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<servlet>
+		<servlet-name>Homepage</servlet-name>
+		<servlet-class>be.project.servlets.Homepage</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Homepage</servlet-name>
+		<url-pattern>/homepage</url-pattern>
+		<url-pattern>/home</url-pattern>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+	
+
+	
+	<env-entry>
+		<env-entry-name>ConnectionString</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>DBSimon</env-entry-value>
+	</env-entry>
+  
+  
 </web-app>
