@@ -28,18 +28,7 @@ public class WorkerDAO implements DAO<Worker> {
 		return UriBuilder.fromUri(apiUrl).build();
 	}
 	
-	private static String getApiUrl() {
-		Context ctx;
-		String api="";
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-		    api= (String) env.lookup("apiUrl");
-		} catch (NamingException e) {
-			System.out.println("Error to get api url");
-		}
-		return api;
-	}
+	
 	public WorkerDAO() {
 		ClientConfig config=new DefaultClientConfig();
 		client=Client.create(config);
@@ -66,9 +55,11 @@ public class WorkerDAO implements DAO<Worker> {
 
 	@Override
 	public Worker find(int id) {
+		String key=getApiKey();
 		String responseJSON=resource
 				.path("worker")
 				.path(String.valueOf(id))
+				.header("key",key)
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		Worker worker=null;

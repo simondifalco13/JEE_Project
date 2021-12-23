@@ -34,19 +34,7 @@ public class EmployeeDAO implements DAO<Employee> {
 		return UriBuilder.fromUri(apiUrl).build();
 	}
 	
-	private static String getApiUrl() {
-		Context ctx;
-		String api="";
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-		    api= (String) env.lookup("apiUrl");
-		} catch (NamingException e) {
-			System.out.println("Error to get api url");
-		}
-		return api;
-	}
-	
+
 	public EmployeeDAO() {
 		ClientConfig config=new DefaultClientConfig();
 		client=Client.create(config);
@@ -74,22 +62,17 @@ public class EmployeeDAO implements DAO<Employee> {
 
 	@Override
 	public Employee find(int id) {
+		String key=getApiKey();
 		String responseJSON=resource
 				.path("employee")
 				.path(String.valueOf(id))
+				.header("key",key)
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
-		System.out.println("RESP : "+responseJSON);
-		//Ne peut utiliser de mapper sur certains objets avec des MAP
-		// -> SOLUTIONS : 
-		//		-> créer 2 classes supplémentaires car problèmes liés aux
-		//			map dans Order et Maintenance
-		//				: classe Report et classe OrderMachine 
 		Employee employee=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
 			employee=(Employee) mapper.readValue(responseJSON, Employee.class);
-			System.out.println("emp : "+employee.getFirstname());
 			return employee;
 		} catch (Exception e) {
 			System.out.println("error = "+e.getMessage());

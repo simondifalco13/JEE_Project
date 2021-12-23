@@ -104,7 +104,6 @@ public abstract class User  {
 				user= leaderDAO.find(serialNumber);
 			}
 			if(serialNumber>=40000 && serialNumber<50000) {
-				System.out.println("EMP");
 				EmployeeDAO employeeDAO=new EmployeeDAO();
 				user = employeeDAO.find(serialNumber);
 			}

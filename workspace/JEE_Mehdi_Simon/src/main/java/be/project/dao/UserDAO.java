@@ -32,25 +32,13 @@ public class UserDAO implements DAO<User> {
 		return UriBuilder.fromUri(apiUrl).build();
 	}
 	
-	private static String getApiUrl() {
-		Context ctx;
-		String api="";
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-		    api= (String) env.lookup("apiUrl");
-		} catch (NamingException e) {
-			System.out.println("Error to get api url");
-		}
-		return api;
-	}
 	
 	private static void saveApiKey(String apiKey) {
 		Context ctx;
 		try {
 			ctx = new InitialContext();
 			Context env = (Context) ctx.lookup("java:comp/env");
-		    env.addToEnvironment("apiKey", apiKey);
+			env.addToEnvironment("apiKey", apiKey);
 		} catch (NamingException e) {
 			System.out.println("Error save api key");
 		}

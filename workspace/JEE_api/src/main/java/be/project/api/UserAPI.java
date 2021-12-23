@@ -22,25 +22,13 @@ import be.project.models.User;
 import be.project.utils.Error;
 
 @Path("/user")
-public class UserAPI {
+public class UserAPI extends CommunAPI{
 
 	private Error error = null;
 	public UserAPI() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static String getApiKey() {
-		Context ctx;
-		String api="";
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-		    api= (String) env.lookup("apiKey");
-		} catch (NamingException e) {
-			System.out.println("Error to get api key");
-		}
-		return api;
-	}
 	
 	@POST
 	@Path("/login")
@@ -70,12 +58,6 @@ public class UserAPI {
 		
 	}
 	
-	@GET
-	@Path("{serialNumber}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUser(@PathParam("serialNumber") int serialNumber) {
-		User user=User.getUser(serialNumber);
-		return Response.status(Status.OK).entity(user).build();
-	}
+	
 
 }

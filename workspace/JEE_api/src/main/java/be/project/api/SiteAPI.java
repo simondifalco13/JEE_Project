@@ -21,7 +21,7 @@ import be.project.models.Area;
 import be.project.models.Site;
 
 @Path("/site")
-public class SiteAPI {
+public class SiteAPI extends CommunAPI{
 
 	private SiteDAO siteDAO=new SiteDAO();
 	

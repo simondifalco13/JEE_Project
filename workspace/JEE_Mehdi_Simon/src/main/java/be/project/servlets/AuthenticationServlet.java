@@ -1,13 +1,20 @@
 package be.project.servlets;
 
 import java.io.IOException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import be.project.javabeans.User;
+import be.project.javabeans.Worker;
+import be.project.javabeans.Employee;
+import be.project.javabeans.Leader;
 
 /**
  * Servlet implementation class AuthenticationServlet
@@ -44,16 +51,39 @@ public class AuthenticationServlet extends HttpServlet {
 				serialNumber=Integer.valueOf(request.getParameter("serialNumber"));
 				pwd=request.getParameter("password");
 				boolean success=User.login(serialNumber, pwd);
-				System.out.println(success);
 				if(success) {
-					System.out.println("SUCCESS");
 					//find user
 					User connectedUser=User.getUser(serialNumber);
 					if(connectedUser!=null) {
-						System.out.println("User : "+connectedUser.getFirstname());
+						Context ctx = new InitialContext();
+						Context env = (Context) ctx.lookup("java:comp/env");
+						String apiKey=(String) env.getEnvironment().get("apiKey");
+						//env.removeFromEnvironment("apiKey");
+						//création de la session
+						HttpSession session=request.getSession();
+						if(!session.isNew()) {
+							session.invalidate();
+							session=request.getSession();
+						}
+						session.setAttribute("apiKey", apiKey);
+						//getting right type 
+						if(connectedUser instanceof Worker) {
+							Worker user=(Worker)connectedUser;
+							session.setAttribute("connectedUser", user);
+						}
+						if(connectedUser instanceof Employee) {
+							Employee user=(Employee)connectedUser;
+							session.setAttribute("connectedUser", user);
+						}
+						if(connectedUser instanceof Leader) {
+							Leader user=(Leader)connectedUser;
+							session.setAttribute("connectedUser", user);
+						}
+						
+						//url avec sessionID 
+						//redirection
+						
 					}
-					//création de session 
-					//redirection vers page 
 				}else {
 					errors+="Identifiant ou mot de passe incorect";
 				}
@@ -68,9 +98,6 @@ public class AuthenticationServlet extends HttpServlet {
 			request.setAttribute("error", errors);
 			doGet(request,response);
 		}
-		
-		
-		
 		
 	}
 

@@ -9,6 +9,12 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!-- ENV ENTRIES -->
+  <env-entry>
+  	<env-entry-name>dummy</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>empty</env-entry-value> 
+  </env-entry>
   <!-- CONTEXT PARAMS -->
   <context-param>
   	<param-name>apiUrl</param-name>

@@ -28,18 +28,6 @@ public class LeaderDAO implements DAO<Leader> {
 		return UriBuilder.fromUri(apiUrl).build();
 	}
 	
-	private static String getApiUrl() {
-		Context ctx;
-		String api="";
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-		    api= (String) env.lookup("apiUrl");
-		} catch (NamingException e) {
-			System.out.println("Error to get api url");
-		}
-		return api;
-	}
 	
 	public LeaderDAO() {
 		ClientConfig config=new DefaultClientConfig();
@@ -67,16 +55,17 @@ public class LeaderDAO implements DAO<Leader> {
 
 	@Override
 	public Leader find(int id) {
+		String key=getApiKey();
 		String responseJSON=resource
 				.path("leader")
 				.path(String.valueOf(id))
+				.header("key",key)
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		Leader leader=null;
 		ObjectMapper mapper=new ObjectMapper();
 		try {
 			leader=(Leader) mapper.readValue(responseJSON, Leader.class);
-			System.out.println("leader : "+leader.getFirstname());
 			return leader;
 		} catch (Exception e) {
 			System.out.println("error = "+e.getMessage());

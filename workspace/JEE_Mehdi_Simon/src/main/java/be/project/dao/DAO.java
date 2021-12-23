@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.core.UriBuilder;
 
 public interface DAO<T> {
 	public boolean insert(T obj);
@@ -18,7 +19,8 @@ public interface DAO<T> {
 	
 	public ArrayList<T> findAll();
 	
-	public static String getApiUrl() {
+
+	default  String getApiUrl() {
 		Context ctx;
 		String api="";
 		try {
@@ -29,5 +31,16 @@ public interface DAO<T> {
 			System.out.println("Error to get api url");
 		}
 		return api;
+	}
+	
+	 default String getApiKey() {
+		Context ctx;
+		try {
+			ctx = new InitialContext();
+			Context env = (Context) ctx.lookup("java:comp/env");
+			return (String) env.getEnvironment().get("apiKey");
+		} catch (NamingException e) {
+			return "";
+		}
 	}
 }
