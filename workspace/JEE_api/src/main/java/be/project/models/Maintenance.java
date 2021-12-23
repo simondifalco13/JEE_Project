@@ -76,7 +76,9 @@ public class Maintenance implements Serializable {
 		this(id,date,machine,status,workers,leader);
 		this.startTime=start;
 		this.endTime=end;
-		this.duration=String.valueOf(this.startTime.minusNanos(this.endTime.toNanoOfDay()));
+		if(start!=null && end!=null) {
+			this.duration=String.valueOf(this.startTime.minusNanos(this.endTime.toNanoOfDay()));
+		}
 	}
 	
 	

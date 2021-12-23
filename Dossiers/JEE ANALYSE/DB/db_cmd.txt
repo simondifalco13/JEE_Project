@@ -331,7 +331,7 @@ END;
 DECLARE 
  value machine.machine_id%TYPE;
 BEGIN
-	insert_machine ('sorting',1,'down','AssemblyA32','SuperMachine',null,1,value);
+	insert_machine ('sorting',1,'down','SortB32','SuperMachine',null,1,value);
 END;
 ----
 DECLARE 

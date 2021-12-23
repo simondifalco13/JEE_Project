@@ -87,5 +87,24 @@ public class WorkerDAO implements DAO<Worker> {
 		return false;
 	}
 	
+	
+	public ArrayList<Worker> getMaintenanceWorker(int maintenanceId){
+		ArrayList<Worker> workers=new ArrayList<Worker>();
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+				"SELECT worker_id FROM worker_maintenance WHERE maintenance_id=?");
+			preparedStatement.setInt(1, maintenanceId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				int workerId=resultSet.getInt("worker_id");
+				Worker worker=find(workerId);
+				workers.add(worker);
+			}
+	
+		} catch (Exception e) {
+			System.out.println("WORKERDAO :"+e.getMessage());
+		}
+		return workers;
+	}
 
 }

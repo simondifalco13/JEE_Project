@@ -36,8 +36,8 @@ public class AreaDAO implements DAO<Area> {
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT  "
-					+ "section,dangerousness,areas.site_id,"
-					+ "city,address"
+					+ "section,dangerousness,areas.site_id AS site_ida,"
+					+ "city,address "
 					+ "FROM areas "
 					+ "LEFT JOIN site ON site.site_id=areas.site_id "
 					+ "WHERE areas_id=?"
@@ -47,7 +47,7 @@ public class AreaDAO implements DAO<Area> {
 			if(resultSet.next()) {
 				String section=resultSet.getString("section");
 				ColorCode areaDangerousness=ColorCode.valueOf(resultSet.getString("dangerousness"));
-				int site_id=resultSet.getInt("areas.site_id");
+				int site_id=resultSet.getInt("site_ida");
 				String city=resultSet.getString("city");
 				String address=resultSet.getString("address");
 				Site site=new Site(site_id,city,address,null,null,null,null);
@@ -78,17 +78,17 @@ public class AreaDAO implements DAO<Area> {
 		int area_id;
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
-					"SELECT machine_areas.areas_id FROM machine_areas LEFT JOIN areas ON machine_areas.areas_id=areas.areas_id WHERE machine_id=?"
+					"SELECT areas_id FROM machine_areas WHERE machine_id=?"
 					);
 			preparedStatement.setInt(1, machineId);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			while(resultSet.next()) {
-				area_id=resultSet.getInt("machine_areas.areas_id");
+				area_id=resultSet.getInt("areas_id");
 				Area area=Area.getArea(area_id);
 				areas.add(area);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("[AREADAO]: "+e.getMessage());
 		}
 		return areas;
 	}

@@ -3,6 +3,7 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.FactoryMachineDAO;
 import be.project.enumerations.MachineType;
 import be.project.enumerations.OperationState;
 import be.project.models.FactoryMachine;
@@ -27,17 +28,19 @@ public class FactoryMachine extends Machine implements Serializable {
 			OperationState operationState,
 			ArrayList<Area> machineAreas) {
 		super(model, brand, description, type);
-		this.setOperationState(operationState);
+		this.operationState=operationState;
 		this.machineAreas=machineAreas;
 	}
 	
-	public FactoryMachine(String model, 
+	public FactoryMachine(int id,String model, 
 			String brand, String description, 
 			MachineType type,OperationState operationState,
 			ArrayList<Area> machineAreas,
 			ArrayList<Maintenance> maintenances) {
-		this(model, brand, description, type,operationState,machineAreas);
-		this.setMachineMaintenances(maintenances);
+		super(id,model, brand, description, type);
+		this.operationState=operationState;
+		this.machineAreas=machineAreas;
+		this.machineMaintenances=maintenances;
 		
 	}
 	
@@ -71,7 +74,8 @@ public class FactoryMachine extends Machine implements Serializable {
 
 	public static ArrayList<FactoryMachine> getAllFactoryMachines(int siteId) {
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
-		//call DAO
+		FactoryMachineDAO fmDAO=new FactoryMachineDAO();
+		machines=fmDAO.findAllSiteMachine(siteId);
 		return machines;
 	}
 	

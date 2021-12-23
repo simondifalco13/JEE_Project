@@ -3,9 +3,10 @@ package be.project.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import be.project.enumerations.MachineType;
 import be.project.enumerations.MaintenanceStatus;
@@ -15,6 +16,7 @@ import be.project.models.FactoryMachine;
 import be.project.models.Leader;
 import be.project.models.Maintenance;
 import be.project.models.Site;
+import be.project.models.Worker;
 
 public class MaintenanceDAO implements DAO<Maintenance> {
 
@@ -54,7 +56,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return false;
 	}
 	
-	public static ArrayList<Maintenance> getMachineMaintenances(int machineId){
+	public ArrayList<Maintenance> getMachineMaintenances(int machineId){
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -70,15 +72,24 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				int maintenanceId=resultSet.getInt("maintenance_id");
 				Date maintenanceDate=resultSet.getDate("maintenance_date");
 				MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
-				String duration= String.valueOf(resultSet.getObject("duration"));
-				int leaderId=resultSet.getInt("leaderId");
+				int leaderId=resultSet.getInt("leader_id");
 				Timestamp tsStart=resultSet.getTimestamp("maintenance_start");
 				Timestamp tsEnd=resultSet.getTimestamp("maintenance_end");
-				LocalTime start=tsStart.toLocalDateTime().toLocalTime();
-				LocalTime end=tsEnd.toLocalDateTime().toLocalTime();
+				LocalTime start=null;
+				LocalTime end=null;
+				if(tsStart!=null) {
+					start=tsStart.toLocalDateTime().toLocalTime();
+				}if(tsEnd!=null) {
+					end=tsEnd.toLocalDateTime().toLocalTime();
+				}
+				
 				Leader leader=Leader.getLeader(leaderId);
-				//get worker
-				//Maintenance maintenance=new Maintenance(maintenanceId,maintenanceDate,);
+				ArrayList<Worker> workers=Worker.getMaintenanceWorker(maintenanceId);
+				FactoryMachine machine=new FactoryMachine();
+				machine.setId(machineId);
+				java.util.Date utilDate = new java.util.Date(maintenanceDate.getTime());
+				Maintenance maintenance=new Maintenance(maintenanceId,utilDate,machine,status,workers,leader,start,end);
+				maintenances.add(maintenance);
 			}
 			
 			
