@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 import be.project.enumerations.MaintenanceStatus;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
@@ -27,7 +29,7 @@ public class Maintenance implements Serializable {
 	private ArrayList<Worker> maintenanceWorkers;
 	private Leader maintenanceLeader;
 	private FactoryMachine machine;
-	private Map<Worker,String> maintenanceReports;
+	private ArrayList<Report> maintenanceReports;
 
 	public Maintenance() {
 		
@@ -45,7 +47,7 @@ public class Maintenance implements Serializable {
 		this.status=status;
 		this.maintenanceWorkers=workers;
 		this.maintenanceLeader=leader;
-		setMaintenanceReports(new HashMap<Worker,String>());
+		this.maintenanceReports=new ArrayList<Report>();
 	}
 	
 	public Maintenance(int id,Date date,LocalTime start,
@@ -64,9 +66,9 @@ public class Maintenance implements Serializable {
 			ArrayList<Worker> workers,
 			Leader leader,
 			LocalTime end,
-			 Map<Worker,String> maintenanceReports) {
+			ArrayList<Report> maintenanceReports) {
 		this(id,date,start,machine,status,workers,leader);
-		this.setMaintenanceReports(maintenanceReports);
+		this.maintenanceReports=maintenanceReports;
 		this.endTime=end;
 	}
 	
@@ -149,12 +151,12 @@ public class Maintenance implements Serializable {
 
 	
 
-	public Map<Worker,String> getMaintenanceReports() {
+	public ArrayList<Report> getMaintenanceReports() {
 		return maintenanceReports;
 	}
 
 
-	public void setMaintenanceReports(Map<Worker,String> maintenanceReports) {
+	public void setMaintenanceReports(ArrayList<Report> maintenanceReports) {
 		this.maintenanceReports = maintenanceReports;
 	}
 

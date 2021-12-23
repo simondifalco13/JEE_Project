@@ -9,4 +9,36 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <!-- ENV ENTRIES -->
+  <env-entry>
+  	<env-entry-name>dummy</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>empty</env-entry-value> 
+  </env-entry>
+  <!-- CONTEXT PARAMS -->
+  <context-param>
+  	<param-name>apiUrl</param-name>
+  	<param-value>http://localhost:8080/JEE_API/api</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>adminMail</param-name>
+  	<param-value>iam.admin@gmail.com</param-value>
+  </context-param>
+  <!-- ENVIRONNEMENT ENTRIES -->
+  <env-entry> 
+    <env-entry-name>apiUrl</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
+ </env-entry>
+  <!-- SERVLETS -->
+  <servlet>
+  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<servlet-class>be.project.servlets.AuthenticationServlet</servlet-class>
+  </servlet>
+  <!-- MAPPING SERVLET -->
+  <servlet-mapping>
+  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<url-pattern>/connexion</url-pattern>
+  	<url-pattern>/authentication</url-pattern>
+  </servlet-mapping>
 </web-app>

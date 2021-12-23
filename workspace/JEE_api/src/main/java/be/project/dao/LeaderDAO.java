@@ -41,7 +41,7 @@ public class LeaderDAO implements DAO<Leader> {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				int workerId=resultSet.getInt("leader_id");
+				int leaderId=resultSet.getInt("leader_id");
 				String firstname=resultSet.getString("leader_firstname");
 				String lastname=resultSet.getString("leader_lastname");
 				String mail=resultSet.getString("leader_mail");

@@ -1,15 +1,18 @@
 package be.project.javabeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.project.javabeans.Item;
+
 public class Order implements Serializable {
 
-
+	
 	private static final long serialVersionUID = -8787806183257791080L;
 	private int id;
-	private Map<SupplierMachine,Double> orderMachines;
+	private ArrayList<Item> orderItems;
 	private int orderNumber;
 	private Employee employee;
 	private double totalPrice;
@@ -18,20 +21,21 @@ public class Order implements Serializable {
 		
 	}
 	
-	public Order(Employee employee,Map<SupplierMachine,Double> orderMachines)
+	
+	public Order(Employee employee,ArrayList<Item> orderItems)
 	{
 		this.employee=employee;
-		this.orderMachines=orderMachines;
-		this.totalPrice=calculateTotalPrice(this.orderMachines);
+		this.orderItems=orderItems;
+		this.totalPrice=calculateTotalPrice(this.orderItems);
 	}
 
 	//GET & SET
-	public Map<SupplierMachine, Double> getOrderMachines() {
-		return orderMachines;
+	public ArrayList<Item> getOrderItems() {
+		return orderItems;
 	}
 
-	public void setOrderMachines(Map<SupplierMachine, Double> orderMachines) {
-		this.orderMachines = orderMachines;
+	public void setOrderItems(ArrayList<Item> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 	public int getOrderNumber() {
@@ -77,18 +81,17 @@ public class Order implements Serializable {
 		this.setTotalPrice(total);
 	}
 	
-	public double calculateTotalPrice(Map<SupplierMachine, Double> orderMachines) {
+	public double calculateTotalPrice(ArrayList<Item> orderItems) {
 		double price=0;
-		for(SupplierMachine machine : orderMachines.keySet()) {
-			double quantity=orderMachines.get(machine);
-			price+=(quantity*machine.getPrice());
+		for(int i=0;i<orderItems.size();i++) {
+			price+=orderItems.get(i).getTotalPrice();
 		}
 		return price;
 	}
-	public void addMachine(SupplierMachine machine,double quantity) {
-		orderMachines.put(machine,quantity);
-		double machinePrice=machine.getPrice();
-		this.addAmountToTotal(machinePrice);
+	public void addItem(Item item) {
+		orderItems.add(item);
+		double itemPrice=item.getTotalPrice();
+		this.addAmountToTotal(itemPrice);
 	}
 
 }

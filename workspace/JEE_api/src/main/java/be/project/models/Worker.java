@@ -3,6 +3,7 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.WorkerDAO;
 import be.project.models.Maintenance;
 import be.project.models.Site;
 import be.project.models.User;
@@ -47,6 +48,11 @@ public class Worker extends User implements Serializable {
 		return serialVersionUID;
 	}
 
-	
+	public static Worker getWorker(int serialNumber) {
+		Worker worker=null;
+		WorkerDAO workerDAO=new WorkerDAO();
+		worker= workerDAO.find(serialNumber);
+		return worker;
+	}
 
 }

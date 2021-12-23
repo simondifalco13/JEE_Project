@@ -19,7 +19,7 @@ import be.project.dao.AreaDAO;
 import be.project.models.Area;
 
 @Path("/area")
-public class AreaAPI {
+public class AreaAPI extends CommunAPI {
 
 	private AreaDAO areaDAO=new AreaDAO();
 	public AreaAPI() {

@@ -39,10 +39,7 @@ public class Worker extends User implements Serializable {
 		this.maintenances = maintenances;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+	
 	
 
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import be.project.enumerations.MaintenanceStatus;
+import be.project.models.Report;
 import be.project.models.FactoryMachine;
 import be.project.models.Leader;
 import be.project.models.Worker;
@@ -27,7 +28,7 @@ public class Maintenance implements Serializable {
 	private ArrayList<Worker> maintenanceWorkers;
 	private Leader maintenanceLeader;
 	private FactoryMachine machine;
-	private Map<Worker,String> maintenanceReports;
+	private ArrayList<Report> maintenanceReports;
 
 	public Maintenance() {
 		
@@ -45,7 +46,7 @@ public class Maintenance implements Serializable {
 		this.status=status;
 		this.maintenanceWorkers=workers;
 		this.maintenanceLeader=leader;
-		setMaintenanceReports(new HashMap<Worker,String>());
+		this.maintenanceReports=new ArrayList<Report>();
 	}
 	
 	public Maintenance(int id,Date date,LocalTime start,
@@ -64,9 +65,9 @@ public class Maintenance implements Serializable {
 			ArrayList<Worker> workers,
 			Leader leader,
 			LocalTime end,
-			 Map<Worker,String> maintenanceReports) {
+			ArrayList<Report> maintenanceReports) {
 		this(id,date,start,machine,status,workers,leader);
-		this.setMaintenanceReports(maintenanceReports);
+		this.maintenanceReports=maintenanceReports;
 		this.endTime=end;
 	}
 	
@@ -123,12 +124,13 @@ public class Maintenance implements Serializable {
 		this.status = status;
 	}
 
-	public ArrayList<Worker> getMaintenanceWorkers() {
-		return maintenanceWorkers;
+	public ArrayList<Report> getMaintenanceReports() {
+		return maintenanceReports;
 	}
 
-	public void setMaintenanceWorkers(ArrayList<Worker> maintenanceWorkers) {
-		this.maintenanceWorkers = maintenanceWorkers;
+
+	public void setMaintenanceReports(ArrayList<Report> maintenanceReports) {
+		this.maintenanceReports = maintenanceReports;
 	}
 
 	public Leader getMaintenanceLeader() {
@@ -147,20 +149,14 @@ public class Maintenance implements Serializable {
 		this.machine = machine;
 	}
 
-	
 
-	
-
-
-	public Map<Worker,String> getMaintenanceReports() {
-		return maintenanceReports;
+	public ArrayList<Worker> getMaintenanceWorkers() {
+		return maintenanceWorkers;
 	}
 
-
-	public void setMaintenanceReports(Map<Worker,String> maintenanceReports) {
-		this.maintenanceReports = maintenanceReports;
+	public void setMaintenanceWorkers(ArrayList<Worker> maintenanceWorkers) {
+		this.maintenanceWorkers = maintenanceWorkers;
 	}
-
 
 	private String calculateDuration(LocalTime start,LocalTime end) {
 		long hours = ChronoUnit.HOURS.between(start, end);

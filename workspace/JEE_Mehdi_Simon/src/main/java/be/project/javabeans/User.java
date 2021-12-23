@@ -2,6 +2,11 @@ package be.project.javabeans;
 
 import java.io.Serializable;
 
+import be.project.dao.EmployeeDAO;
+import be.project.dao.LeaderDAO;
+import be.project.dao.UserDAO;
+import be.project.dao.WorkerDAO;
+
 public abstract class User  {
 
 	
@@ -71,6 +76,39 @@ public abstract class User  {
 
 	public void setSite(Site site) {
 		this.site = site;
+	}
+	
+	public static boolean login(int serialNumber,String pwd) {
+		boolean success=false;
+		UserDAO userDAO;
+		if(serialNumber!=0 && !pwd.isEmpty() && !pwd.equals("")) {
+			userDAO=new UserDAO();
+			success=userDAO.login(serialNumber, pwd);
+		}else {
+			success=false;
+		}
+		return success;
+	}
+	
+	public static User getUser(int serialNumber) {
+		User user=null;
+		UserDAO userDAO=new UserDAO();
+		if(serialNumber!=0) {
+			if(serialNumber>=20000 && serialNumber<30000) {
+				 WorkerDAO workerDAO=new WorkerDAO();
+				 user= workerDAO.find(serialNumber);
+				 
+			}
+			if(serialNumber>=30000 && serialNumber<40000) {
+				LeaderDAO leaderDAO=new LeaderDAO();
+				user= leaderDAO.find(serialNumber);
+			}
+			if(serialNumber>=40000 && serialNumber<50000) {
+				EmployeeDAO employeeDAO=new EmployeeDAO();
+				user = employeeDAO.find(serialNumber);
+			}
+		}
+		return user;
 	}
 
 }

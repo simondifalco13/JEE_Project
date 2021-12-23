@@ -40,7 +40,7 @@ public class EmployeeDAO implements DAO<Employee> {
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			if(resultSet.next()) {
-				int workerId=resultSet.getInt("employee_id");
+				int employeeId=resultSet.getInt("employee_id");
 				String firstname=resultSet.getString("employee_firstname");
 				String lastname=resultSet.getString("employee_lastname");
 				String mail=resultSet.getString("employee_mail");

@@ -3,6 +3,7 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.LeaderDAO;
 import be.project.models.Maintenance;
 import be.project.models.Site;
 import be.project.models.User;
@@ -44,6 +45,12 @@ public class Leader extends User implements Serializable {
 		this.maintenances = maintenances;
 	}
 
+	public static Leader getLeader(int serialNumber) {
+		Leader leader=null;
+		LeaderDAO leaderDAO=new LeaderDAO();
+		leader=leaderDAO.find(serialNumber);
+		return leader;
+	}
 	
 
 }

@@ -3,6 +3,7 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.EmployeeDAO;
 import be.project.models.Maintenance;
 import be.project.models.Order;
 import be.project.models.Site;
@@ -65,6 +66,13 @@ public class Employee extends User implements Serializable {
 		if(order!=null) {
 			this.getOrders().add(order);
 		}
+	}
+	
+	public static Employee getEmployee(int serialNumber) {
+		Employee emp=null;
+		EmployeeDAO employeeDAO=new EmployeeDAO();
+		emp=employeeDAO.find(serialNumber);
+		return emp;
 	}
 
 }
