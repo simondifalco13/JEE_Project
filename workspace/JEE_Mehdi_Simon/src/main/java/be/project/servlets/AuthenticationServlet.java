@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +29,17 @@ public class AuthenticationServlet extends HttpServlet {
      */
     public AuthenticationServlet() {
         // TODO Auto-generated constructor stub
+    }
+    
+    private String getApiKey() {
+    	Context ctx;
+		try {
+			ctx = new InitialContext();
+			Context env = (Context) ctx.lookup("java:comp/env");
+			return (String) env.getEnvironment().get("apiKey");
+		} catch (NamingException e) {
+			return "";
+		}
     }
 
 	/**
@@ -55,9 +68,7 @@ public class AuthenticationServlet extends HttpServlet {
 					//find user
 					User connectedUser=User.getUser(serialNumber);
 					if(connectedUser!=null) {
-						Context ctx = new InitialContext();
-						Context env = (Context) ctx.lookup("java:comp/env");
-						String apiKey=(String) env.getEnvironment().get("apiKey");
+						String apiKey=getApiKey();
 						//env.removeFromEnvironment("apiKey");
 						//création de la session
 						HttpSession session=request.getSession();
@@ -82,6 +93,9 @@ public class AuthenticationServlet extends HttpServlet {
 						
 						//url avec sessionID 
 						//redirection
+						response.sendRedirect("home");
+						//RequestDispatcher requestDispatcher=request.getRequestDispatcher("HomeServlet");
+						//requestDispatcher.forward(request, response);
 						
 					}
 				}else {

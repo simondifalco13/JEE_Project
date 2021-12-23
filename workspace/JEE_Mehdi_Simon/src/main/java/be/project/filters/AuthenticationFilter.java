@@ -28,20 +28,28 @@ public class AuthenticationFilter implements Filter {
     }
 
 	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+		Filter.super.init(fConfig);
+		this.filterConfig=fConfig;
+	}
+	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		this.filterConfig= null;
+		Filter.super.destroy();
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpSession session = ((HttpServletRequest)request).getSession(false);
+		HttpServletRequest req= (HttpServletRequest)request;
+		HttpSession session = req.getSession(false);
 	    HttpServletResponse res = (HttpServletResponse)response;
-	    
-		if(session != null) {
+	    PrintWriter out = ((HttpServletResponse)response).getWriter();
+		if(session!=null) {
 			try {
 				chain.doFilter(request, response);
 			}
@@ -50,18 +58,11 @@ public class AuthenticationFilter implements Filter {
 			}
 		}
 		else {
-			PrintWriter out = ((HttpServletResponse)response).getWriter();
 			out.println("Le filtre " + this.filterConfig.getFilterName() + " a bloqué la requête à la servlet");
 			//res.sendRedirect("Authentification");
 		}
 		
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		this.filterConfig= fConfig;
-	}
 
 }

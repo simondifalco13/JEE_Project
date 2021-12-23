@@ -3,6 +3,7 @@
 <%@page import="be.project.javabeans.Worker" %>
 <%@page import="be.project.javabeans.Leader" %>
 <%@page import="be.project.javabeans.Employee" %>
+<%@page import="be.project.javabeans.User" %>
     <jsp:useBean id="worker" class="be.project.javabeans.Worker" scope="session"></jsp:useBean>
     <jsp:useBean id="leader" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
     <jsp:useBean id="employee" class="be.project.javabeans.Employee" scope="session"></jsp:useBean>
@@ -15,9 +16,21 @@
 <title>FabricTout</title>
 </head>
 <body>
-<% worker = (Worker)session.getAttribute("worker"); 
-   leader = (Leader)session.getAttribute("leader");
-   employee = (Employee)session.getAttribute("employee");
+<%!User user =null; %>
+<% 
+	User user = (User)session.getAttribute("connectedUser");
+	if(user instanceof Worker) {
+		worker=(Worker)user;
+		
+	}
+	if(user instanceof Employee) {
+		 employee=(Employee)user;
+		
+	}
+	if(user instanceof Leader) {
+		 leader=(Leader)user;
+	}
+
 %>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">

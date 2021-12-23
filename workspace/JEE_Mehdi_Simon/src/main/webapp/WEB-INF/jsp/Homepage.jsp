@@ -1,7 +1,7 @@
 <%@page import="javax.websocket.Session"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" errorPage="Errors.jsp" session="true"
-	import="be.project.javabeans.Worker"%>
+	import="be.project.javabeans.User"%>
 	<%@page import="be.project.javabeans.Maintenance"  %>
 	<%@page import="be.project.enumerations.MaintenanceStatus"  %>
 	<%@ include file="Navbar.jsp" %>
@@ -16,9 +16,20 @@
 <title>Page d'accueil</title>
 </head>
 <body>
-	<% worker = (Worker)session.getAttribute("worker"); %>
-	<h2>Bienvenue cher/chère <%= worker.getFirstname() %> </h2>
-	
+	<%! User connectedUser=null; %>
+	<% 
+		if(worker!=null){
+			connectedUser=worker;
+		}
+		if(leader!=null){
+			connectedUser=leader;
+		}
+		if(employee!=null){
+			connectedUser=employee;
+		}
+	%>
+	<h2>Bienvenue cher/chère <%= connectedUser.getFirstname() %> </h2>
+	<!--  
 	<table class="table">
   <thead class="thead-dark">
     <tr>
@@ -27,7 +38,7 @@
     </tr>
   </thead>
   <tbody>
-   
+   	<%--
     <% for(Maintenance maintenance : worker.getMaintenances()){ 
     	if(maintenance.getStatus() == MaintenanceStatus.ongoing 
     	   || maintenance.getStatus() == MaintenanceStatus.toDo 
@@ -37,8 +48,9 @@
       <td>Leadeur de maintenance : <%= maintenance.getMaintenanceLeader().getFirstname()%></td>
       <td>Status <%= maintenance.getStatus()%></td>
     </tr>
-    <%}} %>
+    <%}} %> --%>
   </tbody>
-</table>
+</table>  -->
+	
 </body>
 </html>

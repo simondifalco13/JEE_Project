@@ -8,6 +8,7 @@
 <title>Authentication</title>
 </head>
 <body>
+	<%@ include file="Navbar.jsp" %>
 	<div class="container" >
 		<h2>Authentication</h2>
 		<% if(request.getAttribute("error")!=null){%>

@@ -9,6 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Le filtre d'authentification a bloqué la requête à la servlet</h1>
+	<h1>ERREUR DE LA JSP</h1>
 </body>
 </html>
