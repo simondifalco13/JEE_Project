@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.project.enumerations.ColorCode;
+import be.project.javabeans.FactoryMachine;
+import be.project.javabeans.Site;
 
 public class Area implements Serializable {
 
@@ -26,10 +28,18 @@ public class Area implements Serializable {
 		this.dangerousness=dangerousness;
 		this.areaSite=areaSite;
 	}
+	
+	public Area(int id,String section, ColorCode dangerousness,Site areaSite) {
+		this.id=id;
+		this.section=section;
+		this.dangerousness=dangerousness;
+		this.areaSite=areaSite;
+	} 
 	public Area(String section, ColorCode dangerousness,Site areaSite,ArrayList<FactoryMachine> machines) {
 		this(section,dangerousness,areaSite);
 		this.areaMachines=machines;
 	}
+
 
 	public String getSection() {
 		return section;

@@ -14,6 +14,7 @@ import be.project.enumerations.MaintenanceStatus;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
 import be.project.javabeans.Worker;
+import be.project.javabeans.Report;
 
 public class Maintenance implements Serializable {
 
@@ -50,26 +51,35 @@ public class Maintenance implements Serializable {
 		this.maintenanceReports=new ArrayList<Report>();
 	}
 	
-	public Maintenance(int id,Date date,LocalTime start,
+	
+	
+	public Maintenance(int id,Date date,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
 			ArrayList<Worker> workers,
-			Leader leader) {
-		this(date,start,machine,status,workers,leader);
-		this.maintenanceId=id;
-		
+			Leader leader
+			) {
+		this.maintenanceDate=date;
+		this.machine=machine;
+		this.status=status;
+		this.maintenanceWorkers=workers;
+		this.maintenanceLeader=leader;
 	}
 	
-	public Maintenance(int id,Date date,LocalTime start,
+	public Maintenance(int id,Date date,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
 			ArrayList<Worker> workers,
 			Leader leader,
-			LocalTime end,
-			ArrayList<Report> maintenanceReports) {
-		this(id,date,start,machine,status,workers,leader);
-		this.maintenanceReports=maintenanceReports;
+			LocalTime start,
+			LocalTime end
+			) {
+		this(id,date,machine,status,workers,leader);
+		this.startTime=start;
 		this.endTime=end;
+		if(start!=null && end!=null) {
+			this.duration=getDuration();
+		}
 	}
 	
 	

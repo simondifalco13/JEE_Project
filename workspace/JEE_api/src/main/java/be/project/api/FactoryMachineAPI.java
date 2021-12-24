@@ -9,6 +9,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -24,9 +25,8 @@ public class FactoryMachineAPI extends CommunAPI  {
 	}
 	
 	@GET
-	@Path("{siteId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllFactoryMachines(@PathParam("siteId") int siteId,
+	public Response getAllFactoryMachines(@QueryParam("site") int siteId,
 			@HeaderParam("key") String key) {
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
@@ -35,7 +35,6 @@ public class FactoryMachineAPI extends CommunAPI  {
 		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
-			System.out.println("SAME");
 			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines(siteId);
 			return Response.status(Status.OK).entity(machines).build();
 		}else {

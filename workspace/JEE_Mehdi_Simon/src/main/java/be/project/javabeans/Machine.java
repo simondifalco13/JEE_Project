@@ -20,6 +20,11 @@ public abstract class Machine {
 		this.description=description;
 		this.type=type;
 	}
+	
+	public Machine(int id,String model,String brand,String description,MachineType type) {
+		this(model,brand,description,type);
+		this.id=id;
+	}
 
 	public String getModel() {
 		return model;
