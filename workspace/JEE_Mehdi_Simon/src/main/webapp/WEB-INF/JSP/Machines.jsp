@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="be.project.javabeans.Leader" %>
+<%@page import="be.project.javabeans.FactoryMachine" %>
+<%@page import="java.util.ArrayList" %>
+<jsp:useBean id="connectedUser" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +13,25 @@
 <title>Machines page</title>
 </head>
 <body>
+	<% ArrayList<FactoryMachine> machines=(ArrayList<FactoryMachine>)request.getAttribute("machines"); %>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
 		<h4>Welcome on the machines pages</h4>
+		<div>
+			<% for(int i=0;i<machines.size();i++){
+					%>
+					<div class="card" style="width: 18rem;">
+					  <div class="card-body">
+					    <h5 class="card-title"><%= machines.get(i).getModel() %></h5>
+					    <p class="card-text">Brand : <%=machines.get(i).getBrand() %></p>
+					    <a href="#" class="btn btn-primary">Go somewhere</a>
+					  </div>
+					</div>
+					<%
+				}
+			%>
+			
+		</div>
 	</div>
 </body>
 </html>

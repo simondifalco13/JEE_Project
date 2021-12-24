@@ -102,10 +102,11 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				machine.setId(obj.getInt("id"));
 				machine.setModel(obj.getString("model"));
 				machine.setBrand(obj.getString("brand"));
-				machine.setDescription(obj.getString("description"));
+				if(!obj.isNull("description")) {
+					machine.setDescription((String)obj.get("description"));
+				}
 				machine.setType(MachineType.valueOf(obj.getString("type")));
-				machine.setOperationState(OperationState.valueOf(obj.getString("running")));
-				
+				machine.setOperationState(OperationState.valueOf(obj.getString("operationState")));
 				JSONArray arrayAreas=obj.getJSONArray("machineAreas");
 				mapper=new ObjectMapper();
 				ArrayList<Area> areas=new ArrayList<Area>();
@@ -115,17 +116,15 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				}
 				
 				machine.setMachineAreas(areas);
-				
 				JSONArray arrayMaintenances=obj.getJSONArray("machineMaintenances");
 				ArrayList<Maintenance> maintenances=Maintenance.getMaintenancesByJSONArray(arrayMaintenances);
 				
 				machine.setMachineMaintenances(maintenances);
-				
 				machines.add(machine);
 
 			}
 		} catch (Exception e) {
-			return null;
+			System.out.println("FMDAO : "+e.getMessage());
 		}
 		return machines;
 	}

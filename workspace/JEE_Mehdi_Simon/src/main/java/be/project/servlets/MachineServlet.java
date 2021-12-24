@@ -49,6 +49,7 @@ public class MachineServlet extends HttpServlet {
 		Site site=new Site();
 		site.setId(1);
 		ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines(site);
+		request.setAttribute("machines", machines);
 		request.getRequestDispatcher("/WEB-INF/JSP/Machines.jsp").forward(request,response);
 		//recuperer Machines 
 		
