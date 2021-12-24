@@ -58,6 +58,7 @@ public class Maintenance implements Serializable {
 			ArrayList<Worker> workers,
 			Leader leader
 			) {
+		this.maintenanceId=id;
 		this.maintenanceDate=date;
 		this.machine=machine;
 		this.status=status;

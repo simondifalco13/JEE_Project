@@ -3,6 +3,7 @@ package be.project.api;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -26,7 +27,7 @@ public class FactoryMachineAPI extends CommunAPI  {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllFactoryMachines(@QueryParam("site") int siteId,
+	public Response getAllFactoryMachines(@DefaultValue("1") @QueryParam("site") int siteId,
 			@HeaderParam("key") String key) {
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
