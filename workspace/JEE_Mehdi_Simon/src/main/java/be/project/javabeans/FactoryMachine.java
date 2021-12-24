@@ -3,6 +3,7 @@ package be.project.javabeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.FactoryMachineDAO;
 import be.project.enumerations.MachineType;
 import be.project.enumerations.OperationState;
 import be.project.javabeans.Area;
@@ -74,7 +75,8 @@ public class FactoryMachine extends Machine implements Serializable {
 
 	public static ArrayList<FactoryMachine> getAllFactoryMachines(Site site) {
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
-		//call DAO
+		FactoryMachineDAO fmDAO=new FactoryMachineDAO();
+		machines=fmDAO.findAllSiteMachine(site);
 		return machines;
 	}
 	

@@ -1,6 +1,7 @@
 package be.project.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -10,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import be.project.javabeans.FactoryMachine;
+import be.project.javabeans.Site;
 
 /**
  * Servlet implementation class MachineServlet
@@ -42,6 +46,9 @@ public class MachineServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Site site=new Site();
+		site.setId(1);
+		ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines(site);
 		request.getRequestDispatcher("/WEB-INF/JSP/Machines.jsp").forward(request,response);
 		//recuperer Machines 
 		
