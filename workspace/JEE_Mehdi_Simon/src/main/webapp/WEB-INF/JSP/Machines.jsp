@@ -73,7 +73,7 @@
 					    					Ended at <%=currentMaintenance.getStartTime() %> <br>
 					    					Duration : <%=currentMaintenance.getDuration() %> <br>
 					    				<%}%>
-					    				Supervised by <%=currentMaintenance.getMaintenanceLeader().getLastname()%> <%=currentMaintenance.getMaintenanceLeader().getFirstname()%> <br>
+					    				Supervised by <%=currentMaintenance.getMaintenanceLeader().getLastname()%> <%=currentMaintenance.getMaintenanceLeader().getFirstname()%>  (serial number : <%=currentMaintenance.getMaintenanceLeader().getSerialNumber()%>)<br>
 					    				Worker(s) : 
 					    				<% if(currentMaintenance.getMaintenanceWorkers().size()>0){%>
 											<ul>
