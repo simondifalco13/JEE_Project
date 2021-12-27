@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
 
+import be.project.enumerations.OperationState;
 import be.project.javabeans.Employee;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;

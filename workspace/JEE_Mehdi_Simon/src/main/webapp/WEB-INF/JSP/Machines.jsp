@@ -27,7 +27,7 @@
 		<div class="row align-items-start">
 			<% for(int i=0;i<machines.size();i++){
 					%>
-					<div class="card col" style="width: 18rem;">
+					<div class="card col m-2" style="width: 18rem;">
 					  <div class="card-body">
 					    <h5 class="card-title text-center"><b><%= machines.get(i).getModel() %></b></h5>
 					    <p class="card-text">

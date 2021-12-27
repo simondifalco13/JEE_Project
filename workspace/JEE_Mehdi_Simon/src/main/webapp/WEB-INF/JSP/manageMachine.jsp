@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="be.project.javabeans.FactoryMachine" %>
+<%@page import="be.project.enumerations.OperationState" %>
+<%@page import="java.lang.String" %>
 <jsp:useBean id="machine" class="be.project.javabeans.FactoryMachine" scope="request"></jsp:useBean>
 
 <!DOCTYPE html>
@@ -11,10 +13,47 @@
 <title>Manage Machine</title>
 </head>
 <body>
+	<% OperationState [] states=OperationState.values(); 
+	   OperationState machineState=machine.getOperationState(); 
+	   %>
+	<%!
+	  public static String operationStateToString(OperationState state){
+		   switch(state){
+		   		case waitingForMaintenance :
+		   			return "waiting for maintenance";
+		   		case toReplace :
+		   			return "to replace";
+		   		default :
+		   			return state.toString();
+		   			
+		   }
+	   }
+	%>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
-		<h2>Hello manage your machine </h2>
-		<p><%=machine.getId() %> <%=machine.getBrand() %></p>
+		<h2>Manage machine </h2>
+		<h4>Machine <%=machine.getId() %> : <%=machine.getModel() %></h4>
+		<p>You can update the machine operation state : if you choose 'waiting for maintenance' 
+		you'll be redirected to create the maintenance</p>
+		<form action="ManageMachine" method="POST">
+			<label for="selectState">Machine state : </label>
+			<select class="form-select" aria-label="Select a state" id="selectState">
+			<% for(int i=0;i<states.length;i++){
+				if(states[i]==machineState){%>
+					 <option selected><%=machineState.toString() %></option>
+				<% }
+				else{%>
+					<option value="<%=states[i]%>"><%= operationStateToString(states[i]) %></option>
+				<%}
+			}%>
+			</select>
+			<div class="d-grid gap-2 col-6 mx-auto m-2">
+				  <button type="submit" class="btn btn-primary">Validate</button>
+			</div>
+		</form>
+		<div class="d-grid gap-2 col-6 mx-auto m-2">
+				  <a href="machines" class="btn btn-primary">Cancel</a>
+		</div>
 	</div>
 </body>
 </html>
