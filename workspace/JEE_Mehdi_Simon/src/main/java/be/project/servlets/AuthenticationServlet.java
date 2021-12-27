@@ -23,12 +23,19 @@ import be.project.javabeans.Leader;
  */
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static String apiKey;
 
     /**
      * Default constructor. 
      */
     public AuthenticationServlet() {
         // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public void init() throws ServletException{
+    	super.init();
+    	apiKey=getApiKey();
     }
     
     private String getApiKey() {
@@ -41,6 +48,8 @@ public class AuthenticationServlet extends HttpServlet {
 			return "";
 		}
     }
+    
+    
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -68,8 +77,6 @@ public class AuthenticationServlet extends HttpServlet {
 					//find user
 					User connectedUser=User.getUser(serialNumber);
 					if(connectedUser!=null) {
-						String apiKey=getApiKey();
-						//env.removeFromEnvironment("apiKey");
 						//création de la session
 						HttpSession session=request.getSession();
 						if(!session.isNew()) {

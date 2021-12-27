@@ -19,7 +19,8 @@
 <title>Machines page</title>
 </head>
 <body>
-	<% ArrayList<FactoryMachine> machines=(ArrayList<FactoryMachine>)request.getAttribute("machines"); %>
+	<% ArrayList<FactoryMachine> machines=(ArrayList<FactoryMachine>)request.getAttribute("machines");
+	%>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
 		<h4>Welcome on the machines pages</h4>
@@ -87,14 +88,20 @@
 					    				<%}else{%>
 					    					workers not yet assigned
 					    				<%}%>
-					    				
+					    				<form action="machines" method="POST">
+					    					 <button type="submit" class="btn btn-primary" name="maintenance" value="<%=currentMaintenance.getMaintenanceId() %>" >Consult</button>
+					    				</form>
 					    			</div>
 					    		<%
 					    	}%>
 					    </div>
-					    <div class="d-grid gap-2 col-6 mx-auto">
-						 <a href="#" class="btn btn-primary">Manage</a>
-						</div>
+					   
+				    	<form action="machines" method="POST">
+				    	 	<div class="d-grid gap-2 col-6 mx-auto">
+				    		 	<button type="submit" class="btn btn-primary" name="machine" value="<%=machines.get(i).getId()%>">Manage</button>
+				    		</div>
+				    	</form>
+						
 					  </div>
 					</div>
 					
