@@ -400,6 +400,29 @@ BEGIN
 END;
 
 
+--Procedure of update Machine (status)
+
+CREATE OR REPLACE PROCEDURE update_machine(
+	machine_id_var IN machine.machine_id%TYPE,
+	status IN machine.machine_status%TYPE,
+	forException OUT machine.machine_id%TYPE
+	) 
+AS
+	UNHANDLED_EXCEPTION_CODE machine.machine_id%TYPE;
+BEGIN
+	UNHANDLED_EXCEPTION_CODE := -1;
+	UPDATE machine SET machine_status=status WHERE machine_id=machine_id_var;
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new machine');
+			forException :=  SQLCODE;	
+END;
+/
+
+
+
+
 
 
 /**********************/

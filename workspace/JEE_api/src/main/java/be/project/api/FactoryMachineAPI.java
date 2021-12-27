@@ -59,7 +59,11 @@ public class FactoryMachineAPI extends CommunAPI  {
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			boolean success=machine.update();
-			return Response.status(Status.NO_CONTENT).build();
+			if(success) {
+				return Response.status(Status.NO_CONTENT).build();
+			}else {
+				return Response.status(Status.SERVICE_UNAVAILABLE).build();
+			}
 		}else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}

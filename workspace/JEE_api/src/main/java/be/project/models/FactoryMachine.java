@@ -82,7 +82,7 @@ public class FactoryMachine extends Machine implements Serializable {
 	public boolean update() {
 		boolean success=false;
 		FactoryMachineDAO fmDAO=new FactoryMachineDAO();
-		fmDAO.update(this);
+		success=fmDAO.update(this);
 		return success;
 	}
 	

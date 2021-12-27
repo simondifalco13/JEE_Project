@@ -37,23 +37,22 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	@Override
 	public boolean update(FactoryMachine obj) {
 		boolean success=false;
+		int exception = -1;
 		try {
-			CallableStatement sql = conn.prepareCall("{call UPDATE_USER(?,?,?,?,?,?)}");
-			
-			//sql.setInt(1, user.getId());
-			
-			//sql.registerOutParameter(6, java.sql.Types.NUMERIC);
+			CallableStatement sql = conn.prepareCall("{call update_machine(?,?,?)}");
+			sql.setInt(1,obj.getId());
+			sql.setString(2,String.valueOf(obj.getOperationState()).toLowerCase());
+			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
 			sql.executeUpdate();
-			
+			exception = sql.getInt(3);
+			System.out.println("Exception : "+exception);
 			sql.close();
+			success=true;
 		}catch(SQLException e) {
 //			Error erreur = Error.SQL_EXCEPTION;
-			e.printStackTrace();
+			return false;
 //			return Response.status(Status.OK).entity(erreur.getJSON()).build();
 		}
-		
-//		String findCreatedUserURI  = this.base_uri+exception;
-//		return Response.status(Status.CREATED).entity("{ \"success\" : true }").header("getUserURI", findCreatedUserURI).build();
 		return success;
 	}
 
