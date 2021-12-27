@@ -1,8 +1,12 @@
 package be.project.dao;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.ws.rs.core.Response;
 
 import be.project.enumerations.ColorCode;
 import be.project.enumerations.MachineType;
@@ -12,6 +16,9 @@ import be.project.models.FactoryMachine;
 import be.project.models.Maintenance;
 import be.project.models.Site;
 import be.project.models.Worker;
+import be.project.utils.Error;
+
+import javax.ws.rs.core.Response.Status;
 
 public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
@@ -29,8 +36,25 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public boolean update(FactoryMachine obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success=false;
+		try {
+			CallableStatement sql = conn.prepareCall("{call UPDATE_USER(?,?,?,?,?,?)}");
+			
+			//sql.setInt(1, user.getId());
+			
+			//sql.registerOutParameter(6, java.sql.Types.NUMERIC);
+			sql.executeUpdate();
+			
+			sql.close();
+		}catch(SQLException e) {
+//			Error erreur = Error.SQL_EXCEPTION;
+			e.printStackTrace();
+//			return Response.status(Status.OK).entity(erreur.getJSON()).build();
+		}
+		
+//		String findCreatedUserURI  = this.base_uri+exception;
+//		return Response.status(Status.CREATED).entity("{ \"success\" : true }").header("getUserURI", findCreatedUserURI).build();
+		return success;
 	}
 
 	@Override

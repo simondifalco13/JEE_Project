@@ -3,7 +3,7 @@
 <%@page import="be.project.javabeans.FactoryMachine" %>
 <%@page import="be.project.enumerations.OperationState" %>
 <%@page import="java.lang.String" %>
-<jsp:useBean id="machine" class="be.project.javabeans.FactoryMachine" scope="request"></jsp:useBean>
+<jsp:useBean id="machineToManage" class="be.project.javabeans.FactoryMachine" scope="session"></jsp:useBean>
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,7 @@
 </head>
 <body>
 	<% OperationState [] states=OperationState.values(); 
-	   OperationState machineState=machine.getOperationState(); 
+	   OperationState machineState=machineToManage.getOperationState();
 	   %>
 	<%!
 	  public static String operationStateToString(OperationState state){
@@ -32,12 +32,12 @@
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
 		<h2>Manage machine </h2>
-		<h4>Machine <%=machine.getId() %> : <%=machine.getModel() %></h4>
+		<h4>Machine <%=machineToManage.getId() %> : <%=machineToManage.getModel() %></h4>
 		<p>You can update the machine operation state : if you choose 'waiting for maintenance' 
 		you'll be redirected to create the maintenance</p>
 		<form action="ManageMachine" method="POST">
 			<label for="selectState">Machine state : </label>
-			<select class="form-select" aria-label="Select a state" id="selectState">
+			<select class="form-select" aria-label="Select a state" id="selectState" name="state">
 			<% for(int i=0;i<states.length;i++){
 				if(states[i]==machineState){%>
 					 <option selected><%=machineState.toString() %></option>

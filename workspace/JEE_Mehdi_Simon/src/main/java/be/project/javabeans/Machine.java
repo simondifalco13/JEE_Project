@@ -65,5 +65,7 @@ public abstract class Machine {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	
 
 }

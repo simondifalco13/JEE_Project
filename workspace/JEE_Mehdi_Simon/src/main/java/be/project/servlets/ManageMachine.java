@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import be.project.enumerations.OperationState;
 import be.project.javabeans.FactoryMachine;
 
 /**
@@ -32,9 +33,6 @@ public class ManageMachine extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
-			FactoryMachine machine=(FactoryMachine) session.getAttribute("machineToManage");
-			session.removeAttribute("machineToManage");
-			request.setAttribute("machine", machine);
 			request.getRequestDispatcher("/WEB-INF/JSP/manageMachine.jsp").forward(request,response);
 
 		}else {
@@ -46,8 +44,22 @@ public class ManageMachine extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		HttpSession session = request.getSession(false);
+		if(session!=null) {
+			FactoryMachine machine=(FactoryMachine) session.getAttribute("machineToManage");
+			String state=request.getParameter("state");
+			if(state!=null) {
+				OperationState machineState=OperationState.valueOf(state);
+				machine.setOperationState(machineState);
+				boolean success=machine.update();
+				if(success) {
+					//redirection sur page de création de maintenance si waiting...
+				}
+			}
+		}else {
+			//redirection sur page d'erreur
+		}
+		
 	}
 
 }
