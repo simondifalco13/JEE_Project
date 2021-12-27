@@ -54,6 +54,7 @@ public class ManageMachine extends HttpServlet {
 				boolean success=machine.update();
 				if(success) {
 					//redirection sur page de création de maintenance si waiting...
+					System.out.println("SUCCESS");
 				}
 			}
 		}else {

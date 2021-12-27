@@ -18,7 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import be.project.dao.DatabaseConnection;
+import be.project.enumerations.OperationState;
 import be.project.models.FactoryMachine;
+import be.project.models.Machine;
 
 @Path("/factory/machine")
 public class FactoryMachineAPI extends CommunAPI  {
@@ -47,10 +49,15 @@ public class FactoryMachineAPI extends CommunAPI  {
 	
 	@PUT
 	@Path("{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateFactoryMachine(@PathParam("id") int id,
-			FactoryMachine machine
-			,@HeaderParam("key") String key) {
+			
+			@FormParam("id") int machine_id,
+			@FormParam("operationState") String operationState,
+			@HeaderParam("key") String key) {
+		FactoryMachine machine=new FactoryMachine();
+		machine.setId(machine_id);
+		machine.setOperationState(OperationState.valueOf(operationState));
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
 			System.out.println(DatabaseConnection.getError().getJSON());

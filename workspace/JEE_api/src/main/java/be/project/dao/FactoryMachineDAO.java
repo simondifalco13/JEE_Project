@@ -45,7 +45,6 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
 			sql.executeUpdate();
 			exception = sql.getInt(3);
-			System.out.println("Exception : "+exception);
 			sql.close();
 			success=true;
 		}catch(SQLException e) {
