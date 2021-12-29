@@ -2,10 +2,12 @@ package be.project.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.sql.CallableStatement;
 import java.sql.Date;
 
 import be.project.enumerations.MachineType;
@@ -22,8 +24,39 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean insert(Maintenance obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success=false;
+		int exception = -1;
+		try {
+			CallableStatement sql = conn.prepareCall("{call xx(?,?,?)}");
+//			sql.setInt(1,obj.getId());
+//			sql.setString(2,String.valueOf(obj.getOperationState()).toLowerCase());
+//			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
+//			sql.executeUpdate();
+//			exception = sql.getInt(3);
+//			sql.close();
+			success=true;
+		}catch(SQLException e) {
+			return false;
+		}
+		return success;
+	}
+	
+	public int insertMaintenance(Maintenance obj) {
+		int createdId=0;
+		int exception = -1;
+		try {
+			CallableStatement sql = conn.prepareCall("{call xx(?,?,?)}");
+			//creer procédure
+//			sql.setInt(1,obj.getId());
+//			sql.setString(2,String.valueOf(obj.getOperationState()).toLowerCase());
+//			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
+//			sql.executeUpdate();
+//			exception = sql.getInt(3);
+//			sql.close();
+		}catch(SQLException e) {
+			return 0;
+		}
+		return createdId;
 	}
 
 	@Override

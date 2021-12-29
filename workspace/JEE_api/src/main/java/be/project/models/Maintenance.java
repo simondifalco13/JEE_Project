@@ -188,4 +188,11 @@ public class Maintenance implements Serializable {
 		return maintenances;
 		
 	}
+	
+	public int insertMaintenance() {
+		boolean success=false;
+		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
+		int createdMaintenanceId=maintenanceDAO.insertMaintenance(this);
+		return createdMaintenanceId;
+	}
 }

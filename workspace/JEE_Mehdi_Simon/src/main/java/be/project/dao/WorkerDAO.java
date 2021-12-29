@@ -85,7 +85,6 @@ public class WorkerDAO implements DAO<Worker> {
 				.get(String.class);
 		ObjectMapper mapper=new ObjectMapper();
 		JSONArray jsonArray=new JSONArray(responseJSON);
-		System.out.println(jsonArray);
 		try {
 			for(int i=0;i<jsonArray.length();i++) {
 				Worker worker=(Worker) mapper.readValue(jsonArray.get(i).toString(), Worker.class);

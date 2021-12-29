@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import be.project.dao.MaintenanceDAO;
 import be.project.enumerations.MaintenanceStatus;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
@@ -240,5 +241,12 @@ public class Maintenance implements Serializable {
 			
 		}
 		return maintenances;
+	}
+	
+	public boolean insertMaintenance() {
+		boolean success=false;
+		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
+		success=maintenanceDAO.insert(this);
+		return success;
 	}
 }

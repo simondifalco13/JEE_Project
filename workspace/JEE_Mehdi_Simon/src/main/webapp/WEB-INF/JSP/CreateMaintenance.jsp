@@ -23,24 +23,45 @@
 		ArrayList<Area> machineAreas=machine.getMachineAreas();
 		for(int i=0;i<machineAreas.size();i++){
 			Site areaSite=machineAreas.get(i).getAreaSite();
-			//TO DO 
+			siteWorkers=areaSite.getSiteWorkers();
 		}
 	%>
 	
 	<div class="container">
+		<% if(request.getAttribute("error")!=null){%>
+			<div class="alert alert-danger" role="alert">
+  				<%= request.getAttribute("error") %>
+			</div>
+		<% } %>
 		<h3 class="text-center">Create a new maintenance for the machine <%=machine.getId() %> : <%=machine.getModel() %></h3>
 		<form method="POST" action="CreateMaintenance">
-			<div class="mb-3">
+			<div class="mb-3 m-2">
 				<label for="date" class="form-label">Date : </label>
 				<input type="date" class="form-control" id="date" name="date">
 			</div>
 			<div class="mb-3">
-				<h6  class="form-label">Select the worker(s) for the maintenance :</h6>
-				<div class="form-check">
-					
+				<label for="start" class="form-label">Select a time to start the maintenance:</label>
+				<input type="time" id="start" name="start" class="form-control">
+			</div>
+			<div class="mb-3">
+				<h5 class="form-label">Select the worker(s) for the maintenance :</h5>
+				<div class="form-check ">
+					<%for(int j=0;j<siteWorkers.size();j++){%>
+						<div class="form-check">
+						  <input class="form-check-input" type="checkbox" value="<%=siteWorkers.get(j).getSerialNumber() %>" id="check" name="worker">
+						  <label class="form-check-label" for="check">
+						    <%=siteWorkers.get(j).getFirstname() %>  <%=siteWorkers.get(j).getLastname() %> 
+						  </label>
+						</div>
+					<%}%>
 				</div>
 			</div>
-			
+			<div class="d-grid gap-2 col-6 mx-auto m-2">
+				  <button type="submit" class="btn btn-primary">Validate</button>
+			</div>
+			<div class="d-grid gap-2 col-6 mx-auto m-2">
+				  <a href="machines" class="btn btn-primary">Cancel</a>
+			</div>
 		</form>
 	</div>
 </body>

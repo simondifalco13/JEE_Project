@@ -101,11 +101,7 @@ public class AuthenticationServlet extends HttpServlet {
 							response.sendRedirect("machines");
 						}
 						
-						//url avec sessionID 
-						//redirection
-						//RequestDispatcher requestDispatcher=request.getRequestDispatcher("HomeServlet");
-						//requestDispatcher.forward(request, response);
-						
+	
 					}
 				}else {
 					errors+="Identifiant ou mot de passe incorect";
