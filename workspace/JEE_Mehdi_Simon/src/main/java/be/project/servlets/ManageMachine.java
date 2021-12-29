@@ -55,6 +55,7 @@ public class ManageMachine extends HttpServlet {
 				if(success) {
 					//redirection sur page de création de maintenance si waiting...
 					if(machineState==OperationState.waitingForMaintenance) {
+						session.setAttribute("machine", machine);
 						response.sendRedirect("CreateMaintenance");
 					}else {
 						response.sendRedirect("machines");

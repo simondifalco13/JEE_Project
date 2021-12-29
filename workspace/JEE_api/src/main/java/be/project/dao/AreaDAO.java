@@ -93,5 +93,27 @@ public class AreaDAO implements DAO<Area> {
 		return areas;
 	}
 	
+	public ArrayList<Area> getSiteAreas(int siteId){
+		ArrayList<Area> areas = new ArrayList<Area>();
+		int area_id;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT DISTINCT areas_id FROM site "
+					+ "LEFT JOIN areas ON areas.site_id=site.site_id "
+					+ "WHERE site.site_id=?"
+					);
+			preparedStatement.setInt(1, siteId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				area_id=resultSet.getInt("areas_id");
+				Area area=Area.getArea(area_id);
+				areas.add(area);
+			}
+		} catch (Exception e) {
+			System.out.println("[AREADAO]: "+e.getMessage());
+		}
+		return areas;
+	}
+	
 
 }

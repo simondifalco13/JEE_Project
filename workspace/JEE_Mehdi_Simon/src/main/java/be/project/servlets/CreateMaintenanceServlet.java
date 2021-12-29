@@ -6,6 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import be.project.javabeans.FactoryMachine;
+import be.project.javabeans.Leader;
 
 /**
  * Servlet implementation class CreateMaintenanceServlet
@@ -27,7 +31,12 @@ public class CreateMaintenanceServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/JSP/CreateMaintenance.jsp").forward(request,response);
+		HttpSession session = request.getSession(false);
+		if(session!=null) {
+			request.getRequestDispatcher("/WEB-INF/JSP/CreateMaintenance.jsp").forward(request,response);
+		}else {
+			//redirection sur page d'erreur
+		}
 
 	}
 

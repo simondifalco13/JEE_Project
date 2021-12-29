@@ -67,8 +67,7 @@ public class MachineServlet extends HttpServlet {
 		}else {
 			//redirection sur page d'erreur
 		}
-    	
-		//recuperer Machines 
+
 		
 	}
 

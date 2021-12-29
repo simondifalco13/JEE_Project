@@ -104,5 +104,24 @@ public class WorkerDAO implements DAO<Worker> {
 		}
 		return workers;
 	}
+	
+	public ArrayList<Worker> findSiteWorker(int siteId){
+		ArrayList<Worker> workers=new ArrayList<Worker>();
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+				"SELECT DISTINCT worker_id FROM site LEFT JOIN worker ON worker.site_id=site.site_id WHERE site.site_id=?");
+			preparedStatement.setInt(1, siteId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				int workerId=resultSet.getInt("worker_id");
+				Worker worker=find(workerId);
+				workers.add(worker);
+			}
+	
+		} catch (Exception e) {
+			System.out.println("WORKERDAO :"+e.getMessage());
+		}
+		return workers;
+	}
 
 }

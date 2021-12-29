@@ -85,5 +85,27 @@ public class LeaderDAO implements DAO<Leader> {
 		}
 		return false;
 	}
+	
+	public ArrayList<Leader> getSiteLeaders(int siteId){
+		ArrayList<Leader> leaders=new ArrayList<Leader>();
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT DISTINCT leader_id "
+					+ "FROM site LEFT JOIN leader ON leader.site_id=site.site_id "
+					+ "WHERE site.site_id=?"
+					);
+			preparedStatement.setInt(1, siteId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				int leaderId=resultSet.getInt("leader_id");
+				Leader leader=Leader.getLeader(leaderId);
+				leaders.add(leader);
+			}
+	
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return leaders;
+	}
 
 }

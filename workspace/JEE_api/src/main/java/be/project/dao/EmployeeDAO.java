@@ -84,5 +84,26 @@ public class EmployeeDAO implements DAO<Employee> {
 		}
 		return false;
 	}
+	
+	public ArrayList<Employee> getSiteEmployees(int siteId){
+		ArrayList<Employee> employees=new ArrayList<Employee>();
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT DISTINCT employee_id FROM site "
+					+ "LEFT JOIN factory_employee ON factory_employee.site_id=site.site_id "
+					+ "WHERE site.site_id=?"
+					);
+			preparedStatement.setInt(1, siteId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				int employee_id=resultSet.getInt("employee_id");
+				Employee emp=Employee.getEmployee(employee_id);
+				employees.add(emp);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return employees;
+	}
 
 }
