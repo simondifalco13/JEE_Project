@@ -63,6 +63,10 @@
   	<servlet-name>ManageMachine</servlet-name>
   	<servlet-class>be.project.servlets.ManageMachine</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>CreateMaintenance</servlet-name>
+  	<servlet-class>be.project.servlets.CreateMaintenanceServlet</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -82,6 +86,10 @@
   <servlet-mapping>
   	<servlet-name>ManageMachine</servlet-name>
   	<url-pattern>/ManageMachine</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateMaintenance</servlet-name>
+  	<url-pattern>/CreateMaintenance</url-pattern>
   </servlet-mapping>
 	
 

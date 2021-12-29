@@ -35,7 +35,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	}
 
 	@Override
-	public boolean update(FactoryMachine obj) {
+	public boolean update(FactoryMachine obj)  {
 		boolean success=false;
 		int exception = -1;
 		try {
@@ -100,7 +100,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				machineId=resultSet.getInt("machine_id");
 				type=MachineType.valueOf(resultSet.getString("machine_type"));
 				site_id=resultSet.getInt("site_id");
-				status=OperationState.valueOf(resultSet.getString("machine_status"));
+				status=FactoryMachine.getOperationStateFromString(resultSet.getString("machine_status"));
 				model=resultSet.getString("model");
 				brand=resultSet.getString("brand");
 				description=resultSet.getString("description");

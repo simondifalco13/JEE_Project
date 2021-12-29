@@ -86,6 +86,19 @@ public class FactoryMachine extends Machine implements Serializable {
 		return success;
 	}
 	
+	public static OperationState getOperationStateFromString(String state) {
+		if(state.equals("waitingformaintenance")){
+			return OperationState.waitingForMaintenance;
+		}
+		if(state.equals("toreplace")) {
+			
+			return OperationState.toReplace;
+		}
+		else {
+			return OperationState.valueOf(state);
+		}
+	}
+	
 
 
 }

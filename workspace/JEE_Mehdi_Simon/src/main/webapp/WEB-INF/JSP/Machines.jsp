@@ -5,10 +5,12 @@
 <%@page import="be.project.javabeans.Area" %>
 <%@page import="be.project.javabeans.Maintenance" %>
 <%@page import="be.project.javabeans.Leader" %>
+<%@page import="be.project.enumerations.OperationState" %>
 <%@page import="be.project.javabeans.Worker" %>
 <%@page import="java.text.SimpleDateFormat" %>
 <%@page import="java.util.Date" %>
 <%@page import="java.util.ArrayList" %>
+<%@page import="java.lang.String" %>
 <jsp:useBean id="connectedUser" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
 
 <!DOCTYPE html>
@@ -20,6 +22,19 @@
 </head>
 <body>
 	<% ArrayList<FactoryMachine> machines=(ArrayList<FactoryMachine>)request.getAttribute("machines");
+	
+	%>
+	<%!
+		public static String operationStateInStringFormat(OperationState state){
+			switch(state){
+				case waitingForMaintenance:
+					return "waiting for maintenance";
+				case toReplace:
+					return "to replace";
+				default: 
+					return state.toString();
+			}
+		}
 	%>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
@@ -40,7 +55,7 @@
 					    	} %>
 					    </p>
 					    <p class="card-text">
-					    	<b>Status</b> : <%=machines.get(i).getOperationState() %>
+					    	<b>Status</b> : <%= operationStateInStringFormat(machines.get(i).getOperationState()) %>
 					    	<br>
 					    	
 					    </p>
