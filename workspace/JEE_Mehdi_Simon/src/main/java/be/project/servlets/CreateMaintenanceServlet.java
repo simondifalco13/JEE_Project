@@ -1,6 +1,8 @@
 package be.project.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import be.project.javabeans.Area;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
+import be.project.javabeans.Site;
+import be.project.javabeans.Worker;
 
 /**
  * Servlet implementation class CreateMaintenanceServlet
@@ -33,6 +38,15 @@ public class CreateMaintenanceServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
+			FactoryMachine machine=(FactoryMachine) session.getAttribute("machine");
+			ArrayList<Area> machineAreas=machine.getMachineAreas();
+			for(int i=0;i<machineAreas.size();i++) {
+				Site areasSite=machineAreas.get(i).getAreaSite();
+				areasSite.setSiteWorkers(Worker.findSiteWorker(areasSite));
+				machineAreas.get(i).setAreaSite(areasSite);
+			}
+			machine.setMachineAreas(machineAreas);
+			session.setAttribute("machine", machine);
 			request.getRequestDispatcher("/WEB-INF/JSP/CreateMaintenance.jsp").forward(request,response);
 		}else {
 			//redirection sur page d'erreur

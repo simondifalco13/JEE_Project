@@ -61,5 +61,11 @@ public class Worker extends User implements Serializable {
 		workers=workerDAO.getMaintenanceWorker(maintenanceId);
 		return workers;
 	}
+	
+	public static ArrayList<Worker> getSiteWorkers(int siteId){
+		ArrayList<Worker> workers=new WorkerDAO().findSiteWorker(siteId);
+		return workers;
+		
+	}
 
 }

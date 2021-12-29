@@ -1,5 +1,6 @@
 SET serveroutput ON
-
+--QUESTIONS
+EST CE QUE LIENS ENTRE MACHINE ET SITE ? 
 /*********SUPPRESSION DES TABLES AVANT CREATION*********/
 DROP TABLE machine_areas;
 DROP TABLE worker_maintenance;

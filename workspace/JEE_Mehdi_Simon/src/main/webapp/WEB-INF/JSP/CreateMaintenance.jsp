@@ -3,6 +3,10 @@
 <%@page import="be.project.javabeans.FactoryMachine" %>
 <%@page import="be.project.javabeans.Maintenance" %>
 <%@page import="be.project.javabeans.Worker" %>
+<%@page import="be.project.javabeans.Area" %>
+<%@page import="be.project.javabeans.Site" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.lang.String" %>
 <jsp:useBean id="connectedUser" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
 <jsp:useBean id="machine" class="be.project.javabeans.FactoryMachine" scope="session"></jsp:useBean>
 
@@ -15,6 +19,14 @@
 </head>
 <body>
 	<%@ include file="Navbar.jsp" %>
+	<% ArrayList<Worker> siteWorkers=new ArrayList<Worker>(); 
+		ArrayList<Area> machineAreas=machine.getMachineAreas();
+		for(int i=0;i<machineAreas.size();i++){
+			Site areaSite=machineAreas.get(i).getAreaSite();
+			//TO DO 
+		}
+	%>
+	
 	<div class="container">
 		<h3 class="text-center">Create a new maintenance for the machine <%=machine.getId() %> : <%=machine.getModel() %></h3>
 		<form method="POST" action="CreateMaintenance">
