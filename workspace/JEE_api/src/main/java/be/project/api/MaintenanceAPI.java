@@ -40,9 +40,9 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("date_m") String date,
 			@FormParam("start_m") String start,
 			@FormParam("status") String status,
-			@FormParam("leaderId") int leaderId,
+			@FormParam("leaderId") String leaderId,
 			@FormParam("workers") String workers,
-			@FormParam("machineId") int machineId,
+			@FormParam("machineId") String machineId,
 			@HeaderParam("key") String key) 
 	{
 		Connection conn=DatabaseConnection.getInstance();
@@ -61,18 +61,20 @@ public class MaintenanceAPI extends CommunAPI {
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
 			try {
+				int idLeader=Integer.valueOf(leaderId);
+				int idMachine=Integer.valueOf(machineId);
 				Date maintenanceDate = dateFormat.parse(date);
 				LocalTime localTime = LocalTime.parse(start, timeformat);
 				MaintenanceStatus maintenanceStatus=MaintenanceStatus.valueOf(status);
 				Leader leader=new Leader();
-				leader.setSerialNumber(leaderId);
+				leader.setSerialNumber(idLeader);
 				for(int j=0;j<workersId.length;j++) {
 					Worker worker=new Worker();
 					worker.setSerialNumber(workersId[j]);
 					maintenanceWorkers.add(worker);
 				}
 				FactoryMachine machine=new FactoryMachine();
-				machine.setId(machineId);
+				machine.setId(idMachine);
 				Maintenance maintenance=new Maintenance(maintenanceDate,
 						localTime,machine,
 						maintenanceStatus,maintenanceWorkers,leader);

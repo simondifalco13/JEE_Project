@@ -74,11 +74,10 @@ public class CreateMaintenanceServlet extends HttpServlet {
 			String inputDate= request.getParameter("date");
 			String inputStartTime=request.getParameter("start");
 			String[] inputWorkers=request.getParameterValues("worker");
-			System.out.println("DATE : "+inputDate+ " ; start at = "+inputStartTime
-					+" workers : "+inputWorkers[0]+" et "+inputWorkers[1]);
+					
 			ArrayList<Worker> workers=new ArrayList<Worker>();
 			MaintenanceStatus status=MaintenanceStatus.todo;
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
 
 			try {
@@ -95,6 +94,7 @@ public class CreateMaintenanceServlet extends HttpServlet {
 				boolean success=maintenance.insertMaintenance();
 				if(success) {
 					//redirection sur la page machine et pop up  
+					System.out.println("SUCCESS");
 				}
 ;
 				
