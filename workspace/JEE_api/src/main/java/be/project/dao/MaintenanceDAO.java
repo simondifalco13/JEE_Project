@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.CallableStatement;
@@ -28,12 +32,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		int exception = -1;
 		try {
 			CallableStatement sql = conn.prepareCall("{call xx(?,?,?)}");
-//			sql.setInt(1,obj.getId());
-//			sql.setString(2,String.valueOf(obj.getOperationState()).toLowerCase());
-//			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
-//			sql.executeUpdate();
-//			exception = sql.getInt(3);
-//			sql.close();
+
 			success=true;
 		}catch(SQLException e) {
 			return false;
@@ -44,16 +43,44 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	public int insertMaintenance(Maintenance obj) {
 		int createdId=0;
 		int exception = -1;
+		LocalDate maintenanceDate=obj.getMaintenanceDate()
+				.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+		LocalDateTime start= LocalDateTime.of(maintenanceDate, obj.getStartTime());
 		try {
-			CallableStatement sql = conn.prepareCall("{call xx(?,?,?)}");
-			//creer procédure
-//			sql.setInt(1,obj.getId());
-//			sql.setString(2,String.valueOf(obj.getOperationState()).toLowerCase());
-//			sql.registerOutParameter(3, java.sql.Types.NUMERIC);
-//			sql.executeUpdate();
-//			exception = sql.getInt(3);
-//			sql.close();
+			CallableStatement sql = conn.prepareCall("{call insert_maintenance(?,?,?,?,?,?,?,?)}");
+			sql.setDate(1, new java.sql.Date(obj.getMaintenanceDate().getTime()));
+			sql.setString(2, obj.getStatus().toString());
+			sql.setInt(3, obj.getMachine().getId());
+			sql.setInt(4,obj.getMaintenanceLeader().getSerialNumber());
+			sql.setTimestamp(5,Timestamp.valueOf(start));
+			sql.setTimestamp(6,null);
+			sql.registerOutParameter(7, java.sql.Types.NUMERIC);
+			sql.registerOutParameter(8, java.sql.Types.NUMERIC);
+			sql.executeUpdate();
+			createdId = sql.getInt(7);
+			exception=sql.getInt(8);
+			sql.close();
+			if(exception!=0) {
+				return createdId;
+			}else {
+				if(createdId!=0) {
+					for(Worker worker : obj.getMaintenanceWorkers()) {
+						CallableStatement sql2 = conn.prepareCall("{call insert_worker_maintenance(?,?,?,?)}");
+						sql2.setInt(1, worker.getSerialNumber());
+						sql2.setInt(2,createdId);
+						sql2.setString(3,null);
+						sql2.registerOutParameter(4, java.sql.Types.NUMERIC);
+						sql2.executeUpdate();
+						exception=sql2.getInt(4);
+						sql2.close();
+					}
+					return createdId;
+				}
+			}
 		}catch(SQLException e) {
+			System.out.println(e.getMessage());
 			return 0;
 		}
 		return createdId;

@@ -80,15 +80,20 @@ public class MaintenanceAPI extends CommunAPI {
 				int maintenanceId=maintenance.insertMaintenance();
 				if(maintenanceId!=0) {
 					String baseURI=getBaseUri();
-					
+					String fullURI=baseURI+"/maintenance/"+maintenanceId;
+					return Response
+							.status(Status.CREATED)
+							.header("Location", fullURI)
+							.build();
+				}else {
+					return Response.status(Status.SERVICE_UNAVAILABLE).build();
 				}
-				return Response.status(Status.CREATED).build();
 		
 			} catch (ParseException e) {
 				System.out.println(e.getMessage());
 				Error error=Error.UNVALID_DATA_IN_REQ;
 				error.setDescription("Some data are not in the right format");
-				return Response.status(Status.BAD_REQUEST).entity(error.getJSON()).build();
+				return Response.status(Status.UNSUPPORTED_MEDIA_TYPE).entity(error.getJSON()).build();
 			}
 		}else {
 			return Response.status(Status.UNAUTHORIZED).build();
@@ -96,5 +101,7 @@ public class MaintenanceAPI extends CommunAPI {
 		
 		
 	}
+	
+	//getMaintenance
 
 }

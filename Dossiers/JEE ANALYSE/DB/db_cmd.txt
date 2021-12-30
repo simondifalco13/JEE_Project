@@ -1,6 +1,7 @@
 SET serveroutput ON
 --QUESTIONS
 EST CE QUE LIENS ENTRE MACHINE ET SITE ? 
+
 /*********SUPPRESSION DES TABLES AVANT CREATION*********/
 DROP TABLE machine_areas;
 DROP TABLE worker_maintenance;
@@ -297,13 +298,10 @@ BEGIN
   FROM dual;
 END;
 
+/*----CREATION DE TYPES NECESSAIRES----*/
+CREATE OR REPLACE TYPE TYPE_TAB_WOR IS TABLE OF worker.worker_id%TYPE INDEX BY BINARY_INTEGER; 
 
-
-
-
-
-
-/*-------INSERTIONS-----*/
+/*-------INSERTIONS (TO UPDATE) -----*/
 INSERT INTO site(city,address) VALUES('Charleroi','Chaussee de marcinelle');
 
 INSERT INTO areas(section,dangerousness,site_id) VALUES ('A','green',1);
@@ -440,7 +438,8 @@ CREATE OR REPLACE PROCEDURE insert_maintenance(
 	leader_id IN leader.leader_id%TYPE ,
 	maintenance_start IN maintenance.maintenance_start%TYPE,
 	maintenance_end IN maintenance.maintenance_end%TYPE,
-	created_maintenance_id OUT maintenance.maintenance_id%TYPE) 
+	created_maintenance_id OUT maintenance.maintenance_id%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE) 
 AS
 	ex_date_format exception;
   	pragma exception_init(ex_date_format, -1843);
@@ -452,8 +451,10 @@ BEGIN
 	EXCEPTION
 		WHEN ex_date_format THEN 
 			DBMS_OUTPUT.PUT_lINE('Date not valid : neeed DD-MM-YYYY format');
+			forException := SQLCODE;
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new maintenance');	
+			forException := SQLCODE;
 	
 END;
 
@@ -464,7 +465,8 @@ END;
 CREATE OR REPLACE PROCEDURE insert_worker_maintenance(
 	worker_id IN worker.worker_id%TYPE,
 	maintenance_id IN maintenance.maintenance_id%TYPE,
-	report IN worker_maintenance.report%TYPE  ) 
+	report IN worker_maintenance.report%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE  ) 
 AS
 BEGIN
 	INSERT INTO worker_maintenance (worker_id,maintenance_id,report) 
@@ -472,11 +474,12 @@ BEGIN
 	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 
-			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');	
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+			forException := SQLCODE; 	
 	
 END;
 
---Procedure of updating maintenance
+--Procedure of updating maintenance (ADD start time , end time ) 
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
 	maintenance_id IN maintenance.maintenance_id%TYPE
