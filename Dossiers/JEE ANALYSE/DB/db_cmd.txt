@@ -1,6 +1,6 @@
 SET serveroutput ON
 --QUESTIONS
-EST CE QUE LIENS ENTRE MACHINE ET SITE ? 
+
 
 /*********SUPPRESSION DES TABLES AVANT CREATION*********/
 DROP TABLE machine_areas;
@@ -482,13 +482,17 @@ END;
 --Procedure of updating maintenance (ADD start time , end time ) 
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
-	maintenance_id IN maintenance.maintenance_id%TYPE
+	maintenance_id IN maintenance.maintenance_id%TYPE,
+	start_t IN maintenance.maintenance_start%TYPE,
+	end_t IN maintenance.maintenance_end%TYPE,
 	status IN maintenance.maintenance_status%TYPE
-	duration IN maintenance.duration%TYPE)
+	)
+AS
 BEGIN
 	UPDATE maintenance 
 	SET maintenance_status=status,
-	duration=duration
+	maintenance_start=start_t,
+	maintenance_end=end_t
 	WHERE maintenance_id=maintenance_id;
 	EXCEPTION 
 		WHEN OTHERS THEN 
