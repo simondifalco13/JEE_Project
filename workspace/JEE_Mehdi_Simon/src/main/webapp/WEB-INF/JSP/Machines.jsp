@@ -6,11 +6,13 @@
 <%@page import="be.project.javabeans.Maintenance" %>
 <%@page import="be.project.javabeans.Leader" %>
 <%@page import="be.project.enumerations.OperationState" %>
+<%@page import="be.project.enumerations.MaintenanceStatus" %>
 <%@page import="be.project.javabeans.Worker" %>
 <%@page import="java.text.SimpleDateFormat" %>
 <%@page import="java.util.Date" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.lang.String" %>
+<%@page import="java.time.format.DateTimeFormatter" %>
 <jsp:useBean id="connectedUser" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
 
 <!DOCTYPE html>
@@ -35,6 +37,19 @@
 					return state.toString();
 			}
 		}
+	
+		public static String maintenanceStatusInStringFormat(MaintenanceStatus state){
+			switch(state){
+				case todo:
+					return "to do";
+				case toredo:
+					return "to redo";
+				default: 
+					return state.toString();
+			}
+		}
+		
+		 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 	%>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
@@ -80,17 +95,17 @@
 					    		Maintenance currentMaintenance=machines.get(i).getMachineMaintenances().get(k);
 					    		SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 					    		%>
-					    			<div class="border border-primary p-2">
+					    			<div class="border border-primary p-2 m-2">
 					    			 	<h5 class="text-center"><b>Maintenance <%=currentMaintenance.getMaintenanceId() %></b></h5>
-					    				<b>Status :</b> <%=currentMaintenance.getStatus() %><br>
+					    				<b>Status :</b> <%=maintenanceStatusInStringFormat(currentMaintenance.getStatus())%><br>
 					    				<b>Date :</b> <%=DateFor.format(currentMaintenance.getMaintenanceDate()) %> <br>
-					    				Started at <%=currentMaintenance.getStartTime() %> <br>
+					    				<b>Start :</b> <%=currentMaintenance.getStartTime().format(dateTimeFormatter) %> <br>
 					    				<% if(currentMaintenance.getEndTime()!=null){ %>
-					    					Ended at <%=currentMaintenance.getStartTime() %> <br>
-					    					Duration : <%=currentMaintenance.getDuration() %> <br>
+					    					<b>End : </b> <%=currentMaintenance.getStartTime().format(dateTimeFormatter) %> <br>
+					    					<b>Duration : </b><%=currentMaintenance.getDuration() %> <br>
 					    				<%}%>
 					    				Supervised by <%=currentMaintenance.getMaintenanceLeader().getLastname()%> <%=currentMaintenance.getMaintenanceLeader().getFirstname()%>  (serial number : <%=currentMaintenance.getMaintenanceLeader().getSerialNumber()%>)<br>
-					    				Worker(s) : 
+					    				<b>Worker(s) : </b>
 					    				<% if(currentMaintenance.getMaintenanceWorkers().size()>0){%>
 											<ul>
 						    					<%for(int m=0;m<currentMaintenance.getMaintenanceWorkers().size();m++){

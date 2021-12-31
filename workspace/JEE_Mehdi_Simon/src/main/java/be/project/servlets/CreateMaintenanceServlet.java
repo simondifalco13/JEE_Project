@@ -79,27 +79,45 @@ public class CreateMaintenanceServlet extends HttpServlet {
 			MaintenanceStatus status=MaintenanceStatus.todo;
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
-
+			Date maintenanceDate = null;
+			LocalTime localTime = null;
 			try {
-				Date maintenanceDate = dateFormat.parse(inputDate);
-				LocalTime localTime = LocalTime.parse(inputStartTime, timeformat);
-				for(int i=0;i<inputWorkers.length;i++) {
-					Worker worker=new Worker();
-					int workerId=Integer.valueOf(inputWorkers[i]);
-					worker.setSerialNumber(workerId);
-					workers.add(worker);
+				if(inputDate!=null && !inputDate.equals("")) {
+					maintenanceDate = dateFormat.parse(inputDate);
+					if(maintenanceDate.compareTo(new Date())<0) {
+						errors+="Please enter a correct date : today or future days.<br>";
+					}
+				}else {
+					errors+="Please select a date.<br>";
 				}
-				//verification de validité des champs
-				Maintenance maintenance=new Maintenance(maintenanceDate,localTime,machine,status,workers,leader);
-				boolean success=maintenance.insertMaintenance();
-				if(success) {
-					//redirection sur la page machine et pop up  
-					System.out.println("SUCCESS");
+				
+				if(inputStartTime!=null && !inputStartTime.equals("")) {
+					localTime = LocalTime.parse(inputStartTime, timeformat);
+				}else {
+					errors+="Please select an hour.<br>";
 				}
-;
+				
+				if(inputWorkers==null) {
+					errors+="Please select at least one worker.<br>";
+				}else {
+					for(int i=0;i<inputWorkers.length;i++) {
+						Worker worker=new Worker();
+						int workerId=Integer.valueOf(inputWorkers[i]);
+						worker.setSerialNumber(workerId);
+						workers.add(worker);
+					}
+				}
+
+				if(errors.equals("")) {
+					Maintenance maintenance=new Maintenance(maintenanceDate,localTime,machine,status,workers,leader);
+					boolean success=maintenance.insertMaintenance();
+					if(success) {
+						response.sendRedirect("machines");
+					}
+				}
 				
 			} catch (ParseException e) {
-				errors+="Select a correct date and a correct hour.";
+				errors+="Select a correct date and a correct hour.<br>";
 			}
 			
 			if(!errors.isEmpty()) {

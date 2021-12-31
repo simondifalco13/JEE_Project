@@ -67,6 +67,10 @@
   	<servlet-name>CreateMaintenance</servlet-name>
   	<servlet-class>be.project.servlets.CreateMaintenanceServlet</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>ConsultMaintenance</servlet-name>
+  	<servlet-class>be.project.servlets.ConsultMaintenanceServlet</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -90,6 +94,10 @@
   <servlet-mapping>
   	<servlet-name>CreateMaintenance</servlet-name>
   	<url-pattern>/CreateMaintenance</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ConsultMaintenance</servlet-name>
+  	<url-pattern>/ConsultMaintenance</url-pattern>
   </servlet-mapping>
 	
 

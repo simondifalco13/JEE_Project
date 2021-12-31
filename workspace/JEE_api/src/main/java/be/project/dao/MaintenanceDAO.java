@@ -63,7 +63,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			exception=sql.getInt(8);
 			sql.close();
 			if(exception!=0) {
-				return createdId;
+				return 0;
 			}else {
 				if(createdId!=0) {
 					for(Worker worker : obj.getMaintenanceWorkers()) {

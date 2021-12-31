@@ -18,6 +18,7 @@ import be.project.enumerations.OperationState;
 import be.project.javabeans.Employee;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
+import be.project.javabeans.Maintenance;
 import be.project.javabeans.Site;
 
 /**
@@ -57,7 +58,6 @@ public class MachineServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
@@ -75,26 +75,50 @@ public class MachineServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(!request.getParameter("machine").equals("") && !request.getParameter("machine").isEmpty()) {
-			int machineToManageId=Integer.valueOf(request.getParameter("machine"));
-			 FactoryMachine machineToManage=new FactoryMachine();
-			 for(int i=0;i<machines.size();i++) {
-				 if(machines.get(i).getId()==machineToManageId) {
-					 machineToManage=machines.get(i);
+		if(request.getParameter("machine")!=null) {
+			if(!request.getParameter("machine").equals("") && !request.getParameter("machine").isEmpty()) {
+				int machineToManageId=Integer.valueOf(request.getParameter("machine"));
+				 FactoryMachine machineToManage=new FactoryMachine();
+				 for(int i=0;i<machines.size();i++) {
+					 if(machines.get(i).getId()==machineToManageId) {
+						 machineToManage=machines.get(i);
+					 }
 				 }
-			 }
-			 HttpSession session = request.getSession(false);
-			 if(session!=null) {
-				 session.setAttribute("machineToManage", machineToManage);
-				 response.sendRedirect("ManageMachine");
-			 }else {
-				 //redirection sur page d'erreur
-			 }
-			 
+				 HttpSession session = request.getSession(false);
+				 if(session!=null) {
+					 session.setAttribute("machineToManage", machineToManage);
+					 response.sendRedirect("ManageMachine");
+				 }else {
+					 //redirection sur page d'erreur
+				 }
+			}
 		}
-//		if(!request.getParameter("maintenance").equals("") && !request.getParameter("maintenance").isEmpty()) {
-//			//rediriger vers la bonne servlet.
-//		}
+		if(request.getParameter("maintenance")!=null) {
+			if(!request.getParameter("maintenance").equals("") && !request.getParameter("maintenance").isEmpty()) {
+				int maintenanceId=Integer.valueOf(request.getParameter("maintenance"));
+				Maintenance maintenanceToConsult = null;
+				for(int i=0;i<machines.size();i++) {
+					FactoryMachine currentMachine=machines.get(i);
+					for(int j=0;j<currentMachine.getMachineMaintenances().size();j++) {
+						if(currentMachine.getMachineMaintenances().get(j).getMaintenanceId()==maintenanceId) {
+							maintenanceToConsult=currentMachine.getMachineMaintenances().get(j);
+						}
+					}
+				}
+				HttpSession session = request.getSession(false);
+				 if(session!=null) {
+					 if(maintenanceToConsult!=null) {
+						 session.setAttribute("maintenance", maintenanceToConsult);
+						 response.sendRedirect("ConsultMaintenance");
+					 }else {
+						 doGet(request,response);
+					 }
+				 }else {
+					 //redirection sur page d'erreur
+				 }
+			}
+		}
+		
 	}
 
 }

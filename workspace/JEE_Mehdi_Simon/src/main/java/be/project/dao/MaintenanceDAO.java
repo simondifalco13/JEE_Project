@@ -57,11 +57,9 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				.path("maintenance")
 				.path("create")
 				.header("key",key)
-				.put(ClientResponse.class,parameters)
+				.post(ClientResponse.class,parameters)
 				;
-		//erreur 405 ?? 
 		int httpResponseCode=res.getStatus();
-		System.out.println("RES "+httpResponseCode);
 		if(httpResponseCode == 201) {
 			success=true;
 		}
