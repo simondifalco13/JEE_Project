@@ -35,7 +35,6 @@ public class ConsultMaintenanceServlet extends HttpServlet {
 		if(session!=null) {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
 			Maintenance maintenance=(Maintenance) session.getAttribute("maintenance");
-			session.removeAttribute("maintenance");
 			request.setAttribute("maintenance", maintenance);
 			request.getRequestDispatcher("/WEB-INF/JSP/ConsultMaintenance.jsp").forward(request,response);
 		}else {
@@ -48,7 +47,20 @@ public class ConsultMaintenanceServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//UPDATE MAINTENANCE STATUS + METTRE MAINTENANCE EN GLOBAL. 
-		doGet(request, response);
+		HttpSession session = request.getSession(false);
+		if(session!=null) {
+			Leader leader=(Leader) session.getAttribute("connectedUser");
+			Maintenance maintenance=(Maintenance) session.getAttribute("maintenance");
+			session.removeAttribute("maintenance");
+			if(request.getAttribute("maintenance")!=null) {
+				int maintenanceId= (int) request.getAttribute("maintenance");
+				if(maintenanceId==maintenance.getMaintenanceId()) {
+					//redirige vers page d'update
+				}
+			}
+		}else {
+			//redirection sur page d'erreur
+		}
 	}
 
 }
