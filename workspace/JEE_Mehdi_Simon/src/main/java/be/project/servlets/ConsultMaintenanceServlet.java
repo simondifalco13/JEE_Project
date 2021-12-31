@@ -52,12 +52,14 @@ public class ConsultMaintenanceServlet extends HttpServlet {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
 			Maintenance maintenance=(Maintenance) session.getAttribute("maintenance");
 			session.removeAttribute("maintenance");
-			if(request.getAttribute("maintenance")!=null) {
-				int maintenanceId= (int) request.getAttribute("maintenance");
+			if(request.getParameter("maintenance")!=null) {
+				int maintenanceId= Integer.valueOf(request.getParameter("maintenance"));
 				if(maintenanceId==maintenance.getMaintenanceId()) {
-					//redirige vers page d'update
+					//redirection sur page d'update
 				}
+				
 			}
+			
 		}else {
 			//redirection sur page d'erreur
 		}

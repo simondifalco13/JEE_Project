@@ -80,11 +80,15 @@
 		  		no reports created yet;
 		  	<%}%>
 		</div>	
-		<form action="ConsultMaintenanceServlet" method="POST">
-    	 	<div class="d-grid gap-2 col-6 mx-auto">
+		<form action="ConsultMaintenance" method="POST">
+    	 	<div class="d-grid gap-2 col-6 mx-auto m-2">
     		 	<button type="submit" class="btn btn-primary" name="maintenance" value="<%=maintenance.getMaintenanceId()%>">Modify status</button>
     		</div>
 		</form>
+		<div class="d-grid gap-2 col-6 mx-auto m-4">
+    		 	<a href="machines" class="btn btn-primary">Cancel</a>
+    	</div>
+		
 	</div>
 </body>
 </html>
