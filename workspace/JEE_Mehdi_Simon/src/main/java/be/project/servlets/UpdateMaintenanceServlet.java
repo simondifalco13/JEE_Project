@@ -8,21 +8,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import be.project.enumerations.MaintenanceStatus;
+import be.project.enumerations.OperationState;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
 import be.project.javabeans.Maintenance;
 
 /**
- * Servlet implementation class ConsultMaintenanceServlet
+ * Servlet implementation class UpdateMaintenanceServlet
  */
 
-public class ConsultMaintenanceServlet extends HttpServlet {
+public class UpdateMaintenanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ConsultMaintenanceServlet() {
+    public UpdateMaintenanceServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +35,9 @@ public class ConsultMaintenanceServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
-			Leader leader=(Leader) session.getAttribute("connectedUser");
 			Maintenance maintenance=(Maintenance) session.getAttribute("maintenance");
 			request.setAttribute("maintenance", maintenance);
-			request.getRequestDispatcher("/WEB-INF/JSP/ConsultMaintenance.jsp").forward(request,response);
+			request.getRequestDispatcher("/WEB-INF/JSP/UpdateMaintenance.jsp").forward(request,response);
 		}else {
 			//redirection sur page d'erreur
 		}
@@ -46,22 +47,19 @@ public class ConsultMaintenanceServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//UPDATE MAINTENANCE STATUS + METTRE MAINTENANCE EN GLOBAL. 
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
-			Leader leader=(Leader) session.getAttribute("connectedUser");
 			Maintenance maintenance=(Maintenance) session.getAttribute("maintenance");
-			if(request.getParameter("maintenance")!=null) {
-				int maintenanceId= Integer.valueOf(request.getParameter("maintenance"));
-				if(maintenanceId==maintenance.getMaintenanceId()) {
-					response.sendRedirect("UpdateMaintenance");
-				}else {
-					request.setAttribute("error", "An error occured, please try later");
-					doGet(request,response);
+			String status=request.getParameter("status");
+			if(status!=null) {
+				MaintenanceStatus maintenanceStatus=MaintenanceStatus.valueOf(status);
+				maintenance.setStatus(maintenanceStatus);
+				boolean success=maintenance.updateMaintenance();
+				if(success) {
+					session.setAttribute("maintenance", maintenance);
+					response.sendRedirect("ConsultMaintenance");
 				}
-				
 			}
-			
 		}else {
 			//redirection sur page d'erreur
 		}

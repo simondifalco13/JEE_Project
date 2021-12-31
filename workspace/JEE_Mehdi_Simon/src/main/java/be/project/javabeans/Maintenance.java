@@ -249,4 +249,11 @@ public class Maintenance implements Serializable {
 		success=maintenanceDAO.insert(this);
 		return success;
 	}
+	
+	public boolean updateMaintenance() {
+		boolean success=false;
+		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
+		success=maintenanceDAO.update(this);
+		return success;
+	}
 }

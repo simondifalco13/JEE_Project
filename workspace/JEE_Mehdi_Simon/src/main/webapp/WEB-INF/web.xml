@@ -71,6 +71,10 @@
   	<servlet-name>ConsultMaintenance</servlet-name>
   	<servlet-class>be.project.servlets.ConsultMaintenanceServlet</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>UpdateMaintenance</servlet-name>
+  	<servlet-class>be.project.servlets.UpdateMaintenanceServlet</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -99,6 +103,9 @@
   	<servlet-name>ConsultMaintenance</servlet-name>
   	<url-pattern>/ConsultMaintenance</url-pattern>
   </servlet-mapping>
-	
+  <servlet-mapping>
+  	<servlet-name>UpdateMaintenance</servlet-name>
+  	<url-pattern>/UpdateMaintenance</url-pattern>
+  </servlet-mapping>
 
 </web-app>

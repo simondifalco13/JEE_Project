@@ -38,6 +38,11 @@
 		%>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container">
+		<% if(request.getAttribute("error")!=null){%>
+			<div class="alert alert-danger" role="alert">
+  				<%= request.getAttribute("error") %>
+			</div>
+		<% } %>
 		<div class="col-6 mx-auto">
 			<h3 class="text-center">
 				<b>Maintenance <%=maintenance.getMaintenanceId() %></b>
@@ -86,7 +91,7 @@
     		</div>
 		</form>
 		<div class="d-grid gap-2 col-6 mx-auto m-4">
-    		 	<a href="machines" class="btn btn-primary">Cancel</a>
+    		 	<a href="machines" class="btn btn-primary">Back</a>
     	</div>
 		
 	</div>
