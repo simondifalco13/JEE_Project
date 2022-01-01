@@ -74,29 +74,6 @@ public class WorkerDAO implements DAO<Worker> {
 			return null;
 		}
 	}
-	
-	public ArrayList<Worker> findSiteWorker(int siteId){
-		ArrayList<Worker> workers=new ArrayList<Worker>();
-		String key=getApiKey();
-		String responseJSON=resource
-				.path("worker")
-				.path("site")
-				.queryParam("siteNumber",String.valueOf(siteId))
-				.header("key",key)
-				.accept(MediaType.APPLICATION_JSON)
-				.get(String.class);
-		ObjectMapper mapper=new ObjectMapper();
-		JSONArray jsonArray=new JSONArray(responseJSON);
-		try {
-			for(int i=0;i<jsonArray.length();i++) {
-				Worker worker=(Worker) mapper.readValue(jsonArray.get(i).toString(), Worker.class);
-				workers.add(worker);
-			}
-		} catch (Exception e) {
-			return null;
-		}
-		return workers;
-	}
 
 	@Override
 	public ArrayList<Worker> findAll() {
@@ -119,7 +96,7 @@ public class WorkerDAO implements DAO<Worker> {
 				maintenances= Maintenance.getMaintenancesByJSONArray(jsonArray);
 			}
 			catch (Exception e) {
-				System.out.println("Problï¿½me dans la rï¿½cupï¿½ration du tableau de JSON --> workerDAO du client" + e.getMessage() + e.toString());
+				System.out.println("Problème dans la récupération du tableau de JSON --> workerDAO du client" + e.getMessage() + e.toString());
 				return null;
 			}
 			return maintenances;

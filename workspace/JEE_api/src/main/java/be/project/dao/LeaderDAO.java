@@ -45,8 +45,12 @@ public class LeaderDAO implements DAO<Leader> {
 				String firstname=resultSet.getString("leader_firstname");
 				String lastname=resultSet.getString("leader_lastname");
 				String mail=resultSet.getString("leader_mail");
+				//mettre ou pas le PWD ? 
+				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
-				Site site=Site.getSite(siteId);
+				//find site selon...
+				Site site=new Site();
+				site.setId(siteId);
 				leader=new Leader(id,firstname,lastname,null,mail,site);
 			}
 	
@@ -84,28 +88,6 @@ public class LeaderDAO implements DAO<Leader> {
 			System.out.println(e.getMessage());
 		}
 		return false;
-	}
-	
-	public ArrayList<Leader> getSiteLeaders(int siteId){
-		ArrayList<Leader> leaders=new ArrayList<Leader>();
-		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
-					"SELECT DISTINCT leader_id "
-					+ "FROM site LEFT JOIN leader ON leader.site_id=site.site_id "
-					+ "WHERE site.site_id=?"
-					);
-			preparedStatement.setInt(1, siteId);
-			ResultSet resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
-				int leaderId=resultSet.getInt("leader_id");
-				Leader leader=Leader.getLeader(leaderId);
-				leaders.add(leader);
-			}
-	
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return leaders;
 	}
 
 }

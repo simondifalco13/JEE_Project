@@ -9,11 +9,7 @@
 <body>
 	<%@ include file="Navbar.jsp" %>
 	<div class="container" >
-		<div class="row justify-content-center">
-		    <div class="col-3">
-		      <h2>Authentication</h2>
-		    </div>
-		 </div>
+		<h2>Authentication</h2>
 		<% if(request.getAttribute("error")!=null){%>
 			<div class="alert alert-danger" role="alert">
   				<%= request.getAttribute("error") %>

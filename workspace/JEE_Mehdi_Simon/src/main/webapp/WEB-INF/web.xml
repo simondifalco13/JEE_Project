@@ -69,26 +69,6 @@
    <servlet>
   	<servlet-name>MaintenanceDoneServlet</servlet-name>
   	<servlet-class>be.project.servlets.MaintenanceDoneServlet</servlet-class>
-   </servlet>
-   <servlet>
-  	<servlet-name>MachineServlet</servlet-name>
-  	<servlet-class>be.project.servlets.MachineServlet</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>ManageMachine</servlet-name>
-  	<servlet-class>be.project.servlets.ManageMachine</servlet-class>
-  </servlet>
-   <servlet>
-  	<servlet-name>CreateMaintenance</servlet-name>
-  	<servlet-class>be.project.servlets.CreateMaintenanceServlet</servlet-class>
-  </servlet>
-   <servlet>
-  	<servlet-name>ConsultMaintenance</servlet-name>
-  	<servlet-class>be.project.servlets.ConsultMaintenanceServlet</servlet-class>
-  </servlet>
-   <servlet>
-  	<servlet-name>UpdateMaintenance</servlet-name>
-  	<servlet-class>be.project.servlets.UpdateMaintenanceServlet</servlet-class>
   </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
@@ -122,28 +102,7 @@
   	<url-pattern>/report</url-pattern>
   </servlet-mapping>
 	 
-	 
-	<servlet-mapping>
-	  <servlet-name>MachineServlet</servlet-name>
-  	<url-pattern>/machines</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>ManageMachine</servlet-name>
-  	<url-pattern>/ManageMachine</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>CreateMaintenance</servlet-name>
-  	<url-pattern>/CreateMaintenance</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>ConsultMaintenance</servlet-name>
-  	<url-pattern>/ConsultMaintenance</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>UpdateMaintenance</servlet-name>
-  	<url-pattern>/UpdateMaintenance</url-pattern>
-  </servlet-mapping>
-   <!--FILTERS-->
+	  <!--FILTERS-->
   
    <filter>
 		<filter-name>AuthenticationFilter</filter-name>

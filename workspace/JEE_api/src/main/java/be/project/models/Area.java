@@ -3,7 +3,6 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import be.project.dao.AreaDAO;
 import be.project.enumerations.ColorCode;
 
 public class Area implements Serializable {
@@ -25,13 +24,6 @@ public class Area implements Serializable {
 		this.dangerousness=dangerousness;
 		this.areaSite=areaSite;
 	}
-	
-	public Area(int id,String section, ColorCode dangerousness,Site areaSite) {
-		this.id=id;
-		this.section=section;
-		this.dangerousness=dangerousness;
-		this.areaSite=areaSite;
-	} 
 	public Area(String section, ColorCode dangerousness,Site areaSite,ArrayList<FactoryMachine> machines) {
 		this(section,dangerousness,areaSite);
 		this.areaMachines=machines;
@@ -75,20 +67,6 @@ public class Area implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	public static Area getArea(int id) {
-		Area area=null;
-		AreaDAO areaDAO=new AreaDAO();
-		area=areaDAO.find(id);
-		return area;
-	}
-	
-	public static ArrayList<Area> getMachineAreas(int machineId) {
-		ArrayList<Area> areas = new ArrayList<Area>();
-		AreaDAO areaDAO=new AreaDAO();
-		areas=areaDAO.getMachineAreas(machineId);
-		return areas;
 	}
 
 	

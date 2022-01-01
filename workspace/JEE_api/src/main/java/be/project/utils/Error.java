@@ -6,7 +6,6 @@ public enum Error {
 	DATABASE_CONNECTION_ERROR(1001),
 	SQL_EXCEPTION(1002),
 	USER_AUTHENTICATION_FAILED(1003),
-	UNVALID_DATA_IN_REQ(1004)
     ; 
 
 
@@ -18,7 +17,6 @@ public enum Error {
         this.code = code;
     }
     
-
     public void setDescription(String description) {
     	this.description = description;
     }

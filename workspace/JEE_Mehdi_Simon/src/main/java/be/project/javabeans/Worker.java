@@ -47,15 +47,4 @@ public class Worker extends User implements Serializable {
 		maintenances = workerDAO.getAllMaintenances(worker);
 		return maintenances;
 	}
-	
-	public static ArrayList<Worker> findSiteWorker(Site site){
-		ArrayList<Worker> workers=new ArrayList<Worker>();
-		WorkerDAO workerDAO=new WorkerDAO();
-		workers=workerDAO.findSiteWorker(site.getId());
-		return workers;
-	}
-
-	
-	
-
 }

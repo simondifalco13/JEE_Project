@@ -56,7 +56,9 @@ public class WorkerDAO implements DAO<Worker> {
 				//mettre ou pas le PWD ? 
 				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
-				Site site=Site.getSite(siteId);
+				//find site selon...
+				Site site=new Site();
+				site.setId(siteId);
 				worker=new Worker(id,firstname,lastname,null,mail,site);
 			}
 		} catch (Exception e) {
@@ -95,7 +97,7 @@ public class WorkerDAO implements DAO<Worker> {
 		return false;
 	}
 	
-	public ArrayList<Maintenance> getWorkerMaintenances(int id) {
+	public ArrayList<Maintenance> getMaintenancesWorker(int id) {
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		PreparedStatement preparedStatement=null;
 		try {
@@ -162,43 +164,6 @@ public class WorkerDAO implements DAO<Worker> {
 			}
 		}
 		return maintenances;
-	}
-	public ArrayList<Worker> getMaintenanceWorker(int maintenanceId){
-		ArrayList<Worker> workers=new ArrayList<Worker>();
-		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
-				"SELECT worker_id FROM worker_maintenance WHERE maintenance_id=?");
-			preparedStatement.setInt(1, maintenanceId);
-			ResultSet resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
-				int workerId=resultSet.getInt("worker_id");
-				Worker worker=find(workerId);
-				workers.add(worker);
-			}
-	
-		} catch (Exception e) {
-			System.out.println("WORKERDAO :"+e.getMessage());
-		}
-		return workers;
-	}
-	
-	public ArrayList<Worker> findSiteWorker(int siteId){
-		ArrayList<Worker> workers=new ArrayList<Worker>();
-		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
-				"SELECT DISTINCT worker_id FROM site LEFT JOIN worker ON worker.site_id=site.site_id WHERE site.site_id=?");
-			preparedStatement.setInt(1, siteId);
-			ResultSet resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
-				int workerId=resultSet.getInt("worker_id");
-				Worker worker=find(workerId);
-				workers.add(worker);
-			}
-	
-		} catch (Exception e) {
-			System.out.println("WORKERDAO :"+e.getMessage());
-		}
-		return workers;
 	}
 
 }

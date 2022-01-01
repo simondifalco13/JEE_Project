@@ -43,7 +43,7 @@ public class Worker extends User implements Serializable {
 	public static ArrayList<Maintenance> getMaintenances(int serialNumber){
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		WorkerDAO dao = new WorkerDAO();
-		maintenances=dao.getWorkerMaintenances(serialNumber);
+		maintenances=dao.getMaintenancesWorker(serialNumber);
 		return maintenances;
 		}
 
@@ -60,19 +60,6 @@ public class Worker extends User implements Serializable {
 		WorkerDAO workerDAO=new WorkerDAO();
 		worker= workerDAO.find(serialNumber);
 		return worker;
-	}
-	
-	public static ArrayList<Worker> getMaintenanceWorker(int maintenanceId){
-		ArrayList<Worker> workers=new ArrayList<Worker>();
-		WorkerDAO workerDAO=new WorkerDAO();
-		workers=workerDAO.getMaintenanceWorker(maintenanceId);
-		return workers;
-	}
-	
-	public static ArrayList<Worker> getSiteWorkers(int siteId){
-		ArrayList<Worker> workers=new WorkerDAO().findSiteWorker(siteId);
-		return workers;
-		
 	}
 
 }

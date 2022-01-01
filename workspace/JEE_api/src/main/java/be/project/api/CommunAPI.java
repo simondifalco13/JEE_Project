@@ -19,16 +19,5 @@ public class CommunAPI {
 			return "";
 		}
 	}
-	
-	protected static String getBaseUri() {
-		Context ctx;
-		try {
-			ctx = new InitialContext();
-			Context env = (Context) ctx.lookup("java:comp/env");
-			return (String) env.lookup("baseURI");
-		} catch (NamingException e) {
-			return "";
-		}
-	}
 
 }

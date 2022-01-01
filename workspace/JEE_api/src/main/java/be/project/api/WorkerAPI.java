@@ -23,7 +23,7 @@ public class WorkerAPI extends CommunAPI {
 		// TODO Auto-generated constructor stub
 	}
 	
-	//verifier qu'on recoit bien la clï¿½ de l'api
+	//verifier qu'on recoit bien la clé de l'api
 	@GET
 	@Path("{serialNumber}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -52,19 +52,4 @@ public class WorkerAPI extends CommunAPI {
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
-	
-	@GET
-	@Path("/site")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSiteWorkers(@QueryParam("siteNumber") int siteNumber,
-			@HeaderParam("key") String key) {
-		String apiKey=getApiKey();
-		if(key.equals(apiKey)) {
-			ArrayList<Worker> workers=Worker.getSiteWorkers(siteNumber);
-			return Response.status(Status.OK).entity(workers).build();
-		}else {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-	}
-
 }
