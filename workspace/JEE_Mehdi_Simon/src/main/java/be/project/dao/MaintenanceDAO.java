@@ -1,6 +1,9 @@
 package be.project.dao;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	}
 	
 
+	
 	public MaintenanceDAO() {
 		ClientConfig config=new DefaultClientConfig();
 		client=Client.create(config);
@@ -43,8 +47,35 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	}
 	@Override
 	public boolean insert(Maintenance obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success=false;
+		String key=getApiKey();
+		String workers="";
+		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
+		for(int i=0;i<obj.getMaintenanceWorkers().size();i++) {
+			if(i!=0) {
+				workers+=";";
+			}
+			workers+=String.valueOf(obj.getMaintenanceWorkers().get(i).getSerialNumber());
+		}
+		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
+		parameters.add("start_m",obj.getStartTime().toString());
+		parameters.add("status", obj.getStatus().toString());
+		parameters.add("leaderId", String.valueOf(obj.getMaintenanceLeader().getSerialNumber()));
+		parameters.add("workers", workers);
+		parameters.add("machineId", String.valueOf(obj.getMachine().getId()));
+		//System.out.println("WORKERS : "+workers+ ", date : "+DateFor.format(obj.getMaintenanceDate())+ "start at : "+obj.getStartTime().toString());
+		ClientResponse res=resource
+				.path("maintenance")
+				.path("create")
+				.header("key",key)
+				.post(ClientResponse.class,parameters)
+				;
+		int httpResponseCode=res.getStatus();
+		if(httpResponseCode == 201) {
+			success=true;
+		}
+		return success;
 	}
 
 	@Override
@@ -55,7 +86,27 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean update(Maintenance obj) {
-		return false;
+		boolean success=false;
+		String key=getApiKey();
+		String workers="";
+		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+		String endTime=obj.getEndTime() == null ? null :obj.getEndTime().toString();
+		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
+		parameters.add("start_t",obj.getStartTime().toString());
+		parameters.add("status", obj.getStatus().toString());
+		ClientResponse res=resource
+				.path("maintenance")
+				.path(String.valueOf(obj.getMaintenanceId()))
+				.header("key",key)
+				.put(ClientResponse.class,parameters)
+				;
+		int httpResponseCode=res.getStatus();
+		if(httpResponseCode == 204) {
+			success=true;
+		}
+		return success;
 	}
 	public int update1(Maintenance obj) {
 		String key=getApiKey();

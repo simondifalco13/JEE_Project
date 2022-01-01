@@ -47,9 +47,7 @@ public class EmployeeDAO implements DAO<Employee> {
 				//mettre ou pas le PWD ? 
 				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
-				//find site selon...
-				Site site=new Site();
-				site.setId(siteId);
+				Site site=Site.getSite(siteId);
 				emp=new Employee(id,firstname,lastname,null,mail,site);
 			}
 		} catch (Exception e) {
@@ -85,6 +83,27 @@ public class EmployeeDAO implements DAO<Employee> {
 			System.out.println(e.getMessage());
 		}
 		return false;
+	}
+	
+	public ArrayList<Employee> getSiteEmployees(int siteId){
+		ArrayList<Employee> employees=new ArrayList<Employee>();
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT DISTINCT employee_id FROM site "
+					+ "LEFT JOIN factory_employee ON factory_employee.site_id=site.site_id "
+					+ "WHERE site.site_id=?"
+					);
+			preparedStatement.setInt(1, siteId);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				int employee_id=resultSet.getInt("employee_id");
+				Employee emp=Employee.getEmployee(employee_id);
+				employees.add(emp);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return employees;
 	}
 
 }

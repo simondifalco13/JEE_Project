@@ -3,6 +3,9 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.SiteDAO;
+import be.project.dao.WorkerDAO;
+
 public class Site implements Serializable {
 
 	
@@ -13,29 +16,30 @@ public class Site implements Serializable {
 	private String address;
 	private ArrayList<Worker> siteWorkers;
 	private ArrayList<Leader> siteLeaders;
-	private ArrayList<Employee> siteEmployee;
+	private ArrayList<Employee> siteEmployees;
 	private ArrayList<Area> siteAreas;
 	
 	public Site() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders) {
+	
+
+	
+	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Employee> siteEmployees,ArrayList<Worker> siteWorkers) {
 		this.city=city;
 		this.address=address;
-		this.setSiteAreas(siteAreas);
+		this.siteAreas=siteAreas;
 		this.siteLeaders=siteLeaders;
-	}
-	
-	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Worker> siteWorkers) {
-		this(city,address,siteAreas,siteLeaders);
+		this.siteEmployees=siteEmployees;
 		this.siteWorkers=siteWorkers;
 	}
 	
-	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Employee> siteEmployee,ArrayList<Worker> siteWorkers) {
-		this(city,address,siteAreas,siteLeaders,siteWorkers);
-		this.siteEmployee=siteEmployee;
+	public Site(int id,String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Employee> siteEmployees,ArrayList<Worker> siteWorkers) {
+		this(city,address,siteAreas,siteLeaders,siteEmployees,siteWorkers);
+		this.id=id;
 	}
+	
 	
 	public ArrayList<Worker> getSiteWorkers() {
 		return siteWorkers;
@@ -84,13 +88,22 @@ public class Site implements Serializable {
 		this.id = id;
 	}
 
-	public ArrayList<Employee> getSiteEmployee() {
-		return siteEmployee;
+	public ArrayList<Employee> getSiteEmployees() {
+		return siteEmployees;
 	}
 
-	public void setSiteEmployee(ArrayList<Employee> siteEmployee) {
-		this.siteEmployee = siteEmployee;
+	public void setSiteEmployees(ArrayList<Employee> siteEmployee) {
+		this.siteEmployees = siteEmployee;
 	}
+	
+	public static Site getSite(int id) {
+		Site site=null;
+		SiteDAO siteDAO=new SiteDAO();
+		site=siteDAO.find(id);
+		return site;
+	}
+	
+	
 	
 
 }

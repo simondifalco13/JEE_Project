@@ -1,16 +1,18 @@
 SET serveroutput ON
+--QUESTIONS
+
 
 /*********SUPPRESSION DES TABLES AVANT CREATION*********/
 DROP TABLE machine_areas;
 DROP TABLE worker_maintenance;
-DROP TABLE site;
 DROP TABLE areas;
+DROP TABLE maintenance;
+DROP TABLE machine;
 DROP TABLE worker;
 DROP TABLE leader;
-DROP TABLE machine;
-DROP TABLE maintenance;
 DROP TABLE order_supplier_machine;
 DROP TABLE factory_employee;
+DROP TABLE site;
 DROP TABLE supplier;
 DROP TABLE orders;
 DROP TABLE supplier_machine;
@@ -69,6 +71,9 @@ CREATE TABLE machine(
   machine_id NUMBER(5) NOT NULL CONSTRAINT machine_pk PRIMARY KEY,
   machine_type VARCHAR(50) NOT NULL,
   machine_status VARCHAR(100) NOT NULL,
+  model VARCHAR(50) NOT NULL,
+  brand VARCHAR(50) NOT NULL,
+  description VARCHAR(200),
   site_id NUMBER(5) NOT NULL CONSTRAINT fk_site_machine  REFERENCES site(site_id),
   CONSTRAINT check_machine_type CHECK (machine_type IN ('production','assembly','sorting')),
   CONSTRAINT check_machine_status CHECK (machine_status IN ('running','off','down','waitingformaintenance','toreplace'))
@@ -80,7 +85,8 @@ CREATE TABLE maintenance(
    maintenance_id NUMBER(5) NOT NULL CONSTRAINT maintenance_pk PRIMARY KEY ,
    maintenance_date DATE NOT NULL,
    maintenance_status VARCHAR2(100) NOT NULL,
-   duration INTERVAL DAY TO SECOND,
+   maintenance_start TIMESTAMP,
+   maintenance_end TIMESTAMP,
    machine_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_machine REFERENCES machine(machine_id),
    leader_id NUMBER(5) NOT NULL CONSTRAINT fk_maintenance_leader REFERENCES leader(leader_id),
    CONSTRAINT check_maintenance_status CHECK (maintenance_status IN ('todo','done','ongoing','toredo','validated'))
@@ -292,16 +298,14 @@ BEGIN
   FROM dual;
 END;
 
+/*----CREATION DE TYPES NECESSAIRES----*/
+CREATE OR REPLACE TYPE TYPE_TAB_WOR IS TABLE OF worker.worker_id%TYPE INDEX BY BINARY_INTEGER; 
 
-
-
-
-
-
-/*-------INSERTIONS-----*/
+/*-------INSERTIONS (TO UPDATE) -----*/
 INSERT INTO site(city,address) VALUES('Charleroi','Chaussee de marcinelle');
 
 INSERT INTO areas(section,dangerousness,site_id) VALUES ('A','green',1);
+INSERT INTO areas(section,dangerousness,site_id) VALUES ('B','green',1);
 
 INSERT INTO worker (worker_firstname,worker_lastname,worker_mail,worker_password,site_id)
 VALUES ('Daniel','Craig','daniel.craig@gmail.com','Lstbnd070',1);
@@ -315,13 +319,34 @@ VALUES ('Martin','Garix','garix.martin@gmail.com','Mdrtsf85',1);
 INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail,employee_password,site_id)
 VALUES ('Cliff','Richard','cliff.richard@gmail.com','Clifsq8d',1);
 
-
-exec insert_machine ('assembly',1,'running',0);
-exec insert_machine ('sorting',1,'down',0);
-exec insert_maintenance('29-12-2021','todo',1,30000,0);
-exec insert_maintenance('29-15-2021','todo',2,30000,0);
-exec insert_worker_maintenance(20000,4,null);
-exec insert_worker_maintenance(20001,4,null);
+----
+DECLARE 
+ value machine.machine_id%TYPE;
+BEGIN
+	insert_machine ('assembly',1,'running','AssemblyA32','SuperMachine',null,1,value);
+	insert_machine_areas(value,2);
+END;
+----
+DECLARE 
+ value machine.machine_id%TYPE;
+BEGIN
+	insert_machine ('sorting',1,'down','SortB32','SuperMachine',null,1,value);
+END;
+----
+DECLARE 
+ value maintenance.maintenance_id%TYPE;
+BEGIN
+	insert_maintenance('29-12-2021','todo',1,30000,null,null,value);
+END;
+----
+DECLARE 
+ value maintenance.maintenance_id%TYPE;
+BEGIN
+	insert_maintenance('19-01-2022','todo',2,30000,null,null,value);
+END;
+----
+exec insert_worker_maintenance(20000,1,null);
+exec insert_worker_maintenance(20001,1,null);
 
 
 
@@ -338,12 +363,15 @@ CREATE OR REPLACE PROCEDURE insert_machine(
 	type IN machine.machine_type%TYPE,
 	site_id IN site.site_id%TYPE,
 	status IN machine.machine_status%TYPE,
+	model IN machine.model%TYPE,
+	brand IN machine.brand%TYPE,
+	description IN machine.description%TYPE,
 	areas_id IN areas.areas_id%TYPE,
 	created_machine_id OUT machine.machine_id%TYPE) 
 AS
 BEGIN
-	INSERT INTO machine(machine_type,site_id,machine_status) 
-	VALUES (type,site_id,status) 
+	INSERT INTO machine(machine_type,site_id,machine_status,model,brand,description) 
+	VALUES (type,site_id,status,model,brand,description) 
 	RETURNING machine_id INTO created_machine_id;
 	insert_machine_areas(created_machine_id,areas_id);
 	COMMIT;
@@ -371,6 +399,29 @@ BEGIN
 END;
 
 
+--Procedure of update Machine (status)
+
+CREATE OR REPLACE PROCEDURE update_machine(
+	machine_id_var IN machine.machine_id%TYPE,
+	status IN machine.machine_status%TYPE,
+	forException OUT machine.machine_id%TYPE
+	) 
+AS
+	UNHANDLED_EXCEPTION_CODE machine.machine_id%TYPE;
+BEGIN
+	UNHANDLED_EXCEPTION_CODE := -1;
+	UPDATE machine SET machine_status=status WHERE machine_id=machine_id_var;
+	COMMIT;
+	EXCEPTION 
+		WHEN OTHERS THEN 
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new machine');
+			forException :=  SQLCODE;	
+END;
+/
+
+
+
+
 
 
 /**********************/
@@ -385,20 +436,25 @@ CREATE OR REPLACE PROCEDURE insert_maintenance(
 	status IN maintenance.maintenance_status%TYPE,
 	machine_id IN machine.machine_id%TYPE,
 	leader_id IN leader.leader_id%TYPE ,
-	created_maintenance_id OUT maintenance.maintenance_id%TYPE) 
+	maintenance_start IN maintenance.maintenance_start%TYPE,
+	maintenance_end IN maintenance.maintenance_end%TYPE,
+	created_maintenance_id OUT maintenance.maintenance_id%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE) 
 AS
 	ex_date_format exception;
   	pragma exception_init(ex_date_format, -1843);
 BEGIN
-	INSERT INTO maintenance (maintenance_date,maintenance_status,machine_id,leader_id) 
-	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id)
+	INSERT INTO maintenance (maintenance_date,maintenance_status,machine_id,leader_id,maintenance_start,maintenance_end) 
+	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id,maintenance_start,maintenance_end)
 	RETURNING maintenance_id INTO created_maintenance_id;
 	COMMIT;
 	EXCEPTION
 		WHEN ex_date_format THEN 
 			DBMS_OUTPUT.PUT_lINE('Date not valid : neeed DD-MM-YYYY format');
+			forException := SQLCODE;
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new maintenance');	
+			forException := SQLCODE;
 	
 END;
 
@@ -409,7 +465,8 @@ END;
 CREATE OR REPLACE PROCEDURE insert_worker_maintenance(
 	worker_id IN worker.worker_id%TYPE,
 	maintenance_id IN maintenance.maintenance_id%TYPE,
-	report IN worker_maintenance.report%TYPE  ) 
+	report IN worker_maintenance.report%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE  ) 
 AS
 BEGIN
 	INSERT INTO worker_maintenance (worker_id,maintenance_id,report) 
@@ -417,24 +474,44 @@ BEGIN
 	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 
-			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');	
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+			forException := SQLCODE; 	
 	
 END;
 
---Procedure of updating maintenance
+--Procedure of updating maintenance 
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
-	maintenance_id IN maintenance.maintenance_id%TYPE
-	status IN maintenance.maintenance_status%TYPE
-	duration IN maintenance.duration%TYPE)
+	maintenance_id_param IN maintenance.maintenance_id%TYPE,
+	maintenance_d IN maintenance.maintenance_date%TYPE,
+	start_t IN maintenance.maintenance_start%TYPE,
+	status IN maintenance.maintenance_status%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE 
+	)
+AS
+	end_t  maintenance.maintenance_end%TYPE :=null;
+	final_start_t maintenance.maintenance_start%TYPE :=start_t;
+	final_maintenance_d maintenance.maintenance_date%TYPE := maintenance_d;
+	
 BEGIN
+	forException := -1;
+	IF status='done' THEN 
+		end_t:=CURRENT_TIMESTAMP;
+	END IF;
+	IF status='toredo' THEN
+		final_start_t := CURRENT_TIMESTAMP;
+		final_maintenance_d := TO_DATE(CURRENT_DATE, 'DD-MM-YYYY');
+	END IF;
 	UPDATE maintenance 
 	SET maintenance_status=status,
-	duration=duration
-	WHERE maintenance_id=maintenance_id;
+	maintenance_start=final_start_t,
+	maintenance_end=end_t,
+	maintenance_date=final_maintenance_d
+	WHERE maintenance_id=maintenance_id_param;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while updating maintenance');
+			forException := SQLCODE;
 END;
 
 
