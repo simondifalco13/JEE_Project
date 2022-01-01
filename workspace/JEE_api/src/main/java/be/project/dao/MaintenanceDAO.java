@@ -109,8 +109,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		try {
 			CallableStatement sql = conn.prepareCall("{call update_maintenance(?,?,?,?,?)}");
 			sql.setInt(1, obj.getMaintenanceId());
-			sql.setTimestamp(2,Timestamp.valueOf(start));
-			sql.setTimestamp(3,Timestamp.valueOf(end));
+			sql.setDate(2, new java.sql.Date(obj.getMaintenanceDate().getTime()));
+			sql.setTimestamp(3,Timestamp.valueOf(start));
 			sql.setString(4,obj.getStatus().toString());
 			sql.registerOutParameter(5, java.sql.Types.NUMERIC);
 			sql.executeUpdate();

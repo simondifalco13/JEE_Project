@@ -483,18 +483,30 @@ END;
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
 	maintenance_id IN maintenance.maintenance_id%TYPE,
+	maintenance_d IN maintenance.maintenance_date%TYPE,
 	start_t IN maintenance.maintenance_start%TYPE,
-	end_t IN maintenance.maintenance_end%TYPE,
 	status IN maintenance.maintenance_status%TYPE,
 	forException OUT maintenance.maintenance_id%TYPE 
 	)
 AS
+	end_t  maintenance.maintenance_end%TYPE :=null;
+	final_start_t maintenance.maintenance_start%TYPE :=start_t;
+	final_maintenance_d maintenance.maintenance_date%TYPE := maintenance_d;
+	
 BEGIN
 	forException := -1;
+	IF status='done' THEN 
+		end_t:=CURRENT_TIMESTAMP;
+	END IF;
+	IF status='toredo' THEN
+		final_start_t := CURRENT_TIMESTAMP;
+		final_maintenance_d := TO_DATE(CURRENT_DATE, 'DD-MM-YYYY');
+	END IF;
 	UPDATE maintenance 
 	SET maintenance_status=status,
-	maintenance_start=start_t,
-	maintenance_end=end_t
+	maintenance_start=final_start_t,
+	maintenance_end=end_t,
+	maintenance_date=final_maintenance_d
 	WHERE maintenance_id=maintenance_id;
 	EXCEPTION 
 		WHEN OTHERS THEN 
