@@ -57,7 +57,7 @@ public class UpdateMaintenanceServlet extends HttpServlet {
 				boolean success=maintenance.updateMaintenance();
 				if(success) {
 					session.setAttribute("maintenance", maintenance);
-					response.sendRedirect("ConsultMaintenance");
+					response.sendRedirect("machines");
 				}
 			}
 		}else {

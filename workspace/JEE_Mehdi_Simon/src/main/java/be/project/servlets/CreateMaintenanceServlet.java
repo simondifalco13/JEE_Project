@@ -84,7 +84,10 @@ public class CreateMaintenanceServlet extends HttpServlet {
 			try {
 				if(inputDate!=null && !inputDate.equals("")) {
 					maintenanceDate = dateFormat.parse(inputDate);
-					if(maintenanceDate.compareTo(new Date())<0) {
+					Date currentDate=new Date();
+					Date currentDateFinal=new Date(currentDate.getDate(),currentDate.getMonth(),currentDate.getYear());
+					Date maintenanceDateFinal=new Date(maintenanceDate.getDate(),maintenanceDate.getMonth(),maintenanceDate.getYear());
+					if(maintenanceDateFinal.compareTo(currentDateFinal)<0) {
 						errors+="Please enter a correct date : today or future days.<br>";
 					}
 				}else {

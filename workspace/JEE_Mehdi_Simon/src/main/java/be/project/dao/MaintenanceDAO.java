@@ -2,6 +2,8 @@ package be.project.dao;
 
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -78,6 +80,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		String key=getApiKey();
 		String workers="";
 		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
 		String endTime=obj.getEndTime() == null ? null :obj.getEndTime().toString();
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));

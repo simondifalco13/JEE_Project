@@ -124,7 +124,7 @@ public class MaintenanceAPI extends CommunAPI {
 			Maintenance maintenance=new Maintenance();
 			maintenance.setStartTime(null);
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
 			try {
 				Date maintenanceDate = dateFormat.parse(date);
 				LocalTime startTime = LocalTime.parse(start, timeformat);
@@ -132,6 +132,7 @@ public class MaintenanceAPI extends CommunAPI {
 				maintenance.setStartTime(startTime);
 				maintenance.setStatus(maintenanceStatus);
 				maintenance.setMaintenanceDate(maintenanceDate);
+				maintenance.setMaintenanceId(id);
 				int updateCode=maintenance.updateMaintenance();
 				if(updateCode==-1){
 					return Response.status(Status.NO_CONTENT).build();

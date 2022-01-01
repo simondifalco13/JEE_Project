@@ -482,7 +482,7 @@ END;
 --Procedure of updating maintenance 
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
-	maintenance_id IN maintenance.maintenance_id%TYPE,
+	maintenance_id_param IN maintenance.maintenance_id%TYPE,
 	maintenance_d IN maintenance.maintenance_date%TYPE,
 	start_t IN maintenance.maintenance_start%TYPE,
 	status IN maintenance.maintenance_status%TYPE,
@@ -507,7 +507,7 @@ BEGIN
 	maintenance_start=final_start_t,
 	maintenance_end=end_t,
 	maintenance_date=final_maintenance_d
-	WHERE maintenance_id=maintenance_id;
+	WHERE maintenance_id=maintenance_id_param;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while updating maintenance');
