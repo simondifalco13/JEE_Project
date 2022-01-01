@@ -2,6 +2,8 @@ package be.project.models;
 
 import java.io.Serializable;
 
+import be.project.dao.MaintenanceDAO;
+import be.project.dao.ReportDAO;
 import be.project.models.Maintenance;
 import be.project.models.Worker;
 
@@ -50,6 +52,14 @@ public class Report implements Serializable{
 
 	public void setWorker(Worker worker) {
 		this.worker = worker;
+	}
+
+	public int createReport() {
+		if(this.getReport()!=null) {
+			ReportDAO dao = new ReportDAO();
+			return dao.update1(this);
+		}
+		return -1;
 	}
 	
 	

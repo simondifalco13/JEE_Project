@@ -1,9 +1,9 @@
 package be.project.enumerations;
 
 public enum MaintenanceStatus {
-	toDo,
+	todo,
 	done,
 	ongoing,
-	toRedo,
+	toredo,
 	validated
 }

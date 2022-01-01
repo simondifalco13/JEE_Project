@@ -18,7 +18,7 @@
   <!-- CONTEXT PARAMS -->
   <context-param>
   	<param-name>apiUrl</param-name>
-  	<param-value>http://localhost:8080/JEE_API/api</param-value>
+  	<param-value>http://localhost:8888/JEE_API/api</param-value>
   </context-param>
   <context-param>
   	<param-name>adminMail</param-name>
@@ -27,24 +27,23 @@
   
   <!-- OTHER -->
 	<session-config>
-		<session-timeout>60</session-timeout>
+		<session-timeout>100</session-timeout>
 	</session-config>
-  <!--FILTERS-->
-  
-   <filter>
-		<filter-name>AuthenticationFilter</filter-name>
-		<filter-class>be.project.filters.AuthenticationFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>AuthenticationFilter</filter-name>
-		<url-pattern>/home</url-pattern>
-	</filter-mapping>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/Errors.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/Error401.jsp</location>
+	</error-page>
+
 	
   <!-- ENVIRONNEMENT ENTRIES -->
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
+    <env-entry-value>http://localhost:8888/JEE_api/api</env-entry-value> 
  </env-entry>
   <!-- SERVLETS -->
   <servlet>
@@ -54,6 +53,22 @@
   <servlet>
   	<servlet-name>HomeServlet</servlet-name>
   	<servlet-class>be.project.servlets.HomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LogoutServlet</servlet-name>
+  	<servlet-class>be.project.servlets.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+  	<servlet-class>be.project.servlets.GetMaintenanceInfosServlet</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>WriteReportServlet</servlet-name>
+  	<servlet-class>be.project.servlets.WriteReportServlet</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>MaintenanceDoneServlet</servlet-name>
+  	<servlet-class>be.project.servlets.MaintenanceDoneServlet</servlet-class>
   </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
@@ -67,6 +82,36 @@
   	<url-pattern>/home</url-pattern>
   	<url-pattern>/index</url-pattern>
   </servlet-mapping>
-	
+  <servlet-mapping>
+  	<servlet-name>LogoutServlet</servlet-name>
+  	<url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+  	<url-pattern>/maintenanceinfos</url-pattern>
+  	<url-pattern>/maintenancedetails</url-pattern>
+  	<url-pattern>/maintenance/details</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>MaintenanceDoneServlet</servlet-name>
+  	<url-pattern>/maintenancedone</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>WriteReportServlet</servlet-name>
+  	<url-pattern>/writereport</url-pattern>
+  	<url-pattern>/report</url-pattern>
+  </servlet-mapping>
+	 
+	  <!--FILTERS-->
+  
+   <filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>be.project.filters.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<servlet-name>HomeServlet</servlet-name>
+		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+	</filter-mapping>
 
 </web-app>

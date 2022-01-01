@@ -1,6 +1,7 @@
 package be.project.models;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.project.dao.MaintenanceDAO;
+import be.project.dao.WorkerDAO;
 import be.project.enumerations.MaintenanceStatus;
 import be.project.models.Report;
 import be.project.models.FactoryMachine;
@@ -35,6 +38,20 @@ public class Maintenance implements Serializable {
 	}
 	
 	
+	public Maintenance(int id,Date date,LocalTime start,LocalTime end,
+			MaintenanceStatus status,
+			FactoryMachine machine, Leader leader){
+		this.maintenanceId=id;
+		this.maintenanceDate=date;
+		this.machine=machine;
+		this.startTime=start;
+		this.endTime=end;
+		this.status=status;
+		this.maintenanceLeader=leader;
+		this.maintenanceReports=new ArrayList<Report>();
+		this.maintenanceWorkers=new ArrayList<Worker>();
+		
+	}
 	public Maintenance(Date date,LocalTime start,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
@@ -168,5 +185,26 @@ public class Maintenance implements Serializable {
             = ChronoUnit.SECONDS.between(start, end) % 60;
         return hours+":"+minutes+":"+seconds;
 	}
+	public static Maintenance getMaintenance(int maintenance_id) {
+		Maintenance maintenance=null;
+		MaintenanceDAO dao=new MaintenanceDAO();
+		maintenance= dao.find(maintenance_id);
+		return maintenance;
+	}
+	public void addWorker(Worker worker) {
+		if(worker!=null) {
+			this.getMaintenanceWorkers().add(worker);
+		}
+	}
+	public void addReport(Report report) {
+		if(report!=null) {
+			this.getMaintenanceReports().add(report);
+		}
+	}
 
+
+	public int changeStatusDone() {
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		return maintenanceDAO.update1(this);
+	}
 }

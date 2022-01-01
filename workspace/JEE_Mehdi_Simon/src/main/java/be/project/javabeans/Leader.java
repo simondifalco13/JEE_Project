@@ -1,7 +1,9 @@
 package be.project.javabeans;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Leader extends User implements Serializable {
 
@@ -11,7 +13,6 @@ public class Leader extends User implements Serializable {
 	}
 
 	private ArrayList<Maintenance> maintenances;
-	
 
 	public Leader() {
 		// TODO Auto-generated constructor stub
