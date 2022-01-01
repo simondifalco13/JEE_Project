@@ -2,6 +2,8 @@ package be.project.javabeans;
 
 import java.io.Serializable;
 
+import be.project.dao.ReportDAO;
+
 public class Report implements Serializable{
 	/**
 	 * 
@@ -49,6 +51,17 @@ public class Report implements Serializable{
 		this.worker = worker;
 	}
 	
-	
-
+	public static boolean reportIsValid(String report) {
+		if(report== null) {
+			return false;
+		}
+		else if(report.isBlank() == true || report.length()<=10 ) {
+			return false;
+		}
+		else return true;
+	}
+	public int createReport() {
+		ReportDAO dao = new ReportDAO() ;
+		return dao.update1(this);
+	}
 }

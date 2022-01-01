@@ -9,43 +9,33 @@
     <jsp:useBean id="employee" class="be.project.javabeans.Employee" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<meta charset="ISO-8859-1">
-<title>FabricTout</title>
-</head>
-<body>
-<%!User user =null; %>
-<% 
-	User user = (User)session.getAttribute("connectedUser");
-	if(user instanceof Worker) {
-		worker=(Worker)user;
-		
-	}
-	if(user instanceof Employee) {
-		 employee=(Employee)user;
-		
-	}
-	if(user instanceof Leader) {
-		 leader=(Leader)user;
-	}
-
-%>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">FabricTout</a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-    <% if(leader == null && worker == null && employee == null){%>      
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Se connecter</a></li>
-    <% } %>
-    <% if(worker != null || leader != null || employee != null){ %>
-      <li><a href="#"><span class="glyphicon glyphicon-log-off"></span> Se déconnecter</a></li>
-    <%} %>
-    </ul>
-  </div>
-</nav>
-</body>
+	<head>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<meta charset="ISO-8859-1">
+		<title>FabricTout</title>
+	</head>
+	<body>
+		<%
+		int URLLength = (int)request.getRequestURL().length();
+		int servPathLength = (int)request.getServletPath().length();
+		String chaine = request.getRequestURL() + request.getServletPath();
+		String str = chaine.substring(0, URLLength-servPathLength);
+		%>
+		<% 
+			User user = (User)session.getAttribute("connectedUser");
+		%>
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="<%=str%>/connexion">FabricTout</a>
+		    </div>
+		    <ul class="nav navbar-nav navbar-right">
+		    <% if(user != null && user.getSerialNumber()!=0){ %>
+		      <li><a href="<%= str%>/logout"><span class="glyphicon glyphicon-log-off"></span>Logout</a></li>
+		    <%} %>
+		    </ul>
+		  </div>
+		</nav>
+	</body>
 </html>

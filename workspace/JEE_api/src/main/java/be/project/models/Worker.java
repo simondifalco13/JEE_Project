@@ -3,6 +3,7 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.MaintenanceDAO;
 import be.project.dao.WorkerDAO;
 import be.project.models.Maintenance;
 import be.project.models.Site;
@@ -39,6 +40,12 @@ public class Worker extends User implements Serializable {
 	public ArrayList<Maintenance> getMaintenances() {
 		return maintenances;
 	}
+	public static ArrayList<Maintenance> getMaintenances(int serialNumber){
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+		WorkerDAO dao = new WorkerDAO();
+		maintenances=dao.getMaintenancesWorker(serialNumber);
+		return maintenances;
+		}
 
 	public void setMaintenances(ArrayList<Maintenance> maintenances) {
 		this.maintenances = maintenances;

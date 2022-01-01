@@ -1,0 +1,46 @@
+@charset "ISO-8859-1";
+table{
+	table-layout : auto;
+}
+caption{
+	font-weight: bold;
+	color: black;
+	background-color: #1F9DBC;
+	text-align:center;
+}
+th, td{
+	text-align: center;
+	vertical-align: center;
+}
+.setdone{
+	text-align: center;
+	margin-bottom : 10px;
+	margin-top : -20px;
+	font-size: 15px;	
+}
+.title{
+	text-align: center;
+	border: 5px solid black; 
+ 	margin:30px 30%;
+	font-weight: bold;
+	font-size: 20px;
+	vertical-align: center;
+}
+.centered
+{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.divtable2{
+	margin-left: 10%;
+}
+.divtable3{
+	margin-right: 10%;
+	margin-left: 10%;
+	margin-bottom: 2em;
+}
+.divtable2, .divtable3{
+	display: inline-block;;
+}
+
+

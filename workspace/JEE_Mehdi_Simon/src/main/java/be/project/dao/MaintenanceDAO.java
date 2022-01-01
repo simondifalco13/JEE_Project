@@ -5,10 +5,18 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
+import javax.ws.rs.core.MediaType;
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -16,7 +24,10 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import be.project.javabeans.Employee;
 import be.project.javabeans.Maintenance;
+import be.project.javabeans.Report;
+import be.project.javabeans.Worker;
 
 public class MaintenanceDAO implements DAO<Maintenance> {
 
@@ -98,17 +109,64 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		}
 		return success;
 	}
+	public int update1(Maintenance obj) {
+		String key=getApiKey();
+		boolean success = false;
+		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		parameters.add("maintenance_id", String.valueOf(obj.getMaintenanceId()));
+		parameters.add("maintenanceStatus", String.valueOf(obj.getStatus()));
+		ClientResponse res = resource
+				.path("maintenance")
+				.path(String.valueOf(obj.getMaintenanceId()))
+				.header("key",key)
+				.put(ClientResponse.class,parameters);
+		
+		int httpResponseCode = res.getStatus();
+		String sqlcode =res.getStatusInfo().getReasonPhrase();
+		 ;
+		switch(httpResponseCode) {
+			case 204 :
+				return 0;
+			case 304 : 
+				return -1;
+			case 417 : 
+				return Integer.valueOf(sqlcode);
+			case 401 :
+				return 401;
+			case 406 : 
+				return 406;
+			default : 
+				return -1;
+		}
+	}
 
 	@Override
 	public Maintenance find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String key=getApiKey();
+		String responseJSON=resource
+				.path("maintenance")
+				.path(String.valueOf(id))
+				.header("key",key)
+				.accept(MediaType.APPLICATION_JSON)
+				.get(String.class);
+		Maintenance maintenance=null;
+		
+		JSONObject json = new JSONObject(responseJSON);
+		try {
+			maintenance = Maintenance.getMaintenanceByJSONObject(json);
+			return maintenance;
+		} catch (Exception e) {
+			System.out.println("Probl�me conversion json en objet maintenance dans la maintenanceDAO : " + e.getMessage());
+			return null;
+		}
 	}
 
 	@Override
 	public ArrayList<Maintenance> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		String key=getApiKey();
+		
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 
+		return maintenances;
+	}
 }

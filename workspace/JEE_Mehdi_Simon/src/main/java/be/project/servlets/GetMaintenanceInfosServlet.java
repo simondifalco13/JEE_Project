@@ -3,26 +3,30 @@ package be.project.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 
+import be.project.javabeans.Maintenance;
 import be.project.javabeans.User;
 import be.project.javabeans.Worker;
-import be.project.javabeans.Maintenance;
+
 /**
- * Servlet implementation class HomeServlet
+ * Servlet implementation class GetMaintenanceInfosServlet
  */
-public class HomeServlet extends HttpServlet {
+public class GetMaintenanceInfosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ServletContext context=null;  
+	ServletContext context = null;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeServlet() {
+    public GetMaintenanceInfosServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,37 +35,33 @@ public class HomeServlet extends HttpServlet {
     	super.init();
     	context = getServletContext();
     }
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
+		User user=(User)session.getAttribute("connectedUser");
 		try {
 			String idsession = String.valueOf(context.getAttribute("idsession"));
-			User user=(User)session.getAttribute("connectedUser");
-			if (user != null && session.getId() == idsession) {
+			if (user != null  && idsession == session.getId()) {
 				if(user instanceof Worker) {
-					Worker worker =(Worker)session.getAttribute("connectedUser");
-					ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-					maintenances= Worker.getMaintenances(worker);
-					worker.setMaintenances(maintenances);
-					request.setAttribute("worker", worker);
-					request.getRequestDispatcher("/WEB-INF/JSP/HomepageWorker.jsp").forward(request, response);
-					return;
+					int maintenance_id= Integer.valueOf(request.getParameter("id"));
+					Maintenance maintenance = new Maintenance();
+					maintenance = Maintenance.getMaintenance(maintenance_id);
+					request.setAttribute("maintenance", maintenance);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/MaintenanceDetails.jsp");
+					dispatcher.forward(request, response);
 				}
-				//leader
-				//Employee
 			}
-			else System.out.println("le user est null ou session incorrecte");
-			response.sendRedirect("connexion");
-			return;
-				
+			else {
+				response.sendRedirect("connexion");
+			}
 		}
 		catch(Exception e) {
-			System.out.println("Exception générée dans la homeservlet(doGet) : "+ e.getMessage() + e.toString());
-			response.sendRedirect("connexion");
+			System.out.println("Exception dans Getmaintenanceinfoservlet : " + e.getMessage());
 		}
-	}
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -6,8 +6,8 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -190,59 +190,140 @@ public class Maintenance implements Serializable {
             = ChronoUnit.SECONDS.between(start, end) % 60;
         return hours+":"+minutes+":"+seconds;
 	}
-
+	public static Maintenance getMaintenance(int id) {
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		Maintenance maintenance = maintenanceDAO.find(id);
+		return maintenance;
+	}
+	public void addWorker(Worker worker) {
+		if(worker!=null) {
+			this.getMaintenanceWorkers().add(worker);
+		}
+	}
+	public void addReport(Report report) {
+		if(report!=null) {
+			this.getMaintenanceReports().add(report);
+		}
+	}
 	public static ArrayList<Maintenance> getMaintenancesByJSONArray(JSONArray arrayMaintenances) throws JsonParseException, JsonMappingException, JSONException, IOException{
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		for(int i=0;i<arrayMaintenances.length();i++) {
-			
-				JSONObject currentObject=(JSONObject) arrayMaintenances.get(i);
-				Maintenance maintenance=new Maintenance();
-				maintenance.setMaintenanceId(currentObject.getInt("maintenanceId"));
-				maintenance.setMaintenanceDate(new Date((long) currentObject.get("maintenanceDate")));
-				if(!currentObject.isNull("startTime")) {
-					JSONObject obStart=(JSONObject) currentObject.get("startTime");
-					LocalTime start=(LocalTime) LocalTime.of(obStart.getInt("hour"),obStart.getInt("minute"),obStart.getInt("second"));
-					maintenance.setStartTime(start);
-				}
+		
+			JSONObject currentObject=(JSONObject) arrayMaintenances.get(i);
+			Maintenance maintenance=new Maintenance();
+			maintenance.setMaintenanceId(currentObject.getInt("maintenanceId"));
+			maintenance.setMaintenanceDate(new Date((long) currentObject.get("maintenanceDate")));
+			if(!currentObject.isNull("startTime")) {
+				JSONObject obStart=(JSONObject) currentObject.get("startTime");
+				LocalTime start=(LocalTime) LocalTime.of(obStart.getInt("hour"),obStart.getInt("minute"),obStart.getInt("second"));
+				maintenance.setStartTime(start);
+			}
 				if(!currentObject.isNull("endTime")) {
-					JSONObject obEnd=(JSONObject) currentObject.get("endTime");
-					LocalTime end=(LocalTime)LocalTime.of(obEnd.getInt("hour"),obEnd.getInt("minute"),obEnd.getInt("second"));
-					maintenance.setEndTime(end);
-				}
-				maintenance.setStatus(MaintenanceStatus.valueOf(currentObject.getString("status")));
-				JSONArray workerArray=currentObject.getJSONArray("maintenanceWorkers");
-				ObjectMapper workersMapper=new ObjectMapper();
-				ArrayList<Worker>workers=new ArrayList<Worker>();
-				for(int j=0;j<workerArray.length();j++) {
-					Worker worker=(Worker) workersMapper.readValue(workerArray.get(j).toString(), Worker.class);
-					workers.add(worker);
-				}
-				maintenance.setMaintenanceWorkers(workers);
-				
-				ObjectMapper leaderMapper=new ObjectMapper();
-				Leader leader=(Leader) leaderMapper.readValue(currentObject.get("maintenanceLeader").toString(), Leader.class);
-				maintenance.setMaintenanceLeader(leader);
-				
-				
-				
-				if(!currentObject.isNull("maintenanceReports")) {
-					JSONArray reportsArray=currentObject.getJSONArray("maintenanceReports");
-					ArrayList<Report> reports=new ArrayList<Report>();
-					ObjectMapper reportMapper=new ObjectMapper();
-					for(int k=0;k<reportsArray.length();k++) {
-						Report report=(Report) reportMapper.readValue(reportsArray.get(k).toString(), Report.class);
-						reports.add(report);
-					}
-					maintenance.setMaintenanceReports(reports);
-				}
-				
-				maintenances.add(maintenance);
+				JSONObject obEnd=(JSONObject) currentObject.get("endTime");
+				LocalTime end=(LocalTime)LocalTime.of(obEnd.getInt("hour"),obEnd.getInt("minute"),obEnd.getInt("second"));
+				maintenance.setEndTime(end);
+			}
+			maintenance.setStatus(MaintenanceStatus.valueOf(currentObject.getString("status")));
+			JSONArray workerArray=currentObject.getJSONArray("maintenanceWorkers");
+			ObjectMapper workersMapper=new ObjectMapper();
+			ArrayList<Worker>workers=new ArrayList<Worker>();
+			for(int j=0;j<workerArray.length();j++) {
+				Worker worker=(Worker) workersMapper.readValue(workerArray.get(j).toString(), Worker.class);
+				workers.add(worker);
+			}
+			maintenance.setMaintenanceWorkers(workers);
+		
+			ObjectMapper mapper=new ObjectMapper();
+			Leader leader=(Leader) mapper.readValue(currentObject.get("maintenanceLeader").toString(), Leader.class);
+			maintenance.setMaintenanceLeader(leader);
+		
+			FactoryMachine machine = (FactoryMachine) mapper.readValue(currentObject.get("machine").toString(), FactoryMachine.class);
+			maintenance.setMachine(machine);
 			
-			
+			if(!currentObject.isNull("maintenanceReports")) {
+				JSONArray reportsArray=currentObject.getJSONArray("maintenanceReports");
+				ArrayList<Report> reports=new ArrayList<Report>();
+				ObjectMapper reportMapper=new ObjectMapper();
+			for(int k=0;k<reportsArray.length();k++) {
+				Report report=(Report) reportMapper.readValue(reportsArray.get(k).toString(), Report.class);
+				reports.add(report);
+			}
+			maintenance.setMaintenanceReports(reports);
+			}
+			maintenances.add(maintenance);
 		}
 		return maintenances;
+		}
+	public static Maintenance getMaintenanceByJSONObject(JSONObject jsonObject) throws JsonParseException, JsonMappingException, JSONException, IOException{
+		Maintenance maintenance=new Maintenance();
+		maintenance.setMaintenanceId(jsonObject.getInt("maintenanceId"));
+		maintenance.setMaintenanceDate(new Date((long) jsonObject.get("maintenanceDate")));
+		if(!jsonObject.isNull("startTime")) {
+			JSONObject obStart=(JSONObject) jsonObject.get("startTime");
+			LocalTime start=(LocalTime) LocalTime.of(obStart.getInt("hour"),obStart.getInt("minute"),obStart.getInt("second"));
+			maintenance.setStartTime(start);
+		}
+		if(!jsonObject.isNull("endTime")) {
+			JSONObject obEnd=(JSONObject) jsonObject.get("endTime");
+			LocalTime end=(LocalTime)LocalTime.of(obEnd.getInt("hour"),obEnd.getInt("minute"),obEnd.getInt("second"));
+			maintenance.setEndTime(end);
+		}
+		maintenance.setStatus(MaintenanceStatus.valueOf(jsonObject.getString("status")));
+		JSONArray workerArray=jsonObject.getJSONArray("maintenanceWorkers");
+		ObjectMapper workersMapper=new ObjectMapper();
+		ArrayList<Worker>workers=new ArrayList<Worker>();
+			for(int j=0;j<workerArray.length();j++) {
+			Worker worker=(Worker) workersMapper.readValue(workerArray.get(j).toString(), Worker.class);
+			workers.add(worker);
+		}
+		maintenance.setMaintenanceWorkers(workers);
+		
+		ObjectMapper mapper=new ObjectMapper();
+		Leader leader=(Leader) mapper.readValue(jsonObject.get("maintenanceLeader").toString(), Leader.class);
+		maintenance.setMaintenanceLeader(leader);
+		
+		FactoryMachine machine = (FactoryMachine) mapper.readValue(jsonObject.get("machine").toString(), FactoryMachine.class);
+		maintenance.setMachine(machine);
+		
+		if(!jsonObject.isNull("maintenanceReports")) {
+			JSONArray reportsArray=jsonObject.getJSONArray("maintenanceReports");
+			ArrayList<Report> reports=new ArrayList<Report>();
+			ObjectMapper reportMapper=new ObjectMapper();
+				for(int k=0;k<reportsArray.length();k++) {
+				Report report=(Report) reportMapper.readValue(reportsArray.get(k).toString(), Report.class);
+				reports.add(report);
+			}
+				maintenance.setMaintenanceReports(reports);
+		}
+		return maintenance;
+		}
+	public boolean reportExist() {
+		boolean exist = false;
+		try {
+			for(Report report : this.getMaintenanceReports()) {
+				if(report.getReport()!=null) {
+					if(!report.getReport().isBlank() && report.getReport().length()>10) {
+						exist=true;
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage() + e.toString());
+			exist=false;
+		}
+		return exist;
 	}
-	
+	public boolean reportAndStatusAllow() {
+		boolean allow=false;
+		if(this.getStatus()== MaintenanceStatus.ongoing || this.getStatus()== MaintenanceStatus.todo || this.getStatus()== MaintenanceStatus.toredo) {
+			allow =true;
+		}
+		return allow;
+	}
+
+
+
 	public boolean insertMaintenance() {
 		boolean success=false;
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
@@ -255,5 +336,11 @@ public class Maintenance implements Serializable {
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
 		success=maintenanceDAO.update(this);
 		return success;
+	}
+	
+	public int changeStatusDone() {
+		MaintenanceDAO maintenanceDAO= new MaintenanceDAO();
+		return maintenanceDAO.update1(this);
+
 	}
 }
