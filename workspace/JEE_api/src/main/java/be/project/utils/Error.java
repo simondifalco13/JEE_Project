@@ -18,6 +18,7 @@ public enum Error {
         this.code = code;
     }
     
+
     public void setDescription(String description) {
     	this.description = description;
     }

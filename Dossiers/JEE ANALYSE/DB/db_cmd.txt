@@ -479,16 +479,18 @@ BEGIN
 	
 END;
 
---Procedure of updating maintenance (ADD start time , end time ) 
+--Procedure of updating maintenance 
 
 CREATE OR REPLACE PROCEDURE update_maintenance(
 	maintenance_id IN maintenance.maintenance_id%TYPE,
 	start_t IN maintenance.maintenance_start%TYPE,
 	end_t IN maintenance.maintenance_end%TYPE,
-	status IN maintenance.maintenance_status%TYPE
+	status IN maintenance.maintenance_status%TYPE,
+	forException OUT maintenance.maintenance_id%TYPE 
 	)
 AS
 BEGIN
+	forException := -1;
 	UPDATE maintenance 
 	SET maintenance_status=status,
 	maintenance_start=start_t,
@@ -497,6 +499,7 @@ BEGIN
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while updating maintenance');
+			forException := SQLCODE;
 END;
 
 

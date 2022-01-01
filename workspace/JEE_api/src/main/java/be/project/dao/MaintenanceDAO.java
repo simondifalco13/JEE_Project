@@ -23,6 +23,7 @@ import be.project.models.Leader;
 import be.project.models.Maintenance;
 import be.project.models.Site;
 import be.project.models.Worker;
+import be.project.utils.Error;
 
 public class MaintenanceDAO implements DAO<Maintenance> {
 
@@ -91,11 +92,36 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public boolean update(Maintenance obj) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	
+	
+	public int updateMaintenance(Maintenance obj) {
+		int exception = -1;
+		LocalDate maintenanceDate=obj.getMaintenanceDate()
+				.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+		LocalDateTime start= LocalDateTime.of(maintenanceDate, obj.getStartTime());
+		LocalDateTime end=null;
+		if(obj.getEndTime()!=null) {
+			end=LocalDateTime.of(maintenanceDate, obj.getEndTime());
+		}
+		try {
+			CallableStatement sql = conn.prepareCall("{call update_maintenance(?,?,?,?,?)}");
+			sql.setInt(1, obj.getMaintenanceId());
+			sql.setTimestamp(2,Timestamp.valueOf(start));
+			sql.setTimestamp(3,Timestamp.valueOf(end));
+			sql.setString(4,obj.getStatus().toString());
+			sql.registerOutParameter(5, java.sql.Types.NUMERIC);
+			sql.executeUpdate();
+			exception=sql.getInt(5);
+			sql.close();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+			return Error.SQL_EXCEPTION.getCode();
+		}
+		return exception;
 	}
 
 	@Override
@@ -158,6 +184,12 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		}
 		return maintenances;
 		
+	}
+
+	@Override
+	public boolean update(Maintenance obj) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

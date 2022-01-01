@@ -9,10 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -104,6 +107,49 @@ public class MaintenanceAPI extends CommunAPI {
 		
 	}
 	
-	//getMaintenance
+	@PUT
+	@Path("{id}")
+	public Response updateMaintenance(@PathParam("id") int id,
+			@FormParam("date_m") String date,
+			@FormParam("start_t") String start,
+			@FormParam("status") String status,
+			@HeaderParam("key") String key) {
+		Connection conn=DatabaseConnection.getInstance();
+		if(DatabaseConnection.getError()!=null && conn==null) {
+			System.out.println(DatabaseConnection.getError().getJSON());
+			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+		}
+		String apiKey=getApiKey();
+		if(key.equals(apiKey)) {
+			Maintenance maintenance=new Maintenance();
+			maintenance.setStartTime(null);
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+			try {
+				Date maintenanceDate = dateFormat.parse(date);
+				LocalTime startTime = LocalTime.parse(start, timeformat);
+				MaintenanceStatus maintenanceStatus=MaintenanceStatus.valueOf(status);
+				maintenance.setStartTime(startTime);
+				maintenance.setStatus(maintenanceStatus);
+				maintenance.setMaintenanceDate(maintenanceDate);
+				int updateCode=maintenance.updateMaintenance();
+				if(updateCode==-1){
+					return Response.status(Status.NO_CONTENT).build();
+				}else {
+					Error error=Error.SQL_EXCEPTION;
+					return Response.status(Status.OK).entity(error.getJSON()).build();
+				}
+			} catch (ParseException e) {
+				Error error=Error.UNVALID_DATA_IN_REQ;
+				error.setDescription("Some data are not in the right format");
+				return Response.status(Status.UNSUPPORTED_MEDIA_TYPE).entity(error.getJSON()).build();
+			
+			}
+			
+			
+		}else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+	}
 
 }

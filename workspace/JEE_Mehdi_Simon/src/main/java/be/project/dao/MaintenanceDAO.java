@@ -74,8 +74,26 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean update(Maintenance obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean success=false;
+		String key=getApiKey();
+		String workers="";
+		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
+		String endTime=obj.getEndTime() == null ? null :obj.getEndTime().toString();
+		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
+		parameters.add("start_t",obj.getStartTime().toString());
+		parameters.add("status", obj.getStatus().toString());
+		ClientResponse res=resource
+				.path("maintenance")
+				.path(String.valueOf(obj.getMaintenanceId()))
+				.header("key",key)
+				.put(ClientResponse.class,parameters)
+				;
+		int httpResponseCode=res.getStatus();
+		if(httpResponseCode == 204) {
+			success=true;
+		}
+		return success;
 	}
 
 	@Override

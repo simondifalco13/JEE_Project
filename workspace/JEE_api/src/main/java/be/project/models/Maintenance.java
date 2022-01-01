@@ -1,5 +1,6 @@
 package be.project.models;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -8,8 +9,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import be.project.dao.MaintenanceDAO;
 import be.project.enumerations.MaintenanceStatus;
+import be.project.models.Maintenance;
 import be.project.models.Report;
 import be.project.models.FactoryMachine;
 import be.project.models.Leader;
@@ -179,6 +189,51 @@ public class Maintenance implements Serializable {
             = ChronoUnit.SECONDS.between(start, end) % 60;
         return hours+":"+minutes+":"+seconds;
 	}
+	
+	public static Maintenance getMaintenancesByJSONObject(JSONObject maintenanceJSON) throws JsonParseException, JsonMappingException, JSONException, IOException{
+				Maintenance maintenance=new Maintenance();
+
+				maintenance.setMaintenanceId(maintenanceJSON.getInt("maintenanceId"));
+				maintenance.setMaintenanceDate(new Date((long) maintenanceJSON.get("maintenanceDate")));
+				if(!maintenanceJSON.isNull("startTime")) {
+					JSONObject obStart=(JSONObject) maintenanceJSON.get("startTime");
+					LocalTime start=(LocalTime) LocalTime.of(obStart.getInt("hour"),obStart.getInt("minute"),obStart.getInt("second"));
+					maintenance.setStartTime(start);
+				}
+				if(!maintenanceJSON.isNull("endTime")) {
+					JSONObject obEnd=(JSONObject) maintenanceJSON.get("endTime");
+					LocalTime end=(LocalTime)LocalTime.of(obEnd.getInt("hour"),obEnd.getInt("minute"),obEnd.getInt("second"));
+					maintenance.setEndTime(end);
+				}
+				maintenance.setStatus(MaintenanceStatus.valueOf(maintenanceJSON.getString("status")));
+				JSONArray workerArray=maintenanceJSON.getJSONArray("maintenanceWorkers");
+				ObjectMapper workersMapper=new ObjectMapper();
+				ArrayList<Worker>workers=new ArrayList<Worker>();
+				for(int j=0;j<workerArray.length();j++) {
+					Worker worker=(Worker) workersMapper.readValue(workerArray.get(j).toString(), Worker.class);
+					workers.add(worker);
+				}
+				maintenance.setMaintenanceWorkers(workers);
+				
+				ObjectMapper leaderMapper=new ObjectMapper();
+				Leader leader=(Leader) leaderMapper.readValue(maintenanceJSON.get("maintenanceLeader").toString(), Leader.class);
+				maintenance.setMaintenanceLeader(leader);
+				
+				
+				
+				if(!maintenanceJSON.isNull("maintenanceReports")) {
+					JSONArray reportsArray=maintenanceJSON.getJSONArray("maintenanceReports");
+					ArrayList<Report> reports=new ArrayList<Report>();
+					ObjectMapper reportMapper=new ObjectMapper();
+					for(int k=0;k<reportsArray.length();k++) {
+						Report report=(Report) reportMapper.readValue(reportsArray.get(k).toString(), Report.class);
+						reports.add(report);
+					}
+					maintenance.setMaintenanceReports(reports);
+				}
+
+		return maintenance;
+	}
 
 	
 	public static ArrayList<Maintenance> getMachineMaintenances(int machineId){
@@ -194,5 +249,12 @@ public class Maintenance implements Serializable {
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
 		int createdMaintenanceId=maintenanceDAO.insertMaintenance(this);
 		return createdMaintenanceId;
+	}
+	
+	public int updateMaintenance() {
+		boolean success=false;
+		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
+		int updateCode=maintenanceDAO.updateMaintenance(this);
+		return updateCode;
 	}
 }
