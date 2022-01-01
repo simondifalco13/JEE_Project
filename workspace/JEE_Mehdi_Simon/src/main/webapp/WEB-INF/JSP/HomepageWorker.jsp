@@ -41,11 +41,11 @@
 		   				%>
 						   	 <tr>
 							     <td><%= maintenance.getMaintenanceId()%></td>
-							     <% DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+							     <% SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 							     String dateAsString = maintenance.getMaintenanceDate().toString();
-							     String date = formatDate.format(maintenance.getMaintenanceDate());%>
+							     String date = DateFor.format(maintenance.getMaintenanceDate());%>
 							     <td><%= date%></td>
-							     <% String status =maintenance.getStatus().toString().toUpperCase() ;%>
+							  	<% String status =maintenance.getStatus().toString().toUpperCase();%>
 							     <td><%= status%></td>
 							     <td><%= maintenance.getMachine().getId()%></td>
 							     <td><%= maintenance.getMaintenanceLeader().getLastname()%></td>
@@ -87,9 +87,9 @@
 		   				%>
 						   	 <tr>
 							     <td><%= maintenance.getMaintenanceId()%></td>
-							     <% DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+							     <% SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 							     String dateAsString = maintenance.getMaintenanceDate().toString();
-							     String date = formatDate.format(maintenance.getMaintenanceDate());%>
+							     String date = DateFor.format(maintenance.getMaintenanceDate());%>
 							     <td><%= date%></td>
 							     <% String status = maintenance.getStatus().toString().toUpperCase() ;%>
 							     <td><%= status%></td>
@@ -130,9 +130,9 @@
 		   				%>
 						   	 <tr>
 							     <td><%= maintenance.getMaintenanceId()%></td>
-							     <% DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+							     <% SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 							     String dateAsString = maintenance.getMaintenanceDate().toString();
-							     String date = formatDate.format(maintenance.getMaintenanceDate());%>
+							     String date = DateFor.format(maintenance.getMaintenanceDate());%>
 							     <td><%= date%></td>
 							     <%String status = maintenance.getStatus().toString().toUpperCase();%>
 							     <td><%= status %></td>
@@ -171,9 +171,9 @@
 		   				%>
 						   	 <tr>
 							     <td><%= maintenance.getMaintenanceId()%></td>
-							     <% DateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+							     <% SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 							     String dateAsString = maintenance.getMaintenanceDate().toString();
-							     String date = formatDate.format(maintenance.getMaintenanceDate());%>
+							     String date = DateFor.format(maintenance.getMaintenanceDate());%>
 							     <td><%= date%></td>
 							     <% String status =maintenance.getStatus().toString().toUpperCase(); %>
 							     <td><%= status %></td>

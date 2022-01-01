@@ -119,7 +119,7 @@ public class WorkerDAO implements DAO<Worker> {
 				maintenances= Maintenance.getMaintenancesByJSONArray(jsonArray);
 			}
 			catch (Exception e) {
-				System.out.println("Problï¿½me dans la rï¿½cupï¿½ration du tableau de JSON --> workerDAO du client" + e.getMessage() + e.toString());
+				System.out.println("Problème dans la récupération du tableau de JSON --> workerDAO du client" + e.getMessage() + e.toString());
 				return null;
 			}
 			return maintenances;

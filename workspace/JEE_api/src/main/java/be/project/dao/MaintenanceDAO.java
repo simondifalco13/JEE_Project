@@ -127,11 +127,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			return Error.SQL_EXCEPTION.getCode();
 		}
 		return exception;
-
-	@Override
-	public boolean update(Maintenance obj) {
-		return false;
 	}
+
 	public int update1(Maintenance obj) {
 		int code =-1;
 		CallableStatement callableStatement = null;
@@ -207,8 +204,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 					machine.setType(MachineType.valueOf(resultSet.getString("machine_type")));
 					machine.setModel(resultSet.getString("model"));
 					machine.setBrand(resultSet.getString("brand"));	
-					
-					maintenance = new Maintenance(id,maintenance_date,startTime, endTime,status, machine, leader);
+					java.util.Date utilDate = new java.util.Date(maintenance_date.getTime());
+					maintenance = new Maintenance(id,utilDate,startTime, endTime,status, machine, leader);
 					count++;
 				}
 				Worker worker = new Worker();

@@ -132,6 +132,7 @@ public class WorkerDAO implements DAO<Worker> {
 			System.out.println("WORKERDAO :"+e.getMessage());
 		}
 		return workers;
+	}
 	public ArrayList<Maintenance> getWorkerMaintenances(int id) {
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		PreparedStatement preparedStatement=null;

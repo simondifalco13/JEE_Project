@@ -118,6 +118,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		ClientResponse res = resource
 				.path("maintenance")
 				.path(String.valueOf(obj.getMaintenanceId()))
+				.path("statusDone")
 				.header("key",key)
 				.put(ClientResponse.class,parameters);
 		

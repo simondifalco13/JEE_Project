@@ -109,6 +109,27 @@ public class Maintenance implements Serializable {
 	}
 	
 	
+	
+	
+	
+
+
+	public Maintenance(int maintenanceId, Date maintenanceDate, LocalTime startTime, FactoryMachine machine,
+			MaintenanceStatus status, ArrayList<Worker> maintenanceWorkers, Leader maintenanceLeader, LocalTime endTime,
+			ArrayList<Report> maintenanceReports) {
+
+		this.maintenanceId = maintenanceId;
+		this.maintenanceDate = maintenanceDate;
+		this.startTime = startTime;
+		this.machine = machine;
+		this.status = status;
+		this.maintenanceWorkers = maintenanceWorkers;
+		this.maintenanceLeader = maintenanceLeader;
+		this.endTime = endTime;
+		this.maintenanceReports = maintenanceReports;
+	}
+
+
 	public int getMaintenanceId() {
 		return maintenanceId;
 	}
@@ -272,6 +293,7 @@ public class Maintenance implements Serializable {
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
 		int updateCode=maintenanceDAO.updateMaintenance(this);
 		return updateCode;
+	}
 	public static Maintenance getMaintenance(int maintenance_id) {
 		Maintenance maintenance=null;
 		MaintenanceDAO dao=new MaintenanceDAO();

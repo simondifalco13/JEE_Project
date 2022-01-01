@@ -102,7 +102,7 @@
   	<url-pattern>/home</url-pattern>
   	<url-pattern>/index</url-pattern>
   </servlet-mapping>
-  	<servlet-mapping>
+  <servlet-mapping>
 	  <servlet-name>MachineServlet</servlet-name>
   	<url-pattern>/machines</url-pattern>
   </servlet-mapping>
@@ -153,5 +153,4 @@
 		<servlet-name>HomeServlet</servlet-name>
 		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
 	</filter-mapping>
-
 </web-app>

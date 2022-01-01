@@ -117,11 +117,13 @@ public class MaintenanceAPI extends CommunAPI {
 	
 	@PUT
 	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateMaintenance(@PathParam("id") int id,
 			@FormParam("date_m") String date,
 			@FormParam("start_t") String start,
 			@FormParam("status") String status,
 			@HeaderParam("key") String key) {
+		System.out.println("PUT MEHDI");
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
 			System.out.println(DatabaseConnection.getError().getJSON());
@@ -161,7 +163,7 @@ public class MaintenanceAPI extends CommunAPI {
 		}
 	}
 
-}
+
 	
 	@GET
 	@Path("{maintenance_id}")
@@ -177,8 +179,9 @@ public class MaintenanceAPI extends CommunAPI {
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
+	
 	@PUT
-	@Path("{maintenance_id}")
+	@Path("{maintenance_id}/statusDone")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateMaintenance(@HeaderParam("key") String key,
 			@PathParam("maintenance_id")int path_maintenance_id,

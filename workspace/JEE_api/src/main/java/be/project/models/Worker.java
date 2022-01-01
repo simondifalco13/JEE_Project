@@ -43,7 +43,7 @@ public class Worker extends User implements Serializable {
 	public static ArrayList<Maintenance> getMaintenances(int serialNumber){
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		WorkerDAO dao = new WorkerDAO();
-		maintenances=dao.getMaintenancesWorker(serialNumber);
+		maintenances=dao.getWorkerMaintenances(serialNumber);
 		return maintenances;
 		}
 
