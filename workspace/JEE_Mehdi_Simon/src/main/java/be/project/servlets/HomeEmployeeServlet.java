@@ -47,8 +47,24 @@ public class HomeEmployeeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		if(request.getParameter("machine")!=null) {
+			if(!request.getParameter("machine").equals("") && !request.getParameter("machine").isEmpty()) {
+				int machineToReplaceId=Integer.valueOf(request.getParameter("machine"));
+				 FactoryMachine machineToReplace=new FactoryMachine();
+				 for(int i=0;i<machines.size();i++) {
+					 if(machines.get(i).getId()==machineToReplaceId) {
+						 machineToReplace=machines.get(i);
+					 }
+				 }
+				 HttpSession session = request.getSession(false);
+				 if(session!=null) {
+					 session.setAttribute("machineType", machineToReplace.getType().toString());
+					 //response.sendRedirect("");
+				 }else {
+					 //redirection sur page d'erreur
+				 }
+			}
+		}
 	}
 
 }

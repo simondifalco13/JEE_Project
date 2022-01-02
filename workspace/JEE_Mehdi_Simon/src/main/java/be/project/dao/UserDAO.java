@@ -106,7 +106,6 @@ public class UserDAO implements DAO<User> {
 				.post(ClientResponse.class,paramsPost)
 				;
 		String response=res.getEntity(String.class);
-		System.out.println(response);
 		status=res.getStatus();
 		JSONObject jsonResponse = new JSONObject(response);
 		if(status==200) {
