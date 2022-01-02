@@ -63,8 +63,48 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public ArrayList<FactoryMachine> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
+		FactoryMachine machine;
+		int machineId=0,site_id,area_id;
+		String siteCity,siteAddress,section,model,brand,description;
+		ColorCode dangerousness;
+		MachineType type;
+		OperationState status;
+		ArrayList<Area> machineAreas=new  ArrayList<Area>();
+		Site site=null;
+		try {
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"SELECT "
+					+ "machine_id,machine_type,site_id,machine_status,"
+					+ "model,brand,description "
+					+ "FROM machine "
+					);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				machineAreas=new  ArrayList<Area>();
+				maintenances=new ArrayList<Maintenance>();
+				machineId=resultSet.getInt("machine_id");
+				type=MachineType.valueOf(resultSet.getString("machine_type"));
+				site_id=resultSet.getInt("site_id");
+				status=FactoryMachine.getOperationStateFromString(resultSet.getString("machine_status"));
+				model=resultSet.getString("model");
+				brand=resultSet.getString("brand");
+				description=resultSet.getString("description");
+				site=Site.getSite(site_id);
+				if(machineId!=0) {
+					machineAreas=Area.getMachineAreas(machineId);
+					maintenances=Maintenance.getMachineMaintenances(machineId);
+				}
+				machine=new FactoryMachine(machineId,model,brand,description,type,status,machineAreas,maintenances);
+				machines.add(machine);
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("FACTORYMACHINEDAO FIND ALL:"+e.getMessage());
+		}
+		return machines;
 	}
 
 	@Override
@@ -119,5 +159,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		}
 		return machines;
 	}
+	
+	
 
 }

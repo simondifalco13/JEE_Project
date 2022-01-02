@@ -31,7 +31,7 @@ public class FactoryMachineAPI extends CommunAPI  {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllFactoryMachines(@DefaultValue("1") @QueryParam("site") int siteId,
+	public Response getAllFactoryMachinesBySite(@DefaultValue("1") @QueryParam("site") int siteId,
 			@HeaderParam("key") String key) {
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
@@ -40,7 +40,26 @@ public class FactoryMachineAPI extends CommunAPI  {
 		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
-			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines(siteId);
+			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachinesBySite(siteId);
+			return Response.status(Status.OK).entity(machines).build();
+		}else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+	}
+	
+	
+	@GET
+	@Path("all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllFactoryMachines(@HeaderParam("key") String key) {
+		Connection conn=DatabaseConnection.getInstance();
+		if(DatabaseConnection.getError()!=null && conn==null) {
+			System.out.println(DatabaseConnection.getError().getJSON());
+			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+		}
+		String apiKey=getApiKey();
+		if(key.equals(apiKey)) {
+			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines();
 			return Response.status(Status.OK).entity(machines).build();
 		}else {
 			return Response.status(Status.UNAUTHORIZED).build();

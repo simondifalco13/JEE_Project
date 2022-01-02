@@ -296,7 +296,8 @@ public class Maintenance implements Serializable {
 				maintenance.setMaintenanceReports(reports);
 		}
 		return maintenance;
-		}
+	}
+	
 	public boolean reportExist() {
 		boolean exist = false;
 		try {

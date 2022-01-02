@@ -71,11 +71,11 @@
 	  		<b>Report(s) :</b>
 	  		<% if(maintenance.getMaintenanceReports()!=null){
 	  			if(maintenance.getMaintenanceReports().size()>0){%>
-		  			<div class="border border-info m-2">
+		  			<div class="border border-primary m-2 p-2">
 		  				<%for(int n=0;n<maintenance.getMaintenanceReports().size();n++){
 		  					Report currentReport=maintenance.getMaintenanceReports().get(n);%>
 		  						<%=currentReport.getReport() %><br>
-		  						By : <%=currentReport.getWorker().getFirstname() %> <%=currentReport.getWorker().getLastname() %>
+		  						<i>By : <%=currentReport.getWorker().getFirstname() %> <%=currentReport.getWorker().getLastname() %></i>
 		  				<%} %>
 		  			</div>
 		  		<%}else{%>

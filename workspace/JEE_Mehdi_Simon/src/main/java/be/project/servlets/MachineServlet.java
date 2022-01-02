@@ -61,7 +61,7 @@ public class MachineServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
-			machines=FactoryMachine.getAllFactoryMachines(leader.getSite());
+			machines=FactoryMachine.getAllFactoryMachinesBySite(leader.getSite());
 			request.setAttribute("machines", machines);
 			request.getRequestDispatcher("/WEB-INF/JSP/Machines.jsp").forward(request,response);
 		}else {

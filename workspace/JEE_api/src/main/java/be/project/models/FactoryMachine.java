@@ -72,10 +72,17 @@ public class FactoryMachine extends Machine implements Serializable {
 		this.machineMaintenances = machineMaintenances;
 	}
 
-	public static ArrayList<FactoryMachine> getAllFactoryMachines(int siteId) {
+	public static ArrayList<FactoryMachine> getAllFactoryMachinesBySite(int siteId) {
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
 		FactoryMachineDAO fmDAO=new FactoryMachineDAO();
 		machines=fmDAO.findAllSiteMachine(siteId);
+		return machines;
+	}
+	
+	public static ArrayList<FactoryMachine> getAllFactoryMachines() {
+		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
+		FactoryMachineDAO fmDAO=new FactoryMachineDAO();
+		machines=fmDAO.findAll();
 		return machines;
 	}
 	

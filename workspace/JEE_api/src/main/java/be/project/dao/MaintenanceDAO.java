@@ -279,6 +279,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				machine.setId(machineId);
 				java.util.Date utilDate = new java.util.Date(maintenanceDate.getTime());
 				Maintenance maintenance=new Maintenance(maintenanceId,utilDate,machine,status,workers,leader,start,end);
+				ArrayList<Report> reports=new ReportDAO().getMaintenanceReports(maintenanceId);
+				maintenance.setMaintenanceReports(reports);
 				maintenances.add(maintenance);
 			}
 			
@@ -289,6 +291,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return maintenances;
 		
 	}
+	
+	
 
 	@Override
 	public boolean update(Maintenance obj) {

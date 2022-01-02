@@ -100,7 +100,49 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	@Override
 	public ArrayList<FactoryMachine> findAll() {
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
-		//call API
+		String key=getApiKey();
+		String responseJSON;
+		responseJSON=resource
+				.path("factory")
+				.path("machine")
+				.path("all")
+				.header("key",key)
+				.accept(MediaType.APPLICATION_JSON)
+				.get(String.class);
+		JSONArray jsonArray=new JSONArray(responseJSON);
+		ObjectMapper mapper=new ObjectMapper();
+		FactoryMachine machine;
+		try {
+			for(int i=0;i<jsonArray.length();i++) {
+				machine=new FactoryMachine();
+				JSONObject obj=(JSONObject) jsonArray.get(i);
+				machine.setId(obj.getInt("id"));
+				machine.setModel(obj.getString("model"));
+				machine.setBrand(obj.getString("brand"));
+				if(!obj.isNull("description")) {
+					machine.setDescription((String)obj.get("description"));
+				}
+				machine.setType(MachineType.valueOf(obj.getString("type")));
+				machine.setOperationState(OperationState.valueOf(obj.getString("operationState")));
+				JSONArray arrayAreas=obj.getJSONArray("machineAreas");
+				mapper=new ObjectMapper();
+				ArrayList<Area> areas=new ArrayList<Area>();
+				for(int j=0;j<arrayAreas.length();j++) {
+					Area area=(Area) mapper.readValue(arrayAreas.get(j).toString(), Area.class);
+					areas.add(area);
+				}
+				
+				machine.setMachineAreas(areas);
+				JSONArray arrayMaintenances=obj.getJSONArray("machineMaintenances");
+				ArrayList<Maintenance> maintenances=Maintenance.getMaintenancesByJSONArray(arrayMaintenances);
+				
+				machine.setMachineMaintenances(maintenances);
+				machines.add(machine);
+
+			}
+		} catch (Exception e) {
+			System.out.println("CLIENT FMDAO : "+e.getMessage());
+		}
 		return machines;
 	}
 	
