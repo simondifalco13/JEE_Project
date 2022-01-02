@@ -86,6 +86,10 @@
   	<servlet-name>MaintenanceDoneServlet</servlet-name>
   	<servlet-class>be.project.servlets.MaintenanceDoneServlet</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>ShowSupplierMachines</servlet-name>
+  	<servlet-class>be.project.servlets.ShowSupplierMachines</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -136,6 +140,10 @@
   	<servlet-name>WriteReportServlet</servlet-name>
   	<url-pattern>/writereport</url-pattern>
   	<url-pattern>/report</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ShowSupplierMachines</servlet-name>
+  	<url-pattern>/suppliersmachines</url-pattern>
   </servlet-mapping>
 	 
 	  <!--FILTERS-->

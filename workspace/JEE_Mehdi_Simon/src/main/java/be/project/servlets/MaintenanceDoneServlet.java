@@ -40,6 +40,13 @@ public class MaintenanceDoneServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("connexion");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message="";
 		HttpSession session = request.getSession(false);
 		User user=(User)session.getAttribute("connectedUser");
@@ -47,7 +54,7 @@ public class MaintenanceDoneServlet extends HttpServlet {
 			String idsession = String.valueOf(context.getAttribute("idsession"));
 			if (user != null  && idsession == session.getId()) {
 				if(user instanceof Worker) {
-					int maintenance_id = Integer.valueOf(request.getParameter("id"));
+					int maintenance_id = Integer.valueOf(request.getParameter("maintenanceId"));
 					Maintenance maintenance = new Maintenance();
 					maintenance.setMaintenanceId(maintenance_id);
 					maintenance.setStatus(MaintenanceStatus.done);
@@ -80,16 +87,8 @@ public class MaintenanceDoneServlet extends HttpServlet {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("Erreur dans la maintenancedoneservlet : " + e.getMessage() + e.toString());
+			System.out.println("Erreur dans la maintenancedoneservlet doPost : " + e.getMessage() + e.toString());
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }

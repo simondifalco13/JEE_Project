@@ -46,7 +46,6 @@ public class FactoryMachineAPI extends CommunAPI  {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
-	
 	//ID pas utilisé ?
 	@PUT
 	@Path("{id}")

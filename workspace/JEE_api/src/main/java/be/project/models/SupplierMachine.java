@@ -3,6 +3,8 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import be.project.dao.FactoryMachineDAO;
+import be.project.dao.SupplierMachineDAO;
 import be.project.enumerations.MachineType;
 
 public class SupplierMachine extends Machine implements Serializable {
@@ -54,6 +56,12 @@ public class SupplierMachine extends Machine implements Serializable {
 		this.orders = orders;
 	}
 	
+	public static ArrayList<SupplierMachine> getAllSuppliersMachines(String type) {
+		ArrayList<SupplierMachine> machines=new ArrayList<SupplierMachine>();
+		SupplierMachineDAO smDAO=new SupplierMachineDAO();
+		machines=smDAO.findAllSuppliersMachines(type);
+		return machines;
+	}
 	//METHODS
 	
 }

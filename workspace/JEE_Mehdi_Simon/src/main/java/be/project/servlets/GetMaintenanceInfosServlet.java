@@ -16,19 +16,15 @@ import be.project.javabeans.Maintenance;
 import be.project.javabeans.User;
 import be.project.javabeans.Worker;
 
-/**
- * Servlet implementation class GetMaintenanceInfosServlet
- */
+
 public class GetMaintenanceInfosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ServletContext context = null;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public GetMaintenanceInfosServlet() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
     @Override
     public void init() throws ServletException {
@@ -36,38 +32,30 @@ public class GetMaintenanceInfosServlet extends HttpServlet {
     	context = getServletContext();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);	
+}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		User user=(User)session.getAttribute("connectedUser");
 		try {
 			String idsession = String.valueOf(context.getAttribute("idsession"));
-			if (user != null  && idsession == session.getId()) {
-				if(user instanceof Worker) {
-					int maintenance_id= Integer.valueOf(request.getParameter("id"));
-					Maintenance maintenance = new Maintenance();
-					maintenance = Maintenance.getMaintenance(maintenance_id);
-					request.setAttribute("maintenance", maintenance);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/MaintenanceDetails.jsp");
-					dispatcher.forward(request, response);
-				}
+			if (idsession == session.getId() && request.getParameter("maintenanceId")!=null) {
+				int maintenance_id= Integer.valueOf(request.getParameter("maintenanceId"));
+				Maintenance maintenance = new Maintenance();
+				maintenance = Maintenance.getMaintenance(maintenance_id);
+				request.setAttribute("maintenance", maintenance);
+				session.setAttribute("maintenance_id", maintenance_id);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/MaintenanceDetails.jsp");
+				dispatcher.forward(request, response);
 			}
 			else {
 				response.sendRedirect("connexion");
 			}
 		}
 		catch(Exception e) {
-			System.out.println("Exception dans Getmaintenanceinfoservlet : " + e.getMessage());
+			System.out.println("Exception dans Getmaintenanceinfoservlet doPost : " + e.getMessage()+ e.toString());
 		}
-}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
-
 }

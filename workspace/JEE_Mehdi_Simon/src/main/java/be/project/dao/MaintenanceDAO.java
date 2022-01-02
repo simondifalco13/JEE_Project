@@ -151,7 +151,9 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		Maintenance maintenance=null;
-		
+		if(responseJSON.isEmpty()) {
+			return null;
+		}
 		JSONObject json = new JSONObject(responseJSON);
 		try {
 			maintenance = Maintenance.getMaintenanceByJSONObject(json);

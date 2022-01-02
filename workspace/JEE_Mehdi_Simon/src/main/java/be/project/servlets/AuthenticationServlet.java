@@ -103,14 +103,13 @@ public class AuthenticationServlet extends HttpServlet {
 						if(connectedUser instanceof Worker) {
 							Worker user=(Worker)connectedUser;
 							session.setAttribute("connectedUser", user);
-							context.setAttribute("id", user.getSerialNumber());
 							response.sendRedirect("home");
 				
 						}
 						if(connectedUser instanceof Employee) {
 							Employee user=(Employee)connectedUser;
 							session.setAttribute("connectedUser", user);
-							context.setAttribute("id", user.getSerialNumber());
+							response.sendRedirect("suppliersmachines");
 						}
 						if(connectedUser instanceof Leader) {
 							Leader user=(Leader)connectedUser;

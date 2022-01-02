@@ -39,7 +39,6 @@ public class LeaderAccessFilter implements Filter {
 		User user =(User)session.getAttribute("connectedUser");
 		if(user instanceof Leader) {
 			try {
-				System.out.println("Passer dans le " + this.filterConfig.getFilterName()+ " : pas de problème : currentuser : "+ user.getSerialNumber());
 				chain.doFilter(request, response);
 			}
 			catch(Exception ex) {
