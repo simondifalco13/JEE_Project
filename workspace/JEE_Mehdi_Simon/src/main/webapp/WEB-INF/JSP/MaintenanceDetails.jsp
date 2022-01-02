@@ -63,6 +63,9 @@
 		else{%>
 			<div class="setdone"><button class="btn btn-warning" disabled>To mark this maintenance as done, you need at least 1 written report</button></div>
 			<%} %>
+			<div class="back" class="d-grid gap-2 col-6 mx-auto m-4">
+    		 	<a href="<%=str%>/home" class="btn btn-primary">Back</a>
+    		</div>
 		</div>
 		<!-- Informations personnes concernées -->
 		<div class="divtable2">

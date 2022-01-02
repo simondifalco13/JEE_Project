@@ -69,7 +69,6 @@ public class WriteReportServlet extends HttpServlet {
 						String report = request.getParameter("report");
 						int maintenance_id = Integer.valueOf(request.getParameter("id"));
 						if(Report.reportIsValid(report) == true) {
-							System.out.println("Report ok");
 							Maintenance maintenance = new Maintenance();
 							maintenance.setMaintenanceId(maintenance_id);
 							Worker worker = new Worker();
@@ -81,11 +80,9 @@ public class WriteReportServlet extends HttpServlet {
 							request.setAttribute("id", maintenance_id);
 							switch(code) {
 								case 0 : 
-									System.out.println("Créer avec succès");
 									message= "Report create";
 									break;
 								case -1 : 
-									System.out.println("Rien n'a été update");
 									message= "Report not created";
 									break;
 								case 401 : 

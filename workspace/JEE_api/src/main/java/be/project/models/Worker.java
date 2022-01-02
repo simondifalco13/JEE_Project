@@ -42,10 +42,10 @@ public class Worker extends User implements Serializable {
 	}
 	public static ArrayList<Maintenance> getMaintenances(int serialNumber){
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-		WorkerDAO dao = new WorkerDAO();
-		maintenances=dao.getWorkerMaintenances(serialNumber);
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		maintenances = maintenanceDAO.getWorkerMaintenances(serialNumber);
 		return maintenances;
-		}
+	}
 
 	public void setMaintenances(ArrayList<Maintenance> maintenances) {
 		this.maintenances = maintenances;

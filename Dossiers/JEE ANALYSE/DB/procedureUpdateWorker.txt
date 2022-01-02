@@ -1,0 +1,63 @@
+CREATE OR REPLACE PROCEDURE createReport(maintenance_id_param worker_maintenance.maintenance_id%type,
+ worker_id_param worker_maintenance.worker_id%type, report_param worker_maintenance.report%type, code OUT NUMBER) IS
+return_number number;
+begin
+code :=0;
+UPDATE worker_maintenance 
+	SET report = report_param
+	WHERE maintenance_id = maintenance_id_param AND worker_id = worker_id_param;
+return_number :=sql%rowcount;
+
+if(return_number<1)
+	then code :=-1;
+	DBMS_OUTPUT.PUT_LINE('Pas de update');
+
+else
+	DBMS_OUTPUT.PUT_LINE('Update OK');
+	commit;
+
+end if;
+EXCEPTION
+ WHEN OTHERS THEN
+	code :=  SQLCODE;
+end;
+/
+DECLARE
+code NUMBER;
+BEGIN
+createReport(1,20001,'',code);
+dbms_output.put_line('code renvoyer : ' || code);
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE changeStatusDone(maintenance_id_param worker_maintenance.maintenance_id%type,
+status maintenance.maintenance_status%type, code OUT NUMBER) IS
+return_number number;
+begin
+code :=0;
+UPDATE maintenance 
+SET maintenance_status= status, maintenance_end =CURRENT_TIMESTAMP
+WHERE maintenance_id = maintenance_id_param;
+return_number :=sql%rowcount;
+
+if(return_number<1)
+	then code :=-1;
+	DBMS_OUTPUT.PUT_LINE('Pas de update');
+
+else
+	DBMS_OUTPUT.PUT_LINE('Update OK');
+	commit;
+
+end if;
+EXCEPTION
+ WHEN OTHERS THEN
+	code :=  SQLCODE;
+end;
+/
+DECLARE
+code NUMBER;
+BEGIN
+changeStatusDone(1,'toredo',code);
+dbms_output.put_line('code renvoyer : ' || code);
+END;

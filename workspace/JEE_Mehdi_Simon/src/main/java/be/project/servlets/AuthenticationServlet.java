@@ -91,7 +91,7 @@ public class AuthenticationServlet extends HttpServlet {
 					//find user
 					User connectedUser=User.getUser(serialNumber);
 					if(connectedUser!=null) {
-						//crï¿½ation de la session
+						//création de la session
 						HttpSession session=request.getSession();
 						if(!session.isNew()) {
 							session.invalidate();

@@ -54,11 +54,9 @@ public class MaintenanceDoneServlet extends HttpServlet {
 					int code =maintenance.changeStatusDone();
 					switch(code) {
 						case 0 : 
-							System.out.println("Update a bien fonctionné");
 							message= "Status changing successfully";
 							break;
 						case -1 : 
-							System.out.println("Rien n'a été update");
 							message= "Status not updated";
 							break;
 						case 401 : 

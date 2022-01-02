@@ -45,6 +45,7 @@ public class HomeServlet extends HttpServlet {
 					ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 					maintenances= Worker.getMaintenances(worker);
 					worker.setMaintenances(maintenances);
+					
 					request.setAttribute("worker", worker);
 					request.getRequestDispatcher("/WEB-INF/JSP/HomepageWorker.jsp").forward(request, response);
 					return;

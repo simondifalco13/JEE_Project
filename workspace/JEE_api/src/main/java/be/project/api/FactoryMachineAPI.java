@@ -47,6 +47,7 @@ public class FactoryMachineAPI extends CommunAPI  {
 		}
 	}
 	
+	//ID pas utilisé ?
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

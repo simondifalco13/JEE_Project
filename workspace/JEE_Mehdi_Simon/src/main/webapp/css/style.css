@@ -18,6 +18,10 @@ th, td{
 	margin-top : -20px;
 	font-size: 15px;	
 }
+.back{
+	text-align: center;
+	margin-top : 10px;
+}
 .title{
 	text-align: center;
 	border: 5px solid black; 

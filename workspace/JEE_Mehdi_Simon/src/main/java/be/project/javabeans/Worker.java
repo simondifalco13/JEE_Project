@@ -33,8 +33,6 @@ public class Worker extends User implements Serializable {
 
 	}
 	public ArrayList<Maintenance> getMaintenances() {
-		WorkerDAO workerDAO = new WorkerDAO();
-		maintenances = workerDAO.getAllMaintenances(this);
 		return maintenances;
 	}
 
@@ -53,8 +51,8 @@ public class Worker extends User implements Serializable {
 
 	public static ArrayList<Maintenance> getMaintenances(Worker worker){
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-		WorkerDAO workerDAO = new WorkerDAO();
-		maintenances = workerDAO.getAllMaintenances(worker);
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		maintenances = maintenanceDAO.getAllMaintenances(worker);
 		return maintenances;
 	}
 

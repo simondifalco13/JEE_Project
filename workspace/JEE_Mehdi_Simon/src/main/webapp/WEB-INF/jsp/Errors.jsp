@@ -8,9 +8,9 @@
 <meta charset="ISO-8859-1">
 <title>Page d'erreurs</title>
 </head>
-<body>
-	<h1>ERREUR DE LA JSP</h1>
-	<p><%= exception.toString()%></p>
-	<p><%= exception.getMessage() %></p>
-</body>
+	<body>
+		<h1>Une exception est survenue</h1>
+		<p><%= exception%></p>
+		<p><%= exception.getMessage() %></p>
+	</body>
 </html>

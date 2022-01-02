@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" errorPage="Errors.jsp"%>
 <%@page import="be.project.javabeans.Maintenance" %>
 <%@page import="be.project.enumerations.MaintenanceStatus" %>
 <%@page import="java.lang.String" %>

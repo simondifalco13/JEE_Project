@@ -43,7 +43,40 @@ public class MaintenanceAPI extends CommunAPI {
 	public MaintenanceAPI() {
 		// TODO Auto-generated constructor stub
 	}
+	/*GET**/
+	/////////////////
+	@GET
+	@Path("{maintenance_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMaintenance(@PathParam("maintenance_id") int maintenance_id,
+			@HeaderParam("key") String key) {
+		String apiKey=getApiKey();
+		if(key!=null) {
+			if(key.equals(apiKey)) {
+				Maintenance maintenance=Maintenance.getMaintenance(maintenance_id);
+				return Response.status(Status.OK).entity(maintenance).build();
+			}
+		}
+		return Response.status(Status.UNAUTHORIZED).build();
+	}
+	@GET
+	@Path("worker/{serialNumber}/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMaintenances(@PathParam("serialNumber") int serialNumber,
+			@HeaderParam("key") String key) {
+		String apiKey=getApiKey();
+		if(key!=null) {
+			if(key.equals(apiKey)) {
+				ArrayList<Maintenance> maintenances= Worker.getMaintenances(serialNumber);
+				return Response.status(Status.OK).entity(maintenances).build();
+			}
+		}
+		return Response.status(Status.UNAUTHORIZED).build();
+	}
 	
+	
+	/*POST**/
+	//////////////////
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -114,7 +147,8 @@ public class MaintenanceAPI extends CommunAPI {
 		
 		
 	}
-	
+	/*PUT**/
+	//////////////////////
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -123,7 +157,6 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("start_t") String start,
 			@FormParam("status") String status,
 			@HeaderParam("key") String key) {
-		System.out.println("PUT MEHDI");
 		Connection conn=DatabaseConnection.getInstance();
 		if(DatabaseConnection.getError()!=null && conn==null) {
 			System.out.println(DatabaseConnection.getError().getJSON());
@@ -134,7 +167,7 @@ public class MaintenanceAPI extends CommunAPI {
 			Maintenance maintenance=new Maintenance();
 			maintenance.setStartTime(null);
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
+			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
 			try {
 				Date maintenanceDate = dateFormat.parse(date);
 				LocalTime startTime = LocalTime.parse(start, timeformat);
@@ -162,24 +195,6 @@ public class MaintenanceAPI extends CommunAPI {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
-
-
-	
-	@GET
-	@Path("{maintenance_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMaintenance(@PathParam("maintenance_id") int maintenance_id,
-			@HeaderParam("key") String key) {
-		String apiKey=getApiKey();
-		if(key!=null) {
-			if(key.equals(apiKey)) {
-				Maintenance maintenance=Maintenance.getMaintenance(maintenance_id);
-				return Response.status(Status.OK).entity(maintenance).build();
-			}
-		}
-		return Response.status(Status.UNAUTHORIZED).build();
-	}
-	
 	@PUT
 	@Path("{maintenance_id}/statusDone")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -194,7 +209,7 @@ public class MaintenanceAPI extends CommunAPI {
 					Maintenance maintenance = new Maintenance();
 					maintenance.setMaintenanceId(maintenance_id);
 					maintenance.setStatus(MaintenanceStatus.valueOf(status));
-					int sqlcode =maintenance.changeStatusDone();
+					int sqlcode = maintenance.changeStatusDone();
 						if(sqlcode==0) {
 							return Response.status(Status.NO_CONTENT).build();
 						}
@@ -248,4 +263,5 @@ public class MaintenanceAPI extends CommunAPI {
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
+	
 }

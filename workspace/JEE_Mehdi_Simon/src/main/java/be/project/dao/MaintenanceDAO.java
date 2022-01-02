@@ -157,7 +157,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			maintenance = Maintenance.getMaintenanceByJSONObject(json);
 			return maintenance;
 		} catch (Exception e) {
-			System.out.println("Problï¿½me conversion json en objet maintenance dans la maintenanceDAO : " + e.getMessage());
+			System.out.println("Problème conversion json en objet maintenance dans la maintenanceDAO : " + e.getMessage());
 			return null;
 		}
 	}
@@ -170,4 +170,26 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 		return maintenances;
 	}
+	public ArrayList<Maintenance> getAllMaintenances(Worker obj){
+		String key=getApiKey();
+		String responseJSON=resource
+				.path("maintenance")
+				.path("worker")
+				.path(String.valueOf(obj.getSerialNumber()))
+				.path("all")
+				.header("key",key)
+				.accept(MediaType.APPLICATION_JSON)
+				.get(String.class);
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+		
+		try{
+			JSONArray jsonArray= new JSONArray(responseJSON);
+			maintenances= Maintenance.getMaintenancesByJSONArray(jsonArray);
+		}
+		catch (Exception e) {
+			System.out.println("Problème dans la récupération du tableau de JSON --> maintenanceDAO du client" + e.getMessage() + e.toString());
+			return null;
+		}
+		return maintenances;
+}
 }
