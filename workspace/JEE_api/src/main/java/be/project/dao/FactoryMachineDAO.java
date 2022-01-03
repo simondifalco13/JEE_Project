@@ -100,7 +100,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				machines.add(machine);
 			}
 			
-			
+			conn.close();
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO FIND ALL:"+e.getMessage());
 		}

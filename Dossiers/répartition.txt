@@ -20,7 +20,7 @@ Pages :
 		--> créer une maintenance 
 			--> * page créer maintenance : sur la machine choisie et choisir parmi les ouvriers 
 							(date et heure == actuel : donc choisir parmi les ouvriers pas en maintenance, et du même site que la machine)
-	==> SIMON
+	==> SIMON ; OK 
    
   *Page de consultation de l'historique des maintenances (EMPLOYEE): 
 	--> Ordonées selon la machine contenue dans chacune des maintenance
