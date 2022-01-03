@@ -8,6 +8,10 @@ caption{
 	background-color: #1F9DBC;
 	text-align:center;
 }
+fieldset{
+	margin-top : 20px;
+	border: 2px solid black;
+}
 th, td{
 	text-align: center;
 	vertical-align: center;
@@ -17,6 +21,10 @@ th, td{
 	margin-bottom : 10px;
 	margin-top : -20px;
 	font-size: 15px;	
+}
+.back{
+	text-align: center;
+	margin-top : 10px;
 }
 .title{
 	text-align: center;
@@ -42,5 +50,12 @@ th, td{
 .divtable2, .divtable3{
 	display: inline-block;;
 }
+.center{
+	margin-left: auto;
+	margin-right : auto;
+
+}
+
+
 
 

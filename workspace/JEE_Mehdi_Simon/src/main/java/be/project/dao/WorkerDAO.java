@@ -103,26 +103,4 @@ public class WorkerDAO implements DAO<Worker> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public ArrayList<Maintenance> getAllMaintenances(Worker obj){
-			String key=getApiKey();
-			String responseJSON=resource
-					.path("worker")
-					.path(String.valueOf(obj.getSerialNumber()))
-					.path("maintenances")
-					.header("key",key)
-					.accept(MediaType.APPLICATION_JSON)
-					.get(String.class);
-			ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-			
-			try{
-				JSONArray jsonArray= new JSONArray(responseJSON);
-				maintenances= Maintenance.getMaintenancesByJSONArray(jsonArray);
-			}
-			catch (Exception e) {
-				System.out.println("Problème dans la récupération du tableau de JSON --> workerDAO du client" + e.getMessage() + e.toString());
-				return null;
-			}
-			return maintenances;
-	}
-
 }

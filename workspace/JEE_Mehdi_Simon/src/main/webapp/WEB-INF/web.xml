@@ -18,7 +18,7 @@
   <!-- CONTEXT PARAMS -->
   <context-param>
   	<param-name>apiUrl</param-name>
-  	<param-value>http://localhost:8080/JEE_API/api</param-value>
+  	<param-value>http://localhost:8888/JEE_API/api</param-value>
   </context-param>
   <context-param>
   	<param-name>adminMail</param-name>
@@ -33,17 +33,13 @@
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/Errors.jsp</location>
 	</error-page>
-	<error-page>
-		<error-code>401</error-code>
-		<location>/Error401.jsp</location>
-	</error-page>
 
 	
   <!-- ENVIRONNEMENT ENTRIES -->
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
+    <env-entry-value>http://localhost:8888/JEE_api/api</env-entry-value> 
  </env-entry>
   <!-- SERVLETS -->
   <servlet>
@@ -93,6 +89,10 @@
   <servlet>
   	<servlet-name>HomeEmployeeServlet</servlet-name>
   	<servlet-class>be.project.servlets.HomeEmployeeServlet</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>ShowSupplierMachines</servlet-name>
+  	<servlet-class>be.project.servlets.ShowSupplierMachines</servlet-class>
   </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
@@ -149,6 +149,10 @@
   	<servlet-name>HomeEmployeeServlet</servlet-name>
   	<url-pattern>/employee/home</url-pattern>
   	<url-pattern>/maintenances</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  	<servlet-name>ShowSupplierMachines</servlet-name>
+  	<url-pattern>/suppliersmachines</url-pattern>
   </servlet-mapping>
 	 
 	  <!--FILTERS-->
@@ -157,9 +161,46 @@
 		<filter-name>AuthenticationFilter</filter-name>
 		<filter-class>be.project.filters.AuthenticationFilter</filter-class>
 	</filter>
+	<filter>
+		<filter-name>WorkerAccessFilter</filter-name>
+		<filter-class>be.project.filters.WorkerAccessFilter</filter-class>
+	</filter>
+		<filter>
+		<filter-name>LeaderAccessFilter</filter-name>
+		<filter-class>be.project.filters.LeaderAccessFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>EmployeeAccessFilter</filter-name>
+		<filter-class>be.project.filters.EmployeeAccessFilter</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>AuthenticationFilter</filter-name>
 		<servlet-name>HomeServlet</servlet-name>
 		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+		<servlet-name>MachineServlet</servlet-name>
+		<servlet-name>ManageMachine</servlet-name>
+		<servlet-name>CreateMaintenance</servlet-name>
+		<servlet-name>ConsultMaintenance</servlet-name>
+		<servlet-name>UpdateMaintenance</servlet-name>
+		<servlet-name>MaintenanceDoneServlet</servlet-name>
+		<servlet-name>WriteReportServlet</servlet-name>
 	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>WorkerAccessFilter</filter-name>
+		<servlet-name>HomeServlet</servlet-name>
+		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+		<servlet-name>MaintenanceDoneServlet</servlet-name>
+		<servlet-name>WriteReportServlet</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>LeaderAccessFilter</filter-name>
+		<servlet-name>MachineServlet</servlet-name>
+		<servlet-name>ManageMachine</servlet-name>
+		<servlet-name>CreateMaintenance</servlet-name>
+		<servlet-name>ConsultMaintenance</servlet-name>
+		<servlet-name>UpdateMaintenance</servlet-name>
+	</filter-mapping>
+	<!-- MAPPING A COMPLETER POUR EMPLOYEE -->
 </web-app>

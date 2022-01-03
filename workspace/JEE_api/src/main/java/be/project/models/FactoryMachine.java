@@ -105,9 +105,4 @@ public class FactoryMachine extends Machine implements Serializable {
 			return OperationState.valueOf(state);
 		}
 	}
-	
-
-	
-
-
 }

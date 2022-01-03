@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isErrorPage="true"%>
+   <%@ include file="Navbar.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +9,10 @@
 <meta charset="ISO-8859-1">
 <title>Page d'erreurs</title>
 </head>
-<body>
-	<h1>ERREUR DE LA JSP</h1>
-	<p><%= exception.toString()%></p>
-	<p><%= exception.getMessage() %></p>
-</body>
+	<body>
+		<div class="alert alert-danger" role="alert">Une exception est survenue</div>
+
+		<p><%= exception%></p>
+		<p><%= exception.getMessage() %></p>
+	</body>
 </html>

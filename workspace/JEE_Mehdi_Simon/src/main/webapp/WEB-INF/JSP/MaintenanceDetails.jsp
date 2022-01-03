@@ -58,11 +58,18 @@
 			 		</tbody>
 			</table>
 		<% if(maintenance.reportExist() == true & maintenance.reportAndStatusAllow()== true){ %>
-			<div class="setdone"><a class="btn btn-success" href="<%=str%>/maintenancedone?id=<%=maintenance.getMaintenanceId()%>" role="button">Mark as done</a></div>
+			<div class="setdone">
+				<form action="maintenancedone" method="POST">
+					<button type="submit" class="btn btn-success" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Mark as done</button>
+				</form>
+			</div>
 		<%}else if(!maintenance.reportAndStatusAllow()){ }
 		else{%>
 			<div class="setdone"><button class="btn btn-warning" disabled>To mark this maintenance as done, you need at least 1 written report</button></div>
 			<%} %>
+			<div class="back" class="d-grid gap-2 col-6 mx-auto m-4">
+    		 	<a href="<%=str%>/home" class="btn btn-primary">Back</a>
+    		</div>
 		</div>
 		<!-- Informations personnes concernées -->
 		<div class="divtable2">
@@ -111,7 +118,10 @@
 			        Any report submitted
 			        <!-- SI aucun rapport + utilisateur = worker parcouru -->
 			        <% if(report.getWorker().getSerialNumber() == user.getSerialNumber() && maintenance.reportAndStatusAllow() == true){%>
-			        <br><a href="<%=str%>/writereport?id=<%=maintenance.getMaintenanceId()%>">Write a report</a>
+			        <br>
+			        <form action="writereport" method="POST">
+						<button type="submit" class="btn btn btn-link" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Write a report</button>
+					</form>
 			        <%} %>
 			        </li></ul></td>
 	  				<%}} %>

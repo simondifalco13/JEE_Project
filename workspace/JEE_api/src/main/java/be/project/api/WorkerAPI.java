@@ -38,20 +38,7 @@ public class WorkerAPI extends CommunAPI {
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
-	@GET
-	@Path("{serialNumber}/maintenances")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMaintenances(@PathParam("serialNumber") int serialNumber,
-			@HeaderParam("key") String key) {
-		String apiKey=getApiKey();
-		if(key!=null) {
-			if(key.equals(apiKey)) {
-				ArrayList<Maintenance> maintenances= Worker.getMaintenances(serialNumber);
-				return Response.status(Status.OK).entity(maintenances).build();
-			}
-		}
-		return Response.status(Status.UNAUTHORIZED).build();
-	}
+	
 	
 	@GET
 	@Path("/site")

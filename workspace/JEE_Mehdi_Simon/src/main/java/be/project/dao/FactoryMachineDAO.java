@@ -194,5 +194,4 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		}
 		return machines;
 	}
-
 }

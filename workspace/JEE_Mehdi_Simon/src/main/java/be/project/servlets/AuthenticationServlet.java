@@ -91,7 +91,7 @@ public class AuthenticationServlet extends HttpServlet {
 					//find user
 					User connectedUser=User.getUser(serialNumber);
 					if(connectedUser!=null) {
-						//création de la session
+						//crï¿½ation de la session
 						HttpSession session=request.getSession();
 						if(!session.isNew()) {
 							session.invalidate();
@@ -103,7 +103,6 @@ public class AuthenticationServlet extends HttpServlet {
 						if(connectedUser instanceof Worker) {
 							Worker user=(Worker)connectedUser;
 							session.setAttribute("connectedUser", user);
-							context.setAttribute("id", user.getSerialNumber());
 							response.sendRedirect("home");
 				
 						}

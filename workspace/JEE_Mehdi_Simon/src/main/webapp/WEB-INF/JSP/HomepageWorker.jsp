@@ -58,7 +58,10 @@
 						    	else {%>
 						    	<td>No</td>
 						    	<%}} %>
-						    	<td><a class="btn btn-info" href="<%=str%>/maintenanceinfos?id=<%=maintenance.getMaintenanceId() %>" role="button">Consult</a>
+						    	<td>
+							    	<form action="maintenanceinfos" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+						    		</form>
 						    	</td>
 						    </tr>
 						    <%}} %>
@@ -104,7 +107,10 @@
 						    	else {%>
 						    	<td>No</td>
 						    	<%}} %>
-						    	<td><a class="btn btn-info" href="<%=str%>/maintenanceinfos?id=<%=maintenance.getMaintenanceId() %>" role="button">Consult</a>
+						    	<td>
+							    	<form action="maintenanceinfos" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+						    		</form>
 						    	</td>
 						    </tr>
 						    <%}} %>
@@ -146,7 +152,11 @@
 						    	else {%>
 						    	<td>No</td>
 						    	<%}} %>
-						    	<td><a class="btn btn-info" href="<%=str%>/maintenanceinfos?id=<%=maintenance.getMaintenanceId() %>" role="button">Consult</a></td>
+						    	<td>
+							    	<form action="maintenanceinfos" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+						    		</form>
+						    	</td>
 						    </tr>
 						    <%}} %>
 				 		</tbody>
@@ -188,7 +198,11 @@
 						    	else {%>
 						    	<td>No</td>
 						    	<%}} %>
-						    	<td><a class="btn btn-info" href="<%=str%>/maintenanceinfos?id=<%=maintenance.getMaintenanceId() %>" role="button">Consult</a></td>
+						    	<td>
+							    	<form action="maintenanceinfos" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+						    		</form>
+						    	</td>
 						    </tr>
 						    <%}}} %>
 				 		</tbody>

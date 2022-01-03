@@ -3,6 +3,8 @@ package be.project.javabeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
+import be.project.dao.SupplierMachineDAO;
 import be.project.enumerations.MachineType;
 
 public class SupplierMachine extends Machine implements Serializable {
@@ -53,6 +55,14 @@ public class SupplierMachine extends Machine implements Serializable {
 	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
 	}
+
+	public static ArrayList<SupplierMachine> getAllSuppliersMachines(MachineType machineType) {
+		ArrayList<SupplierMachine> machines=new ArrayList<SupplierMachine>();
+		SupplierMachineDAO smDAO=new SupplierMachineDAO();
+		machines=smDAO.findAllSuppliersMachines(machineType);
+		return machines;
+	}
+
 	
 	//METHODS
 	
