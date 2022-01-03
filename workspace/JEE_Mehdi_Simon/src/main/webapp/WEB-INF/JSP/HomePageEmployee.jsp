@@ -92,7 +92,7 @@
 					    			</div>
 					    		<%}%>
 					    		<%if(machines.get(i).getMachineMaintenances().size()>3){%>
-			    					<form action="maintenances" action="POST">
+			    					<form action="maintenances" method="POST">
 			    						<button type="submit" class="btn btn-primary" name="machine" value="<%=machines.get(i).getId()%>">Replace </button>
 			    					</form>
 					    		<%} %>

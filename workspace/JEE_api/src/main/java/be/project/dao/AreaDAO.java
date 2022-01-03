@@ -115,5 +115,6 @@ public class AreaDAO implements DAO<Area> {
 		return areas;
 	}
 	
+	
 
 }

@@ -44,8 +44,8 @@
 						<td><%= machine.getDescription() %></td>
 						<td><%= machine.getPrice() %> euros</td>
 					<tr>			
-				<%}}%>
-				</table>
+					<%}}%>
+					</table>
 				</div>	
 				<%}%>
 		</fieldset>

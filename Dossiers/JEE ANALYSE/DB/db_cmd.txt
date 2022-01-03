@@ -13,9 +13,9 @@ DROP TABLE leader;
 DROP TABLE order_supplier_machine;
 DROP TABLE factory_employee;
 DROP TABLE site;
-DROP TABLE supplier;
 DROP TABLE orders;
 DROP TABLE supplier_machine;
+DROP TABLE supplier;
 
 /*********SUPPRESSION DES SEQUENCES AVANT CREATION*********/
 
@@ -29,6 +29,7 @@ DROP SEQUENCE employee_sequence;
 DROP SEQUENCE supplier_sequence;
 DROP SEQUENCE orders_sequence;
 DROP SEQUENCE supplier_machine_sequence;
+
 
 
 /*********CREATION DES TABLES*********/
@@ -137,8 +138,10 @@ CREATE TABLE supplier_machine(
 	model VARCHAR2(50) NOT NULL,
 	brand VARCHAR2(50) NOT NULL,
 	price number(10,2) NOT NULL,
-	description VARCHAR2(200)NOT NULL, 
-	supplier_id NUMBER(5) NOT NULL CONSTRAINT fk_supplier_machine REFERENCES supplier (supplier_id)
+	machine_type VARCHAR2(50) NOT NULL,
+	description VARCHAR2(200), 
+	supplier_id NUMBER(5) NOT NULL CONSTRAINT fk_supplier_machine REFERENCES supplier (supplier_id),
+	CONSTRAINT check_supplier_machine_type CHECK (machine_type IN ('production','assembly','sorting'))
 );
 
 CREATE TABLE order_supplier_machine(
@@ -298,8 +301,16 @@ BEGIN
   FROM dual;
 END;
 
-/*----CREATION DE TYPES NECESSAIRES----*/
-CREATE OR REPLACE TYPE TYPE_TAB_WOR IS TABLE OF worker.worker_id%TYPE INDEX BY BINARY_INTEGER; 
+
+CREATE OR REPLACE TRIGGER supplier_machine_on_insert
+  BEFORE INSERT ON supplier_machine
+  FOR EACH ROW
+BEGIN
+  SELECT orders_sequence.nextval
+  INTO :new.supplier_machine_id
+  FROM dual;
+END;
+
 
 /*-------INSERTIONS (TO UPDATE) -----*/
 INSERT INTO site(city,address) VALUES('Charleroi','Chaussee de marcinelle');
@@ -349,6 +360,9 @@ exec insert_worker_maintenance(20000,1,null);
 exec insert_worker_maintenance(20001,1,null);
 
 
+insert into supplier_machine(model,brand,price,description,supplier_id,machine_type) VALUES ('Assembly2000','AssemblyUnion',3000,'Newest Assembly machine',1,'assembly');
+
+insert into supplier_machine(model,brand,price,description,supplier_id,machine_type) VALUES ('Assembly2001','AssemblyUnion',6000,'Latest Assembly machine',1,'assembly');
 
 /*************TO DO **********/
 DANS LES INSERT UTILISER RETURNING INTO ! 

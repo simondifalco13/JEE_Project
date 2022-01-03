@@ -21,7 +21,7 @@ Pages :
 			--> * page créer maintenance : sur la machine choisie et choisir parmi les ouvriers 
 							(date et heure == actuel : donc choisir parmi les ouvriers pas en maintenance, et du même site que la machine)
 	==> SIMON ; OK 
-   
+   -------------
   *Page de consultation de l'historique des maintenances (EMPLOYEE): 
 	--> Ordonées selon la machine contenue dans chacune des maintenance
 	--> Si une machine dépasse X maintenances ==> commander une nouvelle machine 
@@ -29,24 +29,18 @@ Pages :
    			--> *Page avec les machines des fournisseur : AVEC le même TYPE que la machine
 			--> On peut ajouter au "panier" 
 			--> "valider la commande". --> message de validation de commande. 
+	*Page de listing des commandes : (simon) : créer des commandes fictives -> ajout de machine dans l'usine -> créer procédures stockée
+	
+	-> remplir supplier_machine avec des enregistrements (M)
+	-> commande d 1 seule machine a la fois  (M)
+	-> filtres (M)
+	-> renommer homeservlet -> worker... (M)
+	-> gérer la nav bar avec les différents lien / type  (S)
+	-> bouton annuler sur page de commande (M)
+	-> faire des gestion d'erreur + détaillée (S)
+	-> photo (bonus) (S)
 
-  *Page d'erreurs globale 
+  *Page d'erreurs globale !!
 
 --------------------------
-Répartition : 
 
-DAO , API et La DB -> Simon 
-	--> Authentification : appeler methode statique authentication de UserDAO-> peu importe la classe ca arrive dans un point précis de l'api qui 
-	va aller chercher dans la bonne table selon le matricule recu 
-		==> /user/login 
-	--> Ce qui concerne LEADER
-	--> ce qui concerne WORKER
-	--> ce qui concerne EMPLOYEE
-
-JSP et Servlets et DAO-> Mehdi 
-	--> Authentification : appeler methode statique authentication de UserDAO
-	--> Ce qui concerne LEADER
-	--> ce qui concerne WORKER
-	--> ce qui concerne EMPLOYEE
-
-FILTERS -> a deux, peu importe

@@ -1,6 +1,7 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,6 +75,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		ArrayList<Area> machineAreas=new  ArrayList<Area>();
 		Site site=null;
 		try {
+			
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT "
 					+ "machine_id,machine_type,site_id,machine_status,"
@@ -100,10 +102,10 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				machines.add(machine);
 			}
 			
-			conn.close();
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO FIND ALL:"+e.getMessage());
 		}
+		
 		return machines;
 	}
 

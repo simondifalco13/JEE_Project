@@ -44,6 +44,8 @@ public class DatabaseConnection {
 	public static Error getError() {
 		return error;
 	}
+	
+	
 
 	
 	

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import be.project.enumerations.MachineType;
 import be.project.javabeans.FactoryMachine;
@@ -32,9 +33,10 @@ public class ShowSupplierMachines extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("machinetype")!=null) {
-			
-			MachineType machineType=MachineType.valueOf(request.getParameter("machinetype"));
+		HttpSession session = request.getSession(false);
+		if(session.getAttribute("machineToReplace")!=null) {
+			FactoryMachine machineToReplace=(FactoryMachine) session.getAttribute("machineToReplace");
+			MachineType machineType=machineToReplace.getType();
 			ArrayList<SupplierMachine> suppliersMachines = new ArrayList<SupplierMachine>();
 			suppliersMachines = SupplierMachine.getAllSuppliersMachines(machineType);
 			request.setAttribute("machines", suppliersMachines);

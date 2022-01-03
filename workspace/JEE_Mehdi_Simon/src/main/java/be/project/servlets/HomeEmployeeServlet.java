@@ -58,8 +58,8 @@ public class HomeEmployeeServlet extends HttpServlet {
 				 }
 				 HttpSession session = request.getSession(false);
 				 if(session!=null) {
-					 session.setAttribute("machineType", machineToReplace.getType().toString());
-					 //response.sendRedirect("");
+					 session.setAttribute("machineToReplace", machineToReplace);
+					 response.sendRedirect("suppliersmachines");
 				 }else {
 					 //redirection sur page d'erreur
 				 }
