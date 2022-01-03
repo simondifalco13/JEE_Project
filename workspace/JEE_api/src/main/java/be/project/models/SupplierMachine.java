@@ -30,6 +30,13 @@ public class SupplierMachine extends Machine implements Serializable {
 		this(model, brand, description, type,price,supplier);
 		this.setOrders(orders);
 	}
+	
+	public SupplierMachine(int id,String model, String brand, String description,
+			MachineType type,double price,Supplier supplier,
+			ArrayList<Order> orders) {
+		this(model, brand, description, type,price,supplier,orders);
+		this.setId(id);
+	}
 
 	//GET & SET
 	public double getPrice() {

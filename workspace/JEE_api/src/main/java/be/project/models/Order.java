@@ -2,10 +2,12 @@ package be.project.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import be.project.models.SupplierMachine;
+import be.project.dao.OrderDAO;
 import be.project.models.Employee;
 import be.project.models.Item;
 
@@ -18,6 +20,7 @@ public class Order implements Serializable {
 	private int orderNumber;
 	private Employee employee;
 	private double totalPrice;
+	private Date orderDate;
 	
 	public Order() {
 		
@@ -28,6 +31,16 @@ public class Order implements Serializable {
 		this.employee=employee;
 		this.orderItems=orderItems;
 		this.totalPrice=calculateTotalPrice(this.orderItems);
+	}
+	
+	
+
+	public Order(int id, Date date,Employee employee, double totalPrice) {
+		this.id = id;
+		this.employee = employee;
+		this.orderDate=date;
+		this.totalPrice = totalPrice;
+		this.orderItems=new ArrayList<Item>();
 	}
 
 	//GET & SET
@@ -75,6 +88,15 @@ public class Order implements Serializable {
 		this.id = id;
 	}
 
+	
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
 	//METHODS
 	public void addAmountToTotal(double amount) {
 		double total=this.getTotalPrice();
@@ -91,9 +113,21 @@ public class Order implements Serializable {
 	}
 	public void addItem(Item item) {
 		orderItems.add(item);
+	}
+	
+	public void addItemAndPrice(Item item) {
+		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
 	}
-
+	
+	public static ArrayList<Order> getAllOrders()
+	{
+		ArrayList<Order> orders=new ArrayList<Order>();
+		OrderDAO orderDAO=new OrderDAO();
+		orders=orderDAO.findAll();
+		return orders;
+		
+	}
 }
 

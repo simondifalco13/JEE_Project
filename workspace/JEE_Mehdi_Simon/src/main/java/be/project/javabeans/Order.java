@@ -2,6 +2,7 @@ package be.project.javabeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ public class Order implements Serializable {
 	private int orderNumber;
 	private Employee employee;
 	private double totalPrice;
+	private Date orderDate;
 	
 	public Order() {
 		
@@ -73,6 +75,16 @@ public class Order implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
 
 	//METHODS
 	public void addAmountToTotal(double amount) {

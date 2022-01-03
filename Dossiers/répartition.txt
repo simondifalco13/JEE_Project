@@ -1,4 +1,4 @@
-AJOUTER RAPPORT CLASSE
+exitAJOUTER RAPPORT CLASSE
 AJOUTER CLASSE POUR ORDER 
 -SERVELET (-> 1 par JSP == IMPORTANT)
 -JSP 
@@ -29,7 +29,8 @@ Pages :
    			--> *Page avec les machines des fournisseur : AVEC le même TYPE que la machine
 			--> On peut ajouter au "panier" 
 			--> "valider la commande". --> message de validation de commande. 
-	*Page de listing des commandes : (simon) : créer des commandes fictives -> ajout de machine dans l'usine -> créer procédures stockée
+
+	*Page de listing des commandes : (simon) : créer des commandes fictives -> ajout de machine dans l'usine si on dit 'recue' -> créer procédures stockée
 	
 	-> remplir supplier_machine avec des enregistrements (M)
 	-> commande d 1 seule machine a la fois  (M)

@@ -330,6 +330,9 @@ VALUES ('Martin','Garix','garix.martin@gmail.com','Mdrtsf85',1);
 INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail,employee_password,site_id)
 VALUES ('Cliff','Richard','cliff.richard@gmail.com','Clifsq8d',1);
 
+INSERT INTO factory_employee (employee_firstname,employee_lastname,employee_mail,employee_password,site_id)
+VALUES ('Dan','Bison','bison.dan@hotmail.com','B3redape',1);
+
 ----
 DECLARE 
  value machine.machine_id%TYPE;
@@ -363,6 +366,22 @@ exec insert_worker_maintenance(20001,1,null);
 insert into supplier_machine(model,brand,price,description,supplier_id,machine_type) VALUES ('Assembly2000','AssemblyUnion',3000,'Newest Assembly machine',1,'assembly');
 
 insert into supplier_machine(model,brand,price,description,supplier_id,machine_type) VALUES ('Assembly2001','AssemblyUnion',6000,'Latest Assembly machine',1,'assembly');
+
+-----
+
+DECLARE
+	created_order_id orders.order_id%TYPE;
+BEGIN
+	insert_orders('03-01-2022',3000,40000,created_order_id);
+	insert_order_supplier_machine(1,created_order_id,1);
+END;
+
+-----
+SELECT orders.order_id AS ord_id,
+ order_date,employee_id,machine_id,
+quantity,price FROM orders 
+LEFT JOIN order_supplier_machine ON orders.order_id=order_supplier_machine.order_id;
+
 
 /*************TO DO **********/
 DANS LES INSERT UTILISER RETURNING INTO ! 
@@ -522,6 +541,7 @@ BEGIN
 	maintenance_end=end_t,
 	maintenance_date=final_maintenance_d
 	WHERE maintenance_id=maintenance_id_param;
+	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while updating maintenance');
@@ -536,14 +556,15 @@ END;
 --Procedure of insertion in orders
 
 CREATE OR REPLACE PROCEDURE insert_orders(
-	order_date IN orders.order_date%TYPE,
-	price IN orders.price%TYPE,
-	empl_id IN factory_employee.employee_id%TYPE
+	order_date_var IN orders.order_date%TYPE,
+	price_var IN orders.price%TYPE,
+	empl_id IN orders.employee_id%TYPE,
 	created_orders_id OUT orders.order_id%TYPE)
 AS
+	
 BEGIN
 	INSERT INTO orders (order_date,price,employee_id)
-	VALUES (order_date,price,empl_id) 
+	VALUES (TO_DATE(order_date_var, 'DD-MM-YYYY'),price_var,empl_id) 
 	RETURNING order_id INTO created_orders_id;
 	COMMIT;
 	EXCEPTION 
@@ -556,13 +577,13 @@ END;
 --Procedure of insertion in order_supplier_machine
 
 CREATE OR REPLACE PROCEDURE insert_order_supplier_machine(
-	machine_id IN machine.machine_id%TYPE,
-	order_id IN orders.order_id%TYPE,
-	quantity IN order_supplier_machine.quantity%TYPE)
+	machine_id_var IN machine.machine_id%TYPE,
+	order_id_var IN orders.order_id%TYPE,
+	quantity_var IN order_supplier_machine.quantity%TYPE)
 AS
 BEGIN
 	INSERT INTO order_supplier_machine(machine_id,order_id,quantity)
-	VALUES (machine_id,order_id,quantity);
+	VALUES (machine_id_var,order_id_var,quantity_var);
 	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 
