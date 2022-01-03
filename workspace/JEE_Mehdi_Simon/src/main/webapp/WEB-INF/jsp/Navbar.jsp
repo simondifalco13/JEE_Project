@@ -7,11 +7,11 @@
     <jsp:useBean id="worker" class="be.project.javabeans.Worker" scope="session"></jsp:useBean>
     <jsp:useBean id="leader" class="be.project.javabeans.Leader" scope="session"></jsp:useBean>
     <jsp:useBean id="employee" class="be.project.javabeans.Employee" scope="session"></jsp:useBean>
+  	
 <!DOCTYPE html>
 <html>
 	<head>
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<meta charset="ISO-8859-1">
 		<title>FabricTout</title>
 	</head>
@@ -25,16 +25,23 @@
 		<% 
 			User user = (User)session.getAttribute("connectedUser");
 		%>
-		<nav class="navbar navbar-inverse">
+		
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="<%=str%>/connexion">FabricTout</a>
+		    <a class="navbar-brand" href="<%=str%>/connexion">FabricTout</a>
+		    
+		    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+		      <ul class="navbar-nav justify-content-center">
+		    	<% if(user != null && user.getSerialNumber()!=0 && (user instanceof Employee)){ %>
+		      		<li class="nav-item"><a class="nav-link active" href="orders"><span class="glyphicon"></span>Orders</a></li>
+		      		<li class="nav-item"><a class="nav-link active" href="machines"><span class="glyphicon"></span>Machine</a></li>
+		   		<%} %>
+		       <% if(user != null && user.getSerialNumber()!=0){ %>
+		      		<li class="nav-item"><a class="nav-link active" href="<%= str%>/logout"><span class="glyphicon glyphicon-log-off"></span>Logout</a></li>
+		    	<%} %>
+		      </ul>
+		      
 		    </div>
-		    <ul class="nav navbar-nav navbar-right">
-		    <% if(user != null && user.getSerialNumber()!=0){ %>
-		      <li><a href="<%= str%>/logout"><span class="glyphicon glyphicon-log-off"></span>Logout</a></li>
-		    <%} %>
-		    </ul>
 		  </div>
 		</nav>
 	</body>

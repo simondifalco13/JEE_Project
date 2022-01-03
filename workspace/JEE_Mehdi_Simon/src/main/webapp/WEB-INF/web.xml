@@ -94,6 +94,10 @@
   	<servlet-name>ShowSupplierMachines</servlet-name>
   	<servlet-class>be.project.servlets.ShowSupplierMachines</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>OrdersListingServlet</servlet-name>
+  	<servlet-class>be.project.servlets.OrdersListingServlet</servlet-class>
+  </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
   	<servlet-name>AuthenticationServlet</servlet-name>
@@ -153,6 +157,10 @@
  <servlet-mapping>
   	<servlet-name>ShowSupplierMachines</servlet-name>
   	<url-pattern>/suppliersmachines</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>OrdersListingServlet</servlet-name>
+  	<url-pattern>/orders</url-pattern>
   </servlet-mapping>
 	 
 	  <!--FILTERS-->
