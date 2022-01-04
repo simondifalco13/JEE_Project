@@ -33,79 +33,76 @@ public class WriteReportServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			try {
-				if(request.getParameter("maintenanceId") != null) {
-					int maintenance_id= Integer.valueOf(request.getParameter("maintenanceId"));
-					request.setAttribute("maintenance_id", maintenance_id);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/CreateReport.jsp");
-					dispatcher.forward(request, response);
-				}
-				else response.sendRedirect("connexion");
+		HttpSession session = request.getSession(false);
+		try {
+			if(session.getAttribute("maintenanceid")!=null) {
+				int maintenance_id=(int)session.getAttribute("maintenanceid");
+				
+				request.setAttribute("maintenanceid", maintenance_id);
+				request.getRequestDispatcher("/WEB-INF/JSP/CreateReport.jsp").forward(request, response);
+				
 			}
-			catch(Exception e) {
-				System.out.println("Exception dans writereportServlet doGet : "+ e.getMessage()+e.toString());
+			else response.sendRedirect("home");
 			}
+		catch(Exception e) {
+			System.out.println("Exception dans writereportservlet doget :" +e.getMessage());
+		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//affichage jsp
 		HttpSession session = request.getSession(false);
-		if(request.getParameter("report")==null && request.getParameter("maintenanceId")!=null) {
-			try {
-				int maintenance_id= Integer.valueOf(request.getParameter("maintenanceId"));
-				request.setAttribute("maintenance_id", maintenance_id);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/CreateReport.jsp");
-				dispatcher.forward(request, response);
-				return;
-			}
-			catch(Exception e) {
-				System.out.println("Error in writeReportServlet doPost: " + e.getMessage() + e.toString());
-				response.sendRedirect("connexion");
-				return;
-			}
-		}
-		
-		//envoie rapport
 		request.setAttribute("error", null);
 		String error="";
 		String message="";
-		if(request.getParameter("report")!=null && request.getParameter("maintenanceId")!=null) {
-			try {
-				User user = (User)session.getAttribute("connectedUser");
-				String report = request.getParameter("report");
-				int maintenance_id_session = (int)session.getAttribute("maintenance_id");
-				int maintenance_id = Integer.valueOf(request.getParameter("maintenanceId"));
-				if(maintenance_id_session != maintenance_id) {
-					response.sendRedirect("logout");
-					return;
-				}
-				if(Report.reportIsValid(report)) {
-					Maintenance maintenance = new Maintenance();
-					maintenance.setMaintenanceId(maintenance_id);
-					Worker worker = new Worker();
-					worker.setSerialNumber(user.getSerialNumber());
-					worker.setLastname(user.getLastname());
-					worker.setFirstname(user.getFirstname());
-					Report reportObject = new Report(maintenance,worker,report);
-					int code = reportObject.createReport();
-					switch(code) {
-						case 0 : 
-							message= "Report create";
-							break;
-						case -1 : 
-							message= "Report not created";
-							break;
-						case 401 : 
-							System.out.println("Accès non autorisé");
-							response.sendRedirect("connexion");
+		try {
+			if(session.getAttribute("maintenanceid")!=null) {
+				if(request.getParameter("report")!=null && request.getParameter("maintenanceid")!=null) {
+					try {
+						User user = (User)session.getAttribute("connectedUser");
+						String report = request.getParameter("report");
+						int maintenance_id_session = (int)session.getAttribute("maintenanceid");
+						int maintenance_id = Integer.valueOf(request.getParameter("maintenanceid"));
+						if(maintenance_id_session != maintenance_id) {
+							response.sendRedirect("home");
 							return;
-						default:
-							System.out.println("Exception sql généré dans la procédure stockée : " + code);
-							message= "Report not created --> error code : " + code;
-							break;
+						}
+						if(Report.reportIsValid(report)) {
+							Maintenance maintenance = new Maintenance();
+							maintenance.setMaintenanceId(maintenance_id);
+							Worker worker = new Worker();
+							worker.setSerialNumber(user.getSerialNumber());
+							worker.setLastname(user.getLastname());
+							worker.setFirstname(user.getFirstname());
+							Report reportObject = new Report(maintenance,worker,report);
+							int code = reportObject.createReport();
+							switch(code) {
+								case 0 : 
+									message= "Report create";
+									break;
+								case -1 : 
+									message= "Report not created";
+									break;
+								case 401 : 
+									System.out.println("Accès non autorisé");
+									response.sendRedirect("connexion");
+									return;
+								default:
+									System.out.println("Exception sql généré dans la procédure stockée : " + code);
+									message= "Report not created --> error code : " + code;
+									break;
+							}
+							request.setAttribute("message", message);
+							request.getRequestDispatcher("maintenanceinfos").forward(request, response);
+							return;
+						}
+						else {
+							error = "A report can't be empty and must contain at least 10 letters";
+							request.setAttribute("error", error);
+							doGet(request,response);
+						}
 					}
-					request.setAttribute("message", message);
-					RequestDispatcher requestDispatcher=request.getRequestDispatcher("maintenanceinfos");
-					requestDispatcher.forward(request, response);
+					catch(Exception e) {
+						System.out.println("Error : "+ e.getMessage() + e.toString());
+					}
 				}
 				else {
 					error = "A report can't be empty and must contain at least 10 letters";
@@ -113,14 +110,10 @@ public class WriteReportServlet extends HttpServlet {
 					doGet(request,response);
 				}
 			}
-			catch(Exception e) {
-				System.out.println("Error : "+ e.getMessage() + e.toString());
-			}
+			else response.sendRedirect("home");
 		}
-		else {
-			error = "A report can't be empty and must contain at least 10 letters";
-			request.setAttribute("error", error);
-			doGet(request,response);
+		catch(Exception e) {
+			System.out.println("Exception dans writereportservlet dopost :" +e.getMessage());
 		}
 	}
 }

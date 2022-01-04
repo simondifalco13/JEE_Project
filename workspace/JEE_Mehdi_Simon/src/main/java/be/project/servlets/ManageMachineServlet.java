@@ -15,13 +15,13 @@ import be.project.javabeans.FactoryMachine;
  * Servlet implementation class ManageMachine
  */
 
-public class ManageMachine extends HttpServlet {
+public class ManageMachineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManageMachine() {
+    public ManageMachineServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

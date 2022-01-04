@@ -51,7 +51,7 @@
 			<b>Date :</b> <%=DateFor.format(maintenance.getMaintenanceDate()) %> <br>
 			<b>Start :</b> <%=maintenance.getStartTime().format(dateTimeFormatter) %> <br>
 			<% if(maintenance.getEndTime()!=null){ %>
-				<b>End : </b> <%=maintenance.getStartTime().format(dateTimeFormatter) %> <br>
+				<b>End : </b> <%=maintenance.getEndTime().format(dateTimeFormatter) %> <br>
 				<b>Duration : </b><%=maintenance.getDuration() %> <br>
 			<%}%>
 	  		Supervised by <%=maintenance.getMaintenanceLeader().getLastname()%> <%=maintenance.getMaintenanceLeader().getFirstname()%>  (serial number : <%=maintenance.getMaintenanceLeader().getSerialNumber()%>)<br>

@@ -172,12 +172,12 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 		return maintenances;
 	}
-	public ArrayList<Maintenance> getAllMaintenances(Worker obj){
+	public ArrayList<Maintenance> getAllMaintenances(int workerId){
 		String key=getApiKey();
 		String responseJSON=resource
 				.path("maintenance")
 				.path("worker")
-				.path(String.valueOf(obj.getSerialNumber()))
+				.path(String.valueOf(workerId))
 				.path("all")
 				.header("key",key)
 				.accept(MediaType.APPLICATION_JSON)

@@ -32,15 +32,9 @@ public class HomeEmployeeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if(session!=null) {
-			Employee employee=(Employee) session.getAttribute("connectedUser");
-			machines=FactoryMachine.getAllFactoryMachines();
-			request.setAttribute("machines", machines);
-			request.getRequestDispatcher("/WEB-INF/JSP/HomePageEmployee.jsp").forward(request,response);
-		}else {
-			//redirection sur page d'erreur
-		}
+		machines=FactoryMachine.getAllFactoryMachines();
+		request.setAttribute("machines", machines);
+		request.getRequestDispatcher("/WEB-INF/JSP/HomePageEmployee.jsp").forward(request,response);
 	}
 
 	/**
@@ -57,12 +51,8 @@ public class HomeEmployeeServlet extends HttpServlet {
 					 }
 				 }
 				 HttpSession session = request.getSession(false);
-				 if(session!=null) {
-					 session.setAttribute("machineToReplace", machineToReplace);
-					 response.sendRedirect("suppliersmachines");
-				 }else {
-					 //redirection sur page d'erreur
-				 }
+				 session.setAttribute("machineToReplace", machineToReplace);
+				 response.sendRedirect("suppliersmachines");
 			}
 		}
 	}

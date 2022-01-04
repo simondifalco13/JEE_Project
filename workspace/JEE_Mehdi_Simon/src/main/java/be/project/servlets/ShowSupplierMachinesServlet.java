@@ -18,13 +18,13 @@ import be.project.javabeans.SupplierMachine;
 /**
  * Servlet implementation class showSupplierMachines
  */
-public class ShowSupplierMachines extends HttpServlet {
+public class ShowSupplierMachinesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowSupplierMachines() {
+    public ShowSupplierMachinesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -52,9 +52,27 @@ public class ShowSupplierMachines extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			doGet(request,response);
-		
-		
+		HttpSession session = request.getSession(false);
+		if(request.getParameter("machinetype")!=null) {
+			String machineType= request.getParameter("machinetype");
+			if(machineType.toLowerCase().equals("sorting") || machineType.toLowerCase().equals("assembly") || machineType.toLowerCase().equals("production")) {
+				ArrayList<SupplierMachine> suppliersMachines = new ArrayList<SupplierMachine>();
+				suppliersMachines = SupplierMachine.getAllSuppliersMachines(MachineType.valueOf(machineType.toLowerCase()));
+				request.setAttribute("machines", suppliersMachines);
+				request.setAttribute("type", String.valueOf(machineType));
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/SupplierMachines.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
+		}
+		if(request.getParameter("suppliermachineid")!=null) {
+			int supplierMachineId=Integer.valueOf(request.getParameter("suppliermachineid"));
+			session.setAttribute("suppliermachineid", supplierMachineId);
+			response.sendRedirect("createorder");
+			return;
+			
+		}
+		doGet(request,response);
 	}
-
 }

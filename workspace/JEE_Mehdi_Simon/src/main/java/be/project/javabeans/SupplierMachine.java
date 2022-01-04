@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
+
 import be.project.dao.SupplierMachineDAO;
 import be.project.enumerations.MachineType;
 
@@ -61,6 +62,13 @@ public class SupplierMachine extends Machine implements Serializable {
 		SupplierMachineDAO smDAO=new SupplierMachineDAO();
 		machines=smDAO.findAllSuppliersMachines(machineType);
 		return machines;
+	}
+
+	public static SupplierMachine getSupplierMachine(int supplierMachineId) {
+		SupplierMachine machine = new SupplierMachine();
+		SupplierMachineDAO smDAO = new SupplierMachineDAO();
+		machine= smDAO.find(supplierMachineId);
+		return machine;
 	}
 
 	

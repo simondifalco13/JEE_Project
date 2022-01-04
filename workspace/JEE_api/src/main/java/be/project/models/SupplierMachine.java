@@ -63,5 +63,12 @@ public class SupplierMachine extends Machine implements Serializable {
 		return machines;
 	}
 	//METHODS
+
+	public static SupplierMachine getSupplierMachine(int id) {
+		SupplierMachine machine = new SupplierMachine();
+		SupplierMachineDAO smDAO = new SupplierMachineDAO();
+		machine= smDAO.find(id);
+		return machine;
+	}
 	
 }
