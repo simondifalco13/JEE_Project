@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import be.project.javabeans.Order;
 import be.project.javabeans.SupplierMachine;
 
 /**
@@ -44,10 +45,17 @@ public class CreateOrderServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		boolean success = false;
 		System.out.println("dopost order");
 		if(request.getParameter("suppliermachineid")!=null) {
 			int id = Integer.valueOf(request.getParameter("suppliermachineid"));
 			System.out.println("id " + id);
+			SupplierMachine machine = SupplierMachine.getSupplierMachine(id);
+			Order order = new Order();
+			success = order.insertOrder();
+			if(success) {
+				
+			}
 			
 		}
 	}

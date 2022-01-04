@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import be.project.dao.OrderDAO;
 import be.project.javabeans.Item;
 
 public class Order implements Serializable {
@@ -92,6 +93,12 @@ public class Order implements Serializable {
 		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
+	}
+
+
+	public boolean insertOrder() {
+		OrderDAO orderDAO = new OrderDAO();
+		return orderDAO.insert(this);
 	}
 
 }
