@@ -91,11 +91,11 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		String key=getApiKey();
 		String workers="";
 		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
-		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
 		String endTime=obj.getEndTime() == null ? null :obj.getEndTime().toString();
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
-		parameters.add("start_t",obj.getStartTime().toString());
+		parameters.add("start_t",timeformat.format(obj.getStartTime()));
 		parameters.add("status", obj.getStatus().toString());
 		ClientResponse res=resource
 				.path("maintenance")

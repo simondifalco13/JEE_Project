@@ -167,7 +167,7 @@ public class MaintenanceAPI extends CommunAPI {
 			Maintenance maintenance=new Maintenance();
 			maintenance.setStartTime(null);
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm");
+			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
 			try {
 				Date maintenanceDate = dateFormat.parse(date);
 				LocalTime startTime = LocalTime.parse(start, timeformat);

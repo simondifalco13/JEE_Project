@@ -182,12 +182,21 @@ public class Maintenance implements Serializable {
 
 	private String calculateDuration(LocalTime start,LocalTime end) {
 		long hours = ChronoUnit.HOURS.between(start, end);
+		if(hours<0) {
+			hours=Math.abs(hours);
+		}
 
         long minutes
             = ChronoUnit.MINUTES.between(start, end) % 60;
+        if(minutes<0) {
+        	minutes=Math.abs(minutes);
+		}
 
         long seconds
             = ChronoUnit.SECONDS.between(start, end) % 60;
+        if(seconds<0) {
+        	seconds=Math.abs(seconds);
+		}
         return hours+":"+minutes+":"+seconds;
 	}
 	public static Maintenance getMaintenance(int id) {
