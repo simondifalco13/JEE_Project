@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -56,7 +58,12 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		LocalDateTime start= LocalDateTime.of(maintenanceDate, obj.getStartTime());
 		try {
 			CallableStatement sql = conn.prepareCall("{call insert_maintenance(?,?,?,?,?,?,?,?)}");
-			sql.setDate(1, new java.sql.Date(obj.getMaintenanceDate().getTime()));
+			DateFormat formatDate = new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat sqlFormatDate = new SimpleDateFormat("MM/dd/yyyy");
+
+			java.sql.Date sqlDate=new java.sql.Date(obj.getMaintenanceDate().getTime());
+			System.out.println("CREATION MAINTENANCE : "+sqlDate.toString());
+			sql.setString(1,  sqlDate.toString());
 			sql.setString(2, obj.getStatus().toString());
 			sql.setInt(3, obj.getMachine().getId());
 			sql.setInt(4,obj.getMaintenanceLeader().getSerialNumber());
@@ -184,7 +191,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				if(count == 0) {
 					//int maintenanceId=resultSet.getInt("maintenance_id");
 					Date maintenance_date = (Date) resultSet.getDate("maintenance_date");
-					System.out.println("date "+ maintenance_date);
 					MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
 					Timestamp timeStart = resultSet.getTimestamp("maintenance_start");
 					Timestamp timeEnd = resultSet.getTimestamp("maintenance_end");

@@ -31,7 +31,7 @@ Pages :
 			--> "valider la commande". --> message de validation de commande. 
 
 	*Page de listing des commandes : (simon) : créer des commandes fictives -> !ajout de machine dans l'usine si on dit 'recue'! -> créer procédures stockée
-	--> problème date maintenance 
+	--> problème duration
 	-> gérer la nav bar avec les différents lien / type  (S) : Leader ? 
 	
 	-> commande d 1 seule machine a la fois  (M)

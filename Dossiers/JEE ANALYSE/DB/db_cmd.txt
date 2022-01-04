@@ -465,7 +465,7 @@ END;
 
 
 CREATE OR REPLACE PROCEDURE insert_maintenance(
-	date_m IN maintenance.maintenance_date%TYPE,
+	date_m IN VARCHAR2,
 	status IN maintenance.maintenance_status%TYPE,
 	machine_id IN machine.machine_id%TYPE,
 	leader_id IN leader.leader_id%TYPE ,
@@ -478,12 +478,12 @@ AS
   	pragma exception_init(ex_date_format, -1843);
 BEGIN
 	INSERT INTO maintenance (maintenance_date,maintenance_status,machine_id,leader_id,maintenance_start,maintenance_end) 
-	VALUES (TO_DATE(date_m, 'DD-MM-YYYY'),status,machine_id,leader_id,maintenance_start,maintenance_end)
+	VALUES (TO_DATE(date_m, 'YYYY-MM-DD'),status,machine_id,leader_id,maintenance_start,maintenance_end)
 	RETURNING maintenance_id INTO created_maintenance_id;
 	COMMIT;
 	EXCEPTION
 		WHEN ex_date_format THEN 
-			DBMS_OUTPUT.PUT_lINE('Date not valid : neeed DD-MM-YYYY format');
+			DBMS_OUTPUT.PUT_lINE('Date not valid : neeed YYYY-MM-DD format');
 			forException := SQLCODE;
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new maintenance');	
