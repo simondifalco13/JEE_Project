@@ -30,14 +30,13 @@ Pages :
 			--> On peut ajouter au "panier" 
 			--> "valider la commande". --> message de validation de commande. 
 
-	*Page de listing des commandes : (simon) : créer des commandes fictives -> ajout de machine dans l'usine si on dit 'recue' -> créer procédures stockée
+	*Page de listing des commandes : (simon) : créer des commandes fictives -> !ajout de machine dans l'usine si on dit 'recue'! -> créer procédures stockée
 	
-	-> remplir supplier_machine avec des enregistrements (M)
+	
 	-> commande d 1 seule machine a la fois  (M)
-	-> filtres (M)
-	-> renommer homeservlet -> worker... (M)
-	-> gérer la nav bar avec les différents lien / type  (S)
+	-> gérer la nav bar avec les différents lien / type  (S) : Employee OK, Leader ? 
 	-> bouton annuler sur page de commande (M)
+
 	-> faire des gestion d'erreur + détaillée (S)
 	-> photo (bonus) (S)
 
