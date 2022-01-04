@@ -183,7 +183,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			while(resultSet.next()) {
 				if(count == 0) {
 					//int maintenanceId=resultSet.getInt("maintenance_id");
-					Date maintenance_date = resultSet.getDate("maintenance_date");
+					Date maintenance_date = (Date) resultSet.getDate("maintenance_date");
+					System.out.println("date "+ maintenance_date);
 					MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
 					Timestamp timeStart = resultSet.getTimestamp("maintenance_start");
 					Timestamp timeEnd = resultSet.getTimestamp("maintenance_end");
@@ -370,9 +371,9 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	}
 
 	@Override
-	public boolean update(Maintenance obj) {
+	public int update(Maintenance obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 	
 	

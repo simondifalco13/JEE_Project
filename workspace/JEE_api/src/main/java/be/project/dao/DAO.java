@@ -11,7 +11,7 @@ public interface DAO<T> {
 	
 	public boolean delete(int id);
 	
-	public boolean update(T obj);
+	public int update(T obj);
 	
 	public T find(int id);
 	

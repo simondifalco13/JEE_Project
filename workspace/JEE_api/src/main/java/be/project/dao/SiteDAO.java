@@ -34,9 +34,9 @@ public class SiteDAO implements DAO<Site> {
 	}
 
 	@Override
-	public boolean update(Site obj) {
+	public int update(Site obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

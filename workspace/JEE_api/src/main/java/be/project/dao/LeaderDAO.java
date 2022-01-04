@@ -24,9 +24,9 @@ public class LeaderDAO implements DAO<Leader> {
 	}
 
 	@Override
-	public boolean update(Leader obj) {
+	public int update(Leader obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

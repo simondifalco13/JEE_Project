@@ -25,9 +25,9 @@ public class AreaDAO implements DAO<Area> {
 	}
 
 	@Override
-	public boolean update(Area obj) {
+	public int update(Area obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

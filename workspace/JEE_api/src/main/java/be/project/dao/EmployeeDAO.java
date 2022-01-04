@@ -23,9 +23,9 @@ public class EmployeeDAO implements DAO<Employee> {
 	}
 
 	@Override
-	public boolean update(Employee obj) {
+	public int update(Employee obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

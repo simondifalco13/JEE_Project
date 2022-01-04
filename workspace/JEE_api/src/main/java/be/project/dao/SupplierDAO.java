@@ -19,9 +19,9 @@ public class SupplierDAO implements DAO<Supplier> {
 	}
 
 	@Override
-	public boolean update(Supplier obj) {
+	public int update(Supplier obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

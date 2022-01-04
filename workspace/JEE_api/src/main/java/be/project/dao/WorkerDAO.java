@@ -32,9 +32,9 @@ public class WorkerDAO implements DAO<Worker> {
 	}
 
 	@Override
-	public boolean update(Worker obj) {
+	public int update(Worker obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

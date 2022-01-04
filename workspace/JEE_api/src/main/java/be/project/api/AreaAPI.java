@@ -49,11 +49,7 @@ public class AreaAPI extends CommunAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createArea(Area area) {
 		Status status;
-//		if(section == null || lastname==null || age==0) {
-//			return Response
-//					.status(Status.BAD_REQUEST)
-//					.build();
-//		}
+
 		boolean success=areaDAO.insert(area);
 		if(!success) {
 			status=Status.SERVICE_UNAVAILABLE;
@@ -68,22 +64,22 @@ public class AreaAPI extends CommunAPI {
 		
 	}
 
-	@PUT
-	@Path("{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response modifyArea(Area area) {
-		
-		boolean success=areaDAO.update(area);
-		if(success) {
-			return Response
-					.status(Status.NO_CONTENT)
-					.build();
-		}
-		return Response
-				.status(Status.SERVICE_UNAVAILABLE)
-				.build();
-		
-	}
+//	@PUT
+//	@Path("{id}")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response modifyArea(Area area) {
+//		
+//		boolean success=areaDAO.update(area);
+//		if(success) {
+//			return Response
+//					.status(Status.NO_CONTENT)
+//					.build();
+//		}
+//		return Response
+//				.status(Status.SERVICE_UNAVAILABLE)
+//				.build();
+//		
+//	}
 	
 	@DELETE
 	@Path("{id}")

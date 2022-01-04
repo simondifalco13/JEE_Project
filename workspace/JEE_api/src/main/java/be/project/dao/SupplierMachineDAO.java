@@ -35,9 +35,9 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 	}
 
 	@Override
-	public boolean update(SupplierMachine obj) {
+	public int update(SupplierMachine obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

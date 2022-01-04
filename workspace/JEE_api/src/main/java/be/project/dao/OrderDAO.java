@@ -33,9 +33,9 @@ public class OrderDAO implements DAO<Order> {
 	}
 
 	@Override
-	public boolean update(Order obj) {
+	public int update(Order obj) {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override

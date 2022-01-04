@@ -36,8 +36,8 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	}
 
 	@Override
-	public boolean update(FactoryMachine obj)  {
-		boolean success=false;
+	public int update(FactoryMachine obj)  {
+		int success=1;
 		int exception = -1;
 		try {
 			CallableStatement sql = conn.prepareCall("{call update_machine(?,?,?)}");
@@ -47,11 +47,11 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 			sql.executeUpdate();
 			exception = sql.getInt(3);
 			sql.close();
-			success=true;
+			success=1;
 		}catch(SQLException e) {
-//			Error erreur = Error.SQL_EXCEPTION;
-			return false;
-//			return Response.status(Status.OK).entity(erreur.getJSON()).build();
+			Error erreur = Error.SQL_EXCEPTION;
+			return erreur.getCode();
+
 		}
 		return success;
 	}

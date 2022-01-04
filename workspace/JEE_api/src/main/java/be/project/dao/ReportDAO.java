@@ -13,8 +13,8 @@ import be.project.models.Worker;
 public class ReportDAO implements DAO<Report> {
 
 	@Override
-	public boolean update(Report obj) {
-		return false;
+	public int update(Report obj) {
+		return 0;
 	}
 	public int update1(Report obj) {
 		int code =-1;
