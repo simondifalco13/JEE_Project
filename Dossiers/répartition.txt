@@ -29,11 +29,6 @@ Pages :
    			--> *Page avec les machines des fournisseur : AVEC le même TYPE que la machine
 			--> On peut ajouter au "panier" 
 			--> "valider la commande". --> message de validation de commande. 
-
-	
-	--> modifier format euro dans orders 
-	--> bug date maintenance : 
-
 	
 
 
