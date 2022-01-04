@@ -44,7 +44,9 @@
 								      <td><%=currentItem.getMachine().getBrand() %></td>
 								      <td><%=currentItem.getMachine().getSupplier().getName() %></td>
 								      <td><%=currentItem.getQuantity() %></td>
-								      <td><%=currentItem.getMachine().getPrice()%></td>
+								      <td>
+								      	<%=String.format("%.2f", currentItem.getMachine().getPrice()) %> euros
+								      </td>
 								    </tr>
 
 			    			<%} %>

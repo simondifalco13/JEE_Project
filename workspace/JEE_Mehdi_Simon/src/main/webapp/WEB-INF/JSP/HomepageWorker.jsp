@@ -15,6 +15,7 @@
 	<meta charset="ISO-8859-1">
 	<title>Home page worker</title>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 	<body>
 			<% 
@@ -22,8 +23,8 @@
 					worker= (Worker)request.getAttribute("worker");
 			%>
 			<h2 style="text-align:center" >Welcome dear <%= user.getFirstname() %> </h2>
-				<table class="table table-bordered centered" style="width: auto">
-				<caption>Ongoing maintenances</caption>
+				<table class="table table-bordered centered  caption-top" style="width: auto">
+				<caption class="text-dark">Ongoing maintenances</caption>
 				 		<thead>
 		                     <tr>
 		                     	<th>Maintenance number</th>
@@ -68,8 +69,8 @@
 				</table>
 			
 			
-				<table class="table table-bordered centered" style="width: auto" >
-				<caption>Todo/Toredo maintenances</caption>
+				<table class="table table-bordered centered caption-top" style="width: auto" >
+				<caption class="text-dark">Todo/Toredo maintenances</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
 		                     	<th>Maintenance number</th>
@@ -113,8 +114,8 @@
 				 		</tbody>
 				</table> 
 
-				<table class="table table-bordered centered" style="width: auto" >
-				<caption>Maintenances waiting for validation</caption>
+				<table class="table table-bordered centered caption-top" style="width: auto" >
+				<caption class="text-dark">Maintenances waiting for validation</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
 		                     	<th>Maintenance number</th>
@@ -157,8 +158,8 @@
 				 		</tbody>
 				</table> 
 
-				<table class="table table-bordered centered"  style="width: auto" >
-					<caption>Validated maintenances</caption>
+				<table class="table table-bordered centered caption-top"  style="width: auto" >
+					<caption class="text-dark">Validated maintenances</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
 		                     	<th>Maintenance number</th>
