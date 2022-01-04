@@ -14,6 +14,10 @@
 	<% supplierMachine=(SupplierMachine)request.getAttribute("suppliermachine"); %>
 
 	<div class="title"><%= user.getLastname() %>, here is the summary of the order</div>
+	<% if(request.getAttribute("error")!=null){%>
+			<div class="alert alert-danger" role="alert">
+  				<%= request.getAttribute("error") %>
+			</div><% } %>
 		<table class="table table-bordered centered" style="width : auto">
 		<caption>Summary</caption>
 				<tr>

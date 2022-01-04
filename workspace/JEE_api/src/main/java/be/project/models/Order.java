@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import be.project.models.SupplierMachine;
+import be.project.dao.OrderDAO;
 import be.project.models.Employee;
 import be.project.models.Item;
 
@@ -90,9 +91,17 @@ public class Order implements Serializable {
 		return price;
 	}
 	public void addItem(Item item) {
+		if(this.getOrderItems()==null) {
+			this.orderItems = new ArrayList<Item>();
+		}
 		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
+	}
+
+	public int insertOrder() {
+		OrderDAO orderDAO = new OrderDAO();
+		return orderDAO.insertOrder(this);
 	}
 
 }

@@ -32,7 +32,7 @@ Pages :
 	*Page de listing des commandes : (simon) : créer des commandes fictives -> ajout de machine dans l'usine -> créer procédures stockée
 	
 	-> remplir supplier_machine avec des enregistrements (M) ok
-	-> commande d 1 seule machine a la fois  (M)
+	-> commande d 1 seule machine a la fois  (M) ok
 	-> filtres (M) ok
 	-> renommer homeservlet -> worker... (M) ok
 	-> gérer la nav bar avec les différents lien / type  (S)

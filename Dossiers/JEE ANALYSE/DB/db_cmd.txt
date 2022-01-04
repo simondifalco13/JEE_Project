@@ -594,17 +594,36 @@ end;
 CREATE OR REPLACE PROCEDURE insert_orders(
 	order_date IN orders.order_date%TYPE,
 	price IN orders.price%TYPE,
-	empl_id IN factory_employee.employee_id%TYPE
-	created_orders_id OUT orders.order_id%TYPE)
-AS
+	empl_id IN factory_employee.employee_id%TYPE,
+	created_orders_id OUT orders.order_id%TYPE,
+	machine_id order_supplier_machine.machine_id%type,
+	errorCode OUT NUMBER) IS
+return_code NUMBER;
+errorCodeSecond NUMBER;
 BEGIN
+errorCode:=0;
 	INSERT INTO orders (order_date,price,employee_id)
-	VALUES (order_date,price,empl_id) 
+	VALUES (TO_DATE(order_date, 'DD-MM-YYYY'),price,empl_id) 
 	RETURNING order_id INTO created_orders_id;
-	COMMIT;
+	return_code:= sql%rowcount;
+     	if(return_code<1)
+		then errorCode :=-1;
+		DBMS_OUTPUT.PUT_LINE('Insertion failed');
+
+	else
+		DBMS_OUTPUT.PUT_LINE('Insertion OK');
+	end if;
+	if(errorCode=0) then
+		insert_order_supplier_machine(machine_id,created_orders_id,1,errorCodeSecond); 
+	end if;
+	if(errorCodeSecond=0)then
+		commit;
+	else 	errorCode:=-1;
+		rollback;
+	end if;
 	EXCEPTION 
 		WHEN OTHERS THEN 
-			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in orders');
 	
 END;
 
@@ -614,12 +633,21 @@ END;
 CREATE OR REPLACE PROCEDURE insert_order_supplier_machine(
 	machine_id IN machine.machine_id%TYPE,
 	order_id IN orders.order_id%TYPE,
-	quantity IN order_supplier_machine.quantity%TYPE)
-AS
+	quantity IN order_supplier_machine.quantity%TYPE,
+	errorCode OUT NUMBER) IS
+return_code NUMBER;
 BEGIN
+errorCode:=0;
 	INSERT INTO order_supplier_machine(machine_id,order_id,quantity)
 	VALUES (machine_id,order_id,quantity);
-	COMMIT;
+	return_code:= sql%rowcount;
+     	if(return_code<1)
+		then errorCode :=-1;
+		DBMS_OUTPUT.PUT_LINE('Insertion failed');
+
+	else
+		DBMS_OUTPUT.PUT_LINE('Insertion OK');
+	end if;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');

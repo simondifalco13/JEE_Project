@@ -4,60 +4,72 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import be.project.javabeans.Employee;
+import be.project.javabeans.Item;
 import be.project.javabeans.Order;
 import be.project.javabeans.SupplierMachine;
 
-/**
- * Servlet implementation class CreateOrderServlet
- */
-@WebServlet("/CreateOrderServlet")
+
 public class CreateOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+  
     public CreateOrderServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		int supplierMachineId = (int)session.getAttribute("suppliermachineid");
-		SupplierMachine machine = SupplierMachine.getSupplierMachine(supplierMachineId);
-		request.setAttribute("suppliermachine", machine);
+		try {
+			int supplierMachineId = (int)session.getAttribute("suppliermachineid");
+			SupplierMachine machine = SupplierMachine.getSupplierMachine(supplierMachineId);
+			request.setAttribute("suppliermachine", machine);
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/ValidateOrder.jsp");
+			dispatcher.forward(request, response);
+		}
+		catch(Exception e) {
+			System.out.println("Exception dans createorderservlet doGet" + e.getMessage());
+		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/ValidateOrder.jsp");
-		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
 		boolean success = false;
-		System.out.println("dopost order");
-		if(request.getParameter("suppliermachineid")!=null) {
-			int id = Integer.valueOf(request.getParameter("suppliermachineid"));
-			System.out.println("id " + id);
-			SupplierMachine machine = SupplierMachine.getSupplierMachine(id);
-			Order order = new Order();
-			success = order.insertOrder();
-			if(success) {
+		try {
+			if(request.getParameter("suppliermachineid")!=null) {
+				int id = Integer.valueOf(request.getParameter("suppliermachineid"));
+				Employee employee= (Employee)session.getAttribute("connectedUser");
+				SupplierMachine machine = SupplierMachine.getSupplierMachine(id);
+
+				Item item = new Item(machine,1);
+				Order order = new Order();
+				order.setEmployee(employee);
+				order.addItem(item);
 				
+				System.out.println("Total price dans createorderservlet : " + order.getTotalPrice());
+				
+				success = order.insertOrder();
+				if(success) {
+					System.out.println("Commande effectué avec succès --> redirection");
+				}
+				else {
+					request.setAttribute("error", "Impossible to validate the order please retry later");
+					doGet(request,response);
+				}
 			}
-			
+		}
+		catch(Exception e) {
+			System.out.println("Exception dans createorderservlet doPost" + e.getMessage());
+		
 		}
 	}
-
 }
