@@ -47,18 +47,14 @@ th, td, li{
     margin-left: auto;
     margin-right: auto;
 }
-.divtable2{
-	margin-left: 10%;
-}
-.divtable3{
-	margin-right: 10%;
-	margin-left: 10%;
-	margin-bottom: 2em;
-}
+
 .divtable2, .divtable3{
 	display: inline-block;;
 }
 .divform{
 	margin-left: 2em;
 	margin-bottom: 2em;
+}
+.border{
+	border: 2px solid black;
 }

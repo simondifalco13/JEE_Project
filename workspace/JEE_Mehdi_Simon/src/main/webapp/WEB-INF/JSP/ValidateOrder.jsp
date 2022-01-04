@@ -18,33 +18,38 @@
 			<div class="alert alert-danger" role="alert">
   				<%= request.getAttribute("error") %>
 			</div><% } %>
-		<table class="table table-bordered centered" style="width : auto">
+			
+		<table class="table table-bordered centered border" style="width: auto">
 		<caption>Summary</caption>
-				<tr>
-					<th class="border">Machine infos</th>
-				</tr>
-				<tr>
-					<td>
-						<ul>
-							<li>Brand: <%= supplierMachine.getBrand() %></li>
-							<li>Model :<%= supplierMachine.getModel() %></li>
-							<%if(supplierMachine.getDescription()!=null && !supplierMachine.getDescription().isBlank()){ %>
-							<li>Description : <%= supplierMachine.getDescription()%></li><%}%>
-							<li>Price : <%=String.format("%.2f", supplierMachine.getPrice()) %> euros</li>
-						</ul>
-					</td>
-				</tr>
-				<tr>
-					<th class="border">Supplier<th>
-				</tr>
-				<tr>	
-					<td>
-						<ul>
-							<li>Supplier number : <%=supplierMachine.getSupplier().getId() %></li>
-							<li>Supplier name : <%=supplierMachine.getSupplier().getName() %></li>
-						</ul>
-					</td>
-				</tr>				
+		
+				   	 <tr class="border">
+					   	 <th colspan="4">Machine infos</th>
+				    </tr>
+				    <tr>
+				    	<td>Brand</td>
+						<td>Model</td>
+						<td>Description</td>
+						<th>Price</th>
+				    </tr>
+				    <tr>
+				    	<td><%= supplierMachine.getBrand() %></td>
+				    	<td><%= supplierMachine.getModel() %></td>
+				    	<%if(supplierMachine.getDescription()!=null && !supplierMachine.getDescription().isBlank()){%>
+				    	<td><%= supplierMachine.getDescription()%></td><%}else{%>
+				    	<td>No description available</td><%} %>
+				    	<th><%=String.format("%.2f", supplierMachine.getPrice())%> euros</th>
+				    </tr>
+				     <tr class="border">
+					   	 <th colspan="4">Supplier</th>
+				    </tr>
+				    <tr>
+				    	<td colspan="2">Number</td>
+				    	<td colspan="2">Name</td>
+				    </tr>
+				    <tr>
+				    	<td colspan="2"><%=supplierMachine.getSupplier().getId() %></td>
+				    	<td colspan="2"><%=supplierMachine.getSupplier().getName() %></td>
+				    </tr>
 		</table>
 		<div style="text-align: center">
 			<div style="margin-bottom: 5px">

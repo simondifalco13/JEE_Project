@@ -71,7 +71,7 @@
 						<td><%=machine.getModel() %></td>
 						<td><%=machine.getBrand() %></td>
 						<%if(machine.getDescription()==null || machine.getDescription().isBlank()){ %>
-						<td>Aucune description disponible</td>
+						<td>No description available</td>
 						<%}else{ %>
 						<td><%= machine.getDescription()%></td><%} %>
 		

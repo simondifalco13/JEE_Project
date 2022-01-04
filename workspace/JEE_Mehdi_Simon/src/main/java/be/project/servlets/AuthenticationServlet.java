@@ -66,6 +66,15 @@ public class AuthenticationServlet extends HttpServlet {
 					response.sendRedirect("home");
 					return;
 				}
+				if(user instanceof Employee) {
+					response.sendRedirect("maintenances");
+					return;
+				}
+				if(user instanceof Leader) {
+					response.sendRedirect("machines");
+					return;
+				}
+				
 			}
 		}
 		request.getRequestDispatcher("/WEB-INF/JSP/authentication.jsp").forward(request,response);
