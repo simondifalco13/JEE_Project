@@ -53,7 +53,7 @@
 						  </tbody>
 			    		
 			    	</table>
-			    	<span>Total order price : <b><%=order.getTotalPrice() %> euros</b></span>
+			    	<span>Total order price : <b><%=String.format("%.2f", order.getTotalPrice()) %> euros</b></span>
 			    	<br>
 			    	<span>
 			    		Ordered By <b><%=order.getEmployee().getLastname() %> <%=order.getEmployee().getFirstname() %></b>

@@ -543,13 +543,19 @@ BEGIN
 		maintenance_end=end_t
 		WHERE maintenance_id=maintenance_id_param;
 	END IF;
-	
-	
 	IF status='validated' THEN
 		UPDATE maintenance 
 		SET maintenance_status=status,
 		maintenance_start=final_start_t,
 		maintenance_date=final_maintenance_d
+		WHERE maintenance_id=maintenance_id_param;
+	END IF;
+	IF status NOT IN ('done','toredo','validated') THEN
+		UPDATE maintenance 
+		SET maintenance_status=status,
+		maintenance_start=final_start_t,
+		maintenance_date=final_maintenance_d,
+		maintenance_end=end_t
 		WHERE maintenance_id=maintenance_id_param;
 	END IF;
 	

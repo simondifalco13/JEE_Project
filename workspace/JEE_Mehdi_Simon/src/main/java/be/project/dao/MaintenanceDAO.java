@@ -51,13 +51,14 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		boolean success=false;
 		String key=getApiKey();
 		String workers="";
-		SimpleDateFormat DateFor = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat DateFor = new SimpleDateFormat("yyyy-MM-dd");
 		for(int i=0;i<obj.getMaintenanceWorkers().size();i++) {
 			if(i!=0) {
 				workers+=";";
 			}
 			workers+=String.valueOf(obj.getMaintenanceWorkers().get(i).getSerialNumber());
 		}
+		//System.out.println("MAINTENANCEDAO CLIENT : "+DateFor.format(obj.getMaintenanceDate()));
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
 		parameters.add("start_m",obj.getStartTime().toString());
@@ -94,6 +95,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
 		String endTime=obj.getEndTime() == null ? null :obj.getEndTime().toString();
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		System.out.println("MAINTENANCEDAO CLIENT : "+DateFor.format(obj.getMaintenanceDate()));
 		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
 		parameters.add("start_t",timeformat.format(obj.getStartTime()));
 		parameters.add("status", obj.getStatus().toString());
