@@ -15,7 +15,6 @@ public class Order implements Serializable {
 
 
 	private static final long serialVersionUID = -8787806183257791080L;
-	private int id;
 	private ArrayList<Item> orderItems;
 	private int orderNumber;
 	private Employee employee;
@@ -35,9 +34,9 @@ public class Order implements Serializable {
 	
 	
 
-	public Order(int id, Date date,Employee employee, double totalPrice) {
-		this.id = id;
+	public Order(int orderNumber, Date date,Employee employee, double totalPrice) {
 		this.employee = employee;
+		this.orderNumber=orderNumber;
 		this.orderDate=date;
 		this.totalPrice = totalPrice;
 		this.orderItems=new ArrayList<Item>();
@@ -80,13 +79,7 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 	
 	public Date getOrderDate() {

@@ -18,7 +18,6 @@ public class Order implements Serializable {
 
 	
 	private static final long serialVersionUID = -8787806183257791080L;
-	private int id;
 	private ArrayList<Item> orderItems;
 	private int orderNumber;
 	private Employee employee;
@@ -74,13 +73,7 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 	public Date getOrderDate() {
 		return orderDate;
@@ -134,8 +127,7 @@ public class Order implements Serializable {
 			for(int i=0; i<jsonArray.length();i++) {
 				JSONObject currentObject=(JSONObject) jsonArray.get(i);
 				Order order=new Order();
-				order.setId(currentObject.getInt("id"));
-				order.setOrderNumber(currentObject.getInt("orderNumber"));
+				order.setOrderNumber(currentObject.getInt("orderId"));
 				order.setTotalPrice(currentObject.getDouble("totalPrice"));
 				order.setOrderDate(new Date((long)currentObject.get("orderDate")));
 				Employee emp=(Employee) mapper.readValue(currentObject.get("employee").toString(),Employee.class);

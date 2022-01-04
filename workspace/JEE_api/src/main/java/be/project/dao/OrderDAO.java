@@ -47,7 +47,7 @@ public class OrderDAO implements DAO<Order> {
 	@Override
 	public ArrayList<Order> findAll() {
 		ArrayList<Order> orders=new ArrayList<Order>();
-		int orderId=0;
+		int orderNumber=0;
 		Order order=null;
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -70,7 +70,7 @@ public class OrderDAO implements DAO<Order> {
 			ResultSet resultSet=preparedStatement.executeQuery();
 			while(resultSet.next()) {
 
-				orderId=resultSet.getInt("ord_id");
+				orderNumber=resultSet.getInt("ord_id");
 				Date orderDate = resultSet.getDate("order_date");
 				int employeeId=resultSet.getInt("emp_id");
 				int orderPrice=resultSet.getInt("price_order");
@@ -80,8 +80,7 @@ public class OrderDAO implements DAO<Order> {
 				emp.setSerialNumber(employeeId);
 				emp.setLastname(empLastname);
 				emp.setFirstname(empFirstname);
-				order=new Order(orderId,orderDate,emp,orderPrice);
-				order.setOrderNumber(orderId);
+				order=new Order(orderNumber,orderDate,emp,orderPrice);
 				order.setTotalPrice(resultSet.getDouble("price_order"));
 				
 
