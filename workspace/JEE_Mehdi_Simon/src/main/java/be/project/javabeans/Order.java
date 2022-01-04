@@ -127,7 +127,7 @@ public class Order implements Serializable {
 			for(int i=0; i<jsonArray.length();i++) {
 				JSONObject currentObject=(JSONObject) jsonArray.get(i);
 				Order order=new Order();
-				order.setOrderNumber(currentObject.getInt("orderId"));
+				order.setOrderNumber(currentObject.getInt("orderNumber"));
 				order.setTotalPrice(currentObject.getDouble("totalPrice"));
 				order.setOrderDate(new Date((long)currentObject.get("orderDate")));
 				Employee emp=(Employee) mapper.readValue(currentObject.get("employee").toString(),Employee.class);
