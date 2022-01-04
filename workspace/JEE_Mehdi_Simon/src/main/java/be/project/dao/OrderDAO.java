@@ -16,8 +16,11 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import be.project.javabeans.Employee;
+import be.project.javabeans.Item;
 import be.project.javabeans.Maintenance;
 import be.project.javabeans.Order;
+import be.project.javabeans.SupplierMachine;
 
 public class OrderDAO implements DAO<Order> {
 
@@ -72,25 +75,8 @@ public class OrderDAO implements DAO<Order> {
 	
 		
 		JSONArray jsonArray = new JSONArray(responseJSON);
-		ObjectMapper mapper=new ObjectMapper();
-		try {
-			for(int i=0; i<jsonArray.length();i++) {
-				JSONObject currentObject=(JSONObject) jsonArray.get(i);
-				System.out.println(currentObject);
-				Order order=new Order();
-				order.setId(currentObject.getInt("id"));
-				order.setOrderNumber(currentObject.getInt("orderNumber"));
-				order.setTotalPrice(currentObject.getDouble("totalPrice"));
-				order.setOrderDate(new Date((long)currentObject.get("orderDate")));
-				//recuperer autres objets TO DO 
-				
-				orders.add(order);
-			}
+		orders=Order.getOrderByJSONArray(jsonArray);
 		
-		} catch (Exception e) {
-			System.out.println("Problème conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
-			return null;
-		}
 		return orders;
 	}
 

@@ -34,7 +34,7 @@
 		      <ul class="navbar-nav justify-content-center">
 		    	<% if(user != null && user.getSerialNumber()!=0 && (user instanceof Employee)){ %>
 		      		<li class="nav-item"><a class="nav-link active" href="orders"><span class="glyphicon"></span>Orders</a></li>
-		      		<li class="nav-item"><a class="nav-link active" href="machines"><span class="glyphicon"></span>Machine</a></li>
+		      		<li class="nav-item"><a class="nav-link active" href="maintenances"><span class="glyphicon"></span>Maintenances</a></li>
 		   		<%} %>
 		       <% if(user != null && user.getSerialNumber()!=0){ %>
 		      		<li class="nav-item"><a class="nav-link active" href="<%= str%>/logout"><span class="glyphicon glyphicon-log-off"></span>Logout</a></li>

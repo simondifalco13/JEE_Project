@@ -6,6 +6,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import be.project.dao.OrderDAO;
 import be.project.javabeans.Item;
 
@@ -21,7 +26,7 @@ public class Order implements Serializable {
 	private Date orderDate;
 	
 	public Order() {
-		
+
 	}
 	
 	
@@ -102,6 +107,14 @@ public class Order implements Serializable {
 		return price;
 	}
 	public void addItem(Item item) {
+		if(orderItems==null) {
+			orderItems=new ArrayList<Item>();
+		}
+		orderItems.add(item);
+		
+	}
+	
+	public void addItemWithPrice(Item item) {
 		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
@@ -111,6 +124,39 @@ public class Order implements Serializable {
 		ArrayList<Order> orders=new ArrayList<Order>();
 		OrderDAO orderDAO=new OrderDAO();
 		orders=orderDAO.findAll();
+		return orders;
+	}
+	
+	public static ArrayList<Order> getOrderByJSONArray(JSONArray jsonArray){
+		ArrayList<Order> orders=new ArrayList<Order>();
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			for(int i=0; i<jsonArray.length();i++) {
+				JSONObject currentObject=(JSONObject) jsonArray.get(i);
+				Order order=new Order();
+				order.setId(currentObject.getInt("id"));
+				order.setOrderNumber(currentObject.getInt("orderNumber"));
+				order.setTotalPrice(currentObject.getDouble("totalPrice"));
+				order.setOrderDate(new Date((long)currentObject.get("orderDate")));
+				Employee emp=(Employee) mapper.readValue(currentObject.get("employee").toString(),Employee.class);
+				order.setEmployee(emp);
+				mapper=new ObjectMapper();
+			
+				JSONArray arrayItems=(JSONArray) currentObject.getJSONArray("orderItems");
+				for(int j=0;j<arrayItems.length();j++) {
+					JSONObject currentItem=(JSONObject) arrayItems.get(j);
+					SupplierMachine machine = (SupplierMachine) mapper.readValue(currentItem.get("machine").toString(), SupplierMachine.class);
+					int quantity=currentItem.getInt("quantity");
+					Item item=new Item(machine,quantity);
+					order.addItem(item);
+				}
+				orders.add(order);
+			}
+		
+		} catch (Exception e) {
+			System.out.println("Problème conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
+			return null;
+		}
 		return orders;
 	}
 

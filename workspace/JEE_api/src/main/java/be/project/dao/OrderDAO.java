@@ -57,13 +57,15 @@ public class OrderDAO implements DAO<Order> {
 					+ "orders.employee_id AS emp_id, employee_firstname,employee_lastname,"
 					+ "order_supplier_machine.machine_id AS mach_id, "
 					+ "model,brand,supplier_machine.price AS machine_price, "
-					+ "description,machine_type,supplier_id,"
+					+ "description,machine_type,supplier_machine.supplier_id as suppl_id,"
+					+ "supplier_name,"
 					+ "quantity,orders.price AS price_order FROM orders "
 					+ "LEFT JOIN order_supplier_machine "
 					+ "ON orders.order_id=order_supplier_machine.order_id "
 					+ "LEFT JOIN supplier_machine "
 					+ "ON supplier_machine.supplier_machine_id=order_supplier_machine.machine_id "
-					+ "LEFT JOIN factory_employee ON factory_employee.employee_id=orders.employee_id"
+					+ "LEFT JOIN factory_employee ON factory_employee.employee_id=orders.employee_id "
+					+ "LEFT JOIN supplier ON supplier_machine.supplier_id=supplier.supplier_id"
 					);
 			ResultSet resultSet=preparedStatement.executeQuery();
 			while(resultSet.next()) {
@@ -80,6 +82,7 @@ public class OrderDAO implements DAO<Order> {
 				emp.setFirstname(empFirstname);
 				order=new Order(orderId,orderDate,emp,orderPrice);
 				order.setOrderNumber(orderId);
+				order.setTotalPrice(resultSet.getDouble("price_order"));
 				
 
 				int machineId=resultSet.getInt("mach_id");
@@ -88,9 +91,11 @@ public class OrderDAO implements DAO<Order> {
 				MachineType type=MachineType.valueOf(resultSet.getString("machine_type"));
 				Double price=resultSet.getDouble("machine_price");
 				String description=resultSet.getString("description");
-				int supplier_id=resultSet.getInt("supplier_id");
+				int supplier_id=resultSet.getInt("suppl_id");
+				String supplierName=resultSet.getString("supplier_name");
 				Supplier supplier=new Supplier();
 				supplier.setId(supplier_id);
+				supplier.setName(supplierName);
 				int quantity=resultSet.getInt("quantity");
 				SupplierMachine machine=new SupplierMachine(machineId,model,brand,
 						description,type,price,supplier,null);

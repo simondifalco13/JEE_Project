@@ -31,12 +31,7 @@ public class OrdersListingServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//récuperer les ORDERS
 		ArrayList<Order> orders=Order.getAllOrders();
-		 if(orders!=null){
-				for(int i=0;i<orders.size();i++){
-					System.out.println(orders.get(i).getId());
-		}} 
 		request.setAttribute("orders", orders);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/OrdersListing.jsp");
 		dispatcher.forward(request, response);
