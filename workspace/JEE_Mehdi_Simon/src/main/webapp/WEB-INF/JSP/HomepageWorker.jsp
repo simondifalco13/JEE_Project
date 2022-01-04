@@ -22,8 +22,7 @@
 					worker= (Worker)request.getAttribute("worker");
 			%>
 			<h2 style="text-align:center" >Welcome dear <%= user.getFirstname() %> </h2>
-			<div class="centered">
-				<table class="table table-bordered" style="width: auto">
+				<table class="table table-bordered centered" style="width: auto">
 				<caption>Ongoing maintenances</caption>
 				 		<thead>
 		                     <tr>
@@ -59,20 +58,17 @@
 						    	<td>No</td>
 						    	<%}} %>
 						    	<td>
-							    	<form action="maintenanceinfos" method="POST">
-						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+							    	<form action="homepage" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
 						    		</form>
 						    	</td>
 						    </tr>
 						    <%}} %>
 				 		</tbody>
 				</table>
-			</div>
 			
 			
-			
-			<div class="centered">
-				<table class="table table-bordered" style="width: auto" >
+				<table class="table table-bordered centered" style="width: auto" >
 				<caption>Todo/Toredo maintenances</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
@@ -108,17 +104,16 @@
 						    	<td>No</td>
 						    	<%}} %>
 						    	<td>
-							    	<form action="maintenanceinfos" method="POST">
-						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+							    	<form action="homepage" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
 						    		</form>
 						    	</td>
 						    </tr>
 						    <%}} %>
 				 		</tbody>
 				</table> 
-			</div> 
-			<div class="centered">
-				<table class="table table-bordered" style="width: auto" >
+
+				<table class="table table-bordered centered" style="width: auto" >
 				<caption>Maintenances waiting for validation</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
@@ -153,17 +148,16 @@
 						    	<td>No</td>
 						    	<%}} %>
 						    	<td>
-							    	<form action="maintenanceinfos" method="POST">
-						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+							    	<form action="homepage" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
 						    		</form>
 						    	</td>
 						    </tr>
 						    <%}} %>
 				 		</tbody>
 				</table> 
-			</div>
-			<div class="centered">
-				<table class="table table-bordered"  style="width: auto" >
+
+				<table class="table table-bordered centered"  style="width: auto" >
 					<caption>Validated maintenances</caption>
 				 		<thead class="thead-dark">
 		                     <tr>
@@ -199,14 +193,13 @@
 						    	<td>No</td>
 						    	<%}} %>
 						    	<td>
-							    	<form action="maintenanceinfos" method="POST">
-						    				<button type="submit" class="btn btn-info" name="maintenanceId" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
+							    	<form action="homepage" method="POST">
+						    				<button type="submit" class="btn btn-info" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Consult</button>
 						    		</form>
 						    	</td>
 						    </tr>
 						    <%}}} %>
 				 		</tbody>
 				</table>
-			</div> 
 	</body>
 </html>

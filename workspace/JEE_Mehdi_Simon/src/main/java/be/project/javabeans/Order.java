@@ -108,6 +108,9 @@ public class Order implements Serializable {
 	}
 	
 	public void addItemWithPrice(Item item) {
+		if(this.getOrderItems()==null) {
+			this.orderItems = new ArrayList<Item>();
+		}
 		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
@@ -146,10 +149,16 @@ public class Order implements Serializable {
 			}
 		
 		} catch (Exception e) {
-			System.out.println("Problème conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
+			System.out.println("Problï¿½me conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
 			return null;
 		}
 		return orders;
+	}
+
+
+	public boolean insertOrder() {
+		OrderDAO orderDAO = new OrderDAO();
+		return orderDAO.insert(this);
 	}
 
 }

@@ -23,6 +23,7 @@ import be.project.javabeans.Leader;
 import be.project.javabeans.Maintenance;
 import be.project.javabeans.Supplier;
 import be.project.javabeans.SupplierMachine;
+import be.project.javabeans.Worker;
 
 public class SupplierMachineDAO implements DAO<SupplierMachine> {
 	
@@ -48,6 +49,7 @@ public class SupplierMachineDAO implements DAO<SupplierMachine> {
 		String responseJSON=resource
 				.path("supplier")
 				.path("machine")
+				.path("type")
 				.path(String.valueOf(machineType))
 				.header("key",key)
 				.accept(MediaType.APPLICATION_JSON)
@@ -103,8 +105,23 @@ public class SupplierMachineDAO implements DAO<SupplierMachine> {
 
 	@Override
 	public SupplierMachine find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String key=getApiKey();
+		String responseJSON=resource
+				.path("supplier")
+				.path("machine")
+				.path(String.valueOf(id))
+				.header("key",key)
+				.accept(MediaType.APPLICATION_JSON)
+				.get(String.class);
+		SupplierMachine machine;
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			machine=(SupplierMachine) mapper.readValue(responseJSON, SupplierMachine.class);
+			return machine;
+		} catch (Exception e) {
+			System.out.println("Exception dans supplierMachineDAO client : " + e.getMessage());
+			return null;
+		}
 	}
 
 	@Override

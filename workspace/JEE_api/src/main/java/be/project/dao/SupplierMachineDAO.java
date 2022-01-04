@@ -1,18 +1,26 @@
 package be.project.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import be.project.enumerations.ColorCode;
 import be.project.enumerations.MachineType;
+import be.project.enumerations.MaintenanceStatus;
 import be.project.enumerations.OperationState;
 import be.project.models.Area;
 import be.project.models.FactoryMachine;
+import be.project.models.Leader;
 import be.project.models.Maintenance;
+import be.project.models.Report;
 import be.project.models.Site;
 import be.project.models.Supplier;
 import be.project.models.SupplierMachine;
+import be.project.models.Worker;
 
 public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 
@@ -42,8 +50,48 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 
 	@Override
 	public SupplierMachine find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		SupplierMachine machine=new SupplierMachine();
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		
+		try {
+			preparedStatement = conn.prepareStatement(
+					"select sm.model,sm.brand,sm.price,sm.machine_type,sm.description,sm.supplier_id, s.supplier_name "
+					+ "FROM supplier_machine sm, supplier s WHERE sm.supplier_id=s.supplier_id AND supplier_machine_id=?"
+				);
+			preparedStatement.setInt(1, id);
+			resultSet=preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				machine.setId(id);
+				machine.setModel(resultSet.getString("model"));
+				machine.setBrand(resultSet.getString("brand"));
+				machine.setPrice(resultSet.getDouble("price"));
+				machine.setType(MachineType.valueOf(resultSet.getString("machine_type")));
+				if(resultSet.getString("description")!=null) {
+					machine.setDescription(resultSet.getString("description"));
+				}else { machine.setDescription("");}
+				machine.setSupplier(null);
+				Supplier supplier = new Supplier();
+				supplier.setId(resultSet.getInt("supplier_id"));
+				supplier.setName(resultSet.getString("supplier_name"));
+				machine.setSupplier(supplier);
+			}
+		} catch (SQLException e) {
+			System.out.println("Exception dans SupplierDAO de l'api : "+ e.getMessage()+ e.toString());
+		}
+		finally {
+			try {
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(preparedStatement!=null) {
+					preparedStatement.close();
+				}
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return machine;
 	}
 
 	@Override

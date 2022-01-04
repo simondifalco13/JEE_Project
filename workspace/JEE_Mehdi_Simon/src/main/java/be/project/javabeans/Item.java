@@ -32,7 +32,7 @@ public class Item implements Serializable {
 		this.machine = machine;
 	}
 
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 

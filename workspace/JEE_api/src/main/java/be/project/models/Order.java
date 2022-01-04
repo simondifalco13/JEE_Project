@@ -105,6 +105,9 @@ public class Order implements Serializable {
 		return price;
 	}
 	public void addItem(Item item) {
+		if(this.getOrderItems()==null) {
+			this.orderItems = new ArrayList<Item>();
+		}
 		orderItems.add(item);
 	}
 	
@@ -122,5 +125,11 @@ public class Order implements Serializable {
 		return orders;
 		
 	}
+
+	public int insertOrder() {
+		OrderDAO orderDAO = new OrderDAO();
+		return orderDAO.insertOrder(this);
+	}
+
 }
 

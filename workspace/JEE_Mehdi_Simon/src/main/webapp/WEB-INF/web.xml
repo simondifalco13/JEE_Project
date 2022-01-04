@@ -18,7 +18,7 @@
   <!-- CONTEXT PARAMS -->
   <context-param>
   	<param-name>apiUrl</param-name>
-  	<param-value>http://localhost:8080/JEE_API/api</param-value>
+  	<param-value>http://localhost:8888/JEE_API/api</param-value>
   </context-param>
   <context-param>
   	<param-name>adminMail</param-name>
@@ -39,24 +39,24 @@
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
+    <env-entry-value>http://localhost:8888/JEE_api/api</env-entry-value> 
  </env-entry>
   <!-- SERVLETS -->
   <servlet>
-  	<servlet-name>AuthenticationServlet</servlet-name>
+  	<servlet-name>Authentication</servlet-name>
   	<servlet-class>be.project.servlets.AuthenticationServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>HomeServlet</servlet-name>
-  	<servlet-class>be.project.servlets.HomeServlet</servlet-class>
+  	<servlet-name>HomeWorker</servlet-name>
+  	<servlet-class>be.project.servlets.HomeWorkerServlet</servlet-class>
   </servlet>
    <servlet>
-  	<servlet-name>MachineServlet</servlet-name>
+  	<servlet-name>Machine</servlet-name>
   	<servlet-class>be.project.servlets.MachineServlet</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>ManageMachine</servlet-name>
-  	<servlet-class>be.project.servlets.ManageMachine</servlet-class>
+  	<servlet-class>be.project.servlets.ManageMachineServlet</servlet-class>
   </servlet>
    <servlet>
   	<servlet-name>CreateMaintenance</servlet-name>
@@ -71,28 +71,28 @@
   	<servlet-class>be.project.servlets.UpdateMaintenanceServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>LogoutServlet</servlet-name>
+  	<servlet-name>Logout</servlet-name>
   	<servlet-class>be.project.servlets.LogoutServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>GetMaintenanceInfosServlet</servlet-name>
+  	<servlet-name>GetMaintenanceInfos</servlet-name>
   	<servlet-class>be.project.servlets.GetMaintenanceInfosServlet</servlet-class>
   </servlet>
    <servlet>
-  	<servlet-name>WriteReportServlet</servlet-name>
+  	<servlet-name>WriteReport</servlet-name>
   	<servlet-class>be.project.servlets.WriteReportServlet</servlet-class>
   </servlet>
-   <servlet>
-  	<servlet-name>MaintenanceDoneServlet</servlet-name>
-  	<servlet-class>be.project.servlets.MaintenanceDoneServlet</servlet-class>
-  </servlet>
   <servlet>
-  	<servlet-name>HomeEmployeeServlet</servlet-name>
+  	<servlet-name>HomeEmployee</servlet-name>
   	<servlet-class>be.project.servlets.HomeEmployeeServlet</servlet-class>
   </servlet>
    <servlet>
   	<servlet-name>ShowSupplierMachines</servlet-name>
-  	<servlet-class>be.project.servlets.ShowSupplierMachines</servlet-class>
+  	<servlet-class>be.project.servlets.ShowSupplierMachinesServlet</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>CreateOrder</servlet-name>
+  	<servlet-class>be.project.servlets.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>OrdersListingServlet</servlet-name>
@@ -100,68 +100,70 @@
   </servlet>
   <!-- MAPPING SERVLET -->
   <servlet-mapping>
-  	<servlet-name>AuthenticationServlet</servlet-name>
-  	<url-pattern>/connexion</url-pattern>
-  	<url-pattern>/authentication</url-pattern>
+  	<servlet-name>Authentication</servlet-name>
+	  	<url-pattern>/connexion</url-pattern>
+	  	<url-pattern>/authentication</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>HomeServlet</servlet-name>
-  	<url-pattern>/homepage</url-pattern>
-  	<url-pattern>/home</url-pattern>
-  	<url-pattern>/index</url-pattern>
+	 <servlet-name>Logout</servlet-name>
+  		<url-pattern>/logout</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-	  <servlet-name>MachineServlet</servlet-name>
-  	<url-pattern>/machines</url-pattern>
+  	<servlet-name>HomeWorker</servlet-name>
+	  	<url-pattern>/homepage</url-pattern>
+	  	<url-pattern>/home</url-pattern>
+	  	<url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+	<servlet-name>Machine</servlet-name>
+  		<url-pattern>/machines</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>ManageMachine</servlet-name>
-  	<url-pattern>/ManageMachine</url-pattern>
+  		<url-pattern>/ManageMachine</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>CreateMaintenance</servlet-name>
-  	<url-pattern>/CreateMaintenance</url-pattern>
+  		<url-pattern>/CreateMaintenance</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>ConsultMaintenance</servlet-name>
-  	<url-pattern>/ConsultMaintenance</url-pattern>
+  		<url-pattern>/ConsultMaintenance</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>UpdateMaintenance</servlet-name>
-  	<url-pattern>/UpdateMaintenance</url-pattern>
+  		<url-pattern>/UpdateMaintenance</url-pattern>
   </servlet-mapping>
-  	<servlet-mapping>
-	  <servlet-name>LogoutServlet</servlet-name>
-  	<url-pattern>/logout</url-pattern>
-  </servlet-mapping>
+
   <servlet-mapping>
-  	<servlet-name>GetMaintenanceInfosServlet</servlet-name>
-  	<url-pattern>/maintenanceinfos</url-pattern>
-  	<url-pattern>/maintenancedetails</url-pattern>
-  	<url-pattern>/maintenance/details</url-pattern>
+  	<servlet-name>GetMaintenanceInfos</servlet-name>
+	  	<url-pattern>/maintenanceinfos</url-pattern>
+	  	<url-pattern>/maintenancedetails</url-pattern>
+	  	<url-pattern>/maintenance/details</url-pattern>
   </servlet-mapping>
    <servlet-mapping>
-  	<servlet-name>MaintenanceDoneServlet</servlet-name>
-  	<url-pattern>/maintenancedone</url-pattern>
-  </servlet-mapping>
-   <servlet-mapping>
-  	<servlet-name>WriteReportServlet</servlet-name>
-  	<url-pattern>/writereport</url-pattern>
-  	<url-pattern>/report</url-pattern>
+  	<servlet-name>WriteReport</servlet-name>
+	  	<url-pattern>/writereport</url-pattern>
+	  	<url-pattern>/report</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>HomeEmployeeServlet</servlet-name>
-  	<url-pattern>/employee/home</url-pattern>
-  	<url-pattern>/maintenances</url-pattern>
+  	<servlet-name>HomeEmployee</servlet-name>
+	  	<url-pattern>/employee/home</url-pattern>
+	  	<url-pattern>/maintenances</url-pattern>
  </servlet-mapping>
  <servlet-mapping>
   	<servlet-name>ShowSupplierMachines</servlet-name>
-  	<url-pattern>/suppliersmachines</url-pattern>
+  		<url-pattern>/suppliersmachines</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>OrdersListingServlet</servlet-name>
   	<url-pattern>/orders</url-pattern>
   </servlet-mapping>
+  	<servlet-mapping>
+	  <servlet-name>CreateOrder</servlet-name>
+  		<url-pattern>/createorder</url-pattern>
+  		<url-pattern>/validateorder</url-pattern>
+  </servlet-mapping> 
 	 
 	  <!--FILTERS-->
   
@@ -181,34 +183,42 @@
 		<filter-name>EmployeeAccessFilter</filter-name>
 		<filter-class>be.project.filters.EmployeeAccessFilter</filter-class>
 	</filter>
+	
 	<filter-mapping>
 		<filter-name>AuthenticationFilter</filter-name>
-		<servlet-name>HomeServlet</servlet-name>
-		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
-		<servlet-name>MachineServlet</servlet-name>
-		<servlet-name>ManageMachine</servlet-name>
-		<servlet-name>CreateMaintenance</servlet-name>
-		<servlet-name>ConsultMaintenance</servlet-name>
-		<servlet-name>UpdateMaintenance</servlet-name>
-		<servlet-name>MaintenanceDoneServlet</servlet-name>
-		<servlet-name>WriteReportServlet</servlet-name>
+			<servlet-name>HomeWorker</servlet-name>
+			<servlet-name>Machine</servlet-name>
+			<servlet-name>ManageMachine</servlet-name>
+			<servlet-name>CreateMaintenance</servlet-name>
+			<servlet-name>ConsultMaintenance</servlet-name>
+			<servlet-name>UpdateMaintenance</servlet-name>
+			<servlet-name>GetMaintenanceInfos</servlet-name>
+			<servlet-name>WriteReport</servlet-name>
+			<servlet-name>HomeEmployee</servlet-name>
+			<servlet-name>ShowSupplierMachines</servlet-name>
+			<servlet-name>CreateOrder</servlet-name>
 	</filter-mapping>
 	
 	<filter-mapping>
 		<filter-name>WorkerAccessFilter</filter-name>
-		<servlet-name>HomeServlet</servlet-name>
-		<servlet-name>GetMaintenanceInfosServlet</servlet-name>
-		<servlet-name>MaintenanceDoneServlet</servlet-name>
-		<servlet-name>WriteReportServlet</servlet-name>
+			<servlet-name>HomeWorker</servlet-name>
+			<servlet-name>GetMaintenanceInfos</servlet-name>
+			<servlet-name>WriteReport</servlet-name>
 	</filter-mapping>
 
 	<filter-mapping>
 		<filter-name>LeaderAccessFilter</filter-name>
-		<servlet-name>MachineServlet</servlet-name>
-		<servlet-name>ManageMachine</servlet-name>
-		<servlet-name>CreateMaintenance</servlet-name>
-		<servlet-name>ConsultMaintenance</servlet-name>
-		<servlet-name>UpdateMaintenance</servlet-name>
+			<servlet-name>Machine</servlet-name>
+			<servlet-name>ManageMachine</servlet-name>
+			<servlet-name>CreateMaintenance</servlet-name>
+			<servlet-name>ConsultMaintenance</servlet-name>
+			<servlet-name>UpdateMaintenance</servlet-name>
 	</filter-mapping>
-	<!-- MAPPING A COMPLETER POUR EMPLOYEE -->
+	
+	<filter-mapping>
+		<filter-name>EmployeeAccessFilter</filter-name>
+			<servlet-name>HomeEmployee</servlet-name>
+			<servlet-name>ShowSupplierMachines</servlet-name>
+			<servlet-name>CreateOrder</servlet-name>
+	</filter-mapping>
 </web-app>

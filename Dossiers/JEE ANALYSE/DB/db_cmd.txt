@@ -548,6 +548,62 @@ BEGIN
 			forException := SQLCODE;
 END;
 
+--Procedure of update maintenance_status to done
+
+CREATE OR REPLACE PROCEDURE changeStatusDone(maintenance_id_param worker_maintenance.maintenance_id%type,
+status maintenance.maintenance_status%type, code OUT NUMBER) IS
+return_number number;
+begin
+code :=0;
+UPDATE maintenance 
+SET maintenance_status= status, maintenance_end =CURRENT_TIMESTAMP
+WHERE maintenance_id = maintenance_id_param;
+return_number :=sql%rowcount;
+
+if(return_number<1)
+	then code :=-1;
+	DBMS_OUTPUT.PUT_LINE('Pas de update');
+
+else
+	DBMS_OUTPUT.PUT_LINE('Update OK');
+	commit;
+
+end if;
+EXCEPTION
+ WHEN OTHERS THEN
+	code :=  SQLCODE;
+end;
+
+/**********************/
+/*	WORKER_MAINTENANCE   */
+/**********************/
+
+--Procedure of updating report
+
+CREATE OR REPLACE PROCEDURE createReport(maintenance_id_param worker_maintenance.maintenance_id%type,
+ worker_id_param worker_maintenance.worker_id%type, report_param worker_maintenance.report%type, code OUT NUMBER) IS
+return_number number;
+begin
+code :=0;
+UPDATE worker_maintenance 
+	SET report = report_param
+	WHERE maintenance_id = maintenance_id_param AND worker_id = worker_id_param;
+return_number :=sql%rowcount;
+
+if(return_number<1)
+	then code :=-1;
+	DBMS_OUTPUT.PUT_LINE('Pas de update');
+
+else
+	DBMS_OUTPUT.PUT_LINE('Update OK');
+	commit;
+
+end if;
+EXCEPTION
+ WHEN OTHERS THEN
+	code :=  SQLCODE;
+end;
+
 
 /**********************/
 /*	ORDER	      */
@@ -556,20 +612,38 @@ END;
 --Procedure of insertion in orders
 
 CREATE OR REPLACE PROCEDURE insert_orders(
-	order_date_var IN orders.order_date%TYPE,
-	price_var IN orders.price%TYPE,
-	empl_id IN orders.employee_id%TYPE,
-	created_orders_id OUT orders.order_id%TYPE)
-AS
-	
+	order_date IN orders.order_date%TYPE,
+	price IN orders.price%TYPE,
+	empl_id IN factory_employee.employee_id%TYPE,
+	created_orders_id OUT orders.order_id%TYPE,
+	machine_id order_supplier_machine.machine_id%type,
+	errorCode OUT NUMBER) IS
+	return_code NUMBER;
+	errorCodeSecond NUMBER;
 BEGIN
+	errorCode:=0;
 	INSERT INTO orders (order_date,price,employee_id)
-	VALUES (TO_DATE(order_date_var, 'DD-MM-YYYY'),price_var,empl_id) 
+	VALUES (TO_DATE(order_date, 'DD-MM-YYYY'),price,empl_id) 
 	RETURNING order_id INTO created_orders_id;
-	COMMIT;
+	return_code:= sql%rowcount;
+     	if(return_code<1)
+		then errorCode :=-1;
+		DBMS_OUTPUT.PUT_LINE('Insertion failed');
+
+	else
+		DBMS_OUTPUT.PUT_LINE('Insertion OK');
+	end if;
+	if(errorCode=0) then
+		insert_order_supplier_machine(machine_id,created_orders_id,1,errorCodeSecond); 
+	end if;
+	if(errorCodeSecond=0)then
+		commit;
+	else 	errorCode:=-1;
+		rollback;
+	end if;
 	EXCEPTION 
 		WHEN OTHERS THEN 
-			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
+			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in orders');
 	
 END;
 
@@ -577,14 +651,23 @@ END;
 --Procedure of insertion in order_supplier_machine
 
 CREATE OR REPLACE PROCEDURE insert_order_supplier_machine(
-	machine_id_var IN machine.machine_id%TYPE,
-	order_id_var IN orders.order_id%TYPE,
-	quantity_var IN order_supplier_machine.quantity%TYPE)
-AS
+	machine_id IN machine.machine_id%TYPE,
+	order_id IN orders.order_id%TYPE,
+	quantity IN order_supplier_machine.quantity%TYPE,
+	errorCode OUT NUMBER) IS
+return_code NUMBER;
 BEGIN
+errorCode:=0;
 	INSERT INTO order_supplier_machine(machine_id,order_id,quantity)
-	VALUES (machine_id_var,order_id_var,quantity_var);
-	COMMIT;
+	VALUES (machine_id,order_id,quantity);
+	return_code:= sql%rowcount;
+     	if(return_code<1)
+		then errorCode :=-1;
+		DBMS_OUTPUT.PUT_LINE('Insertion failed');
+
+	else
+		DBMS_OUTPUT.PUT_LINE('Insertion OK');
+	end if;
 	EXCEPTION 
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');

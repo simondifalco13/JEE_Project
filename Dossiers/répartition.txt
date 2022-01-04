@@ -33,13 +33,18 @@ Pages :
 	*Page de listing des commandes : (simon) : créer des commandes fictives -> !ajout de machine dans l'usine si on dit 'recue'! -> créer procédures stockée
 	
 	
-	-> commande d 1 seule machine a la fois  (M)
-	-> bouton annuler sur page de commande (M)
-
+	-> remplir supplier_machine avec des enregistrements (M) ok
+	-> commande d 1 seule machine a la fois  (M) ok
+	-> filtres (M) ok
+	-> renommer homeservlet -> worker... (M) ok
+	-> gérer la nav bar avec les différents lien / type  (S)
+	-> bouton annuler sur page de commande (M) ok
 	-> faire des gestion d'erreur + détaillée (S)
 	-> photo (bonus) (S)
 
   *Page d'erreurs globale !!
 
 --------------------------
+
+
 

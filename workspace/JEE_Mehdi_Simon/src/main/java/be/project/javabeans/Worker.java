@@ -49,10 +49,10 @@ public class Worker extends User implements Serializable {
 	}
 
 
-	public static ArrayList<Maintenance> getMaintenances(Worker worker){
+	public static ArrayList<Maintenance> getMaintenances(int workerId){
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
-		maintenances = maintenanceDAO.getAllMaintenances(worker);
+		maintenances = maintenanceDAO.getAllMaintenances(workerId);
 		return maintenances;
 	}
 

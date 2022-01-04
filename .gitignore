@@ -5,3 +5,6 @@ workspace/JEE_Mehdi_Simon/target/classes/be/project/javabeans/Worker.class
 workspace/JEE_Mehdi_Simon/target/classes/be/project/servlets/AuthenticationServlet.class
 workspace/JEE_Mehdi_Simon/target/classes/be/project/servlets/AuthenticationServlet.class
 workspace/JEE_Mehdi_Simon/target/classes/be/project/servlets/AuthenticationServlet.class
+workspace/JEE_Mehdi_Simon/target/classes/be/project/dao/OrderDAO.class
+workspace/JEE_Mehdi_Simon/target/classes/be/project/javabeans/Item.class
+workspace/JEE_Mehdi_Simon/target/classes/be/project/javabeans/Order.class
