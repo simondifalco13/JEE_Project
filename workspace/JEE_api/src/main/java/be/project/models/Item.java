@@ -8,7 +8,7 @@ public class Item implements Serializable {
 
 	private static final long serialVersionUID = -8124487508738093428L;
 	private SupplierMachine machine;
-	private double quantity;
+	private int quantity;
 	
 	public Item() {
 		// TODO Auto-generated constructor stub
@@ -18,7 +18,7 @@ public class Item implements Serializable {
 		this.machine=machine;
 	}
 	
-	public Item(SupplierMachine machine,double quantity) {
+	public Item(SupplierMachine machine,int quantity) {
 		this(machine);
 		this.quantity=quantity;
 	}
@@ -35,7 +35,7 @@ public class Item implements Serializable {
 		return quantity;
 	}
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 	
