@@ -141,7 +141,8 @@ public class Order implements Serializable {
 				for(int j=0;j<arrayItems.length();j++) {
 					JSONObject currentItem=(JSONObject) arrayItems.get(j);
 					SupplierMachine machine = (SupplierMachine) mapper.readValue(currentItem.get("machine").toString(), SupplierMachine.class);
-					int quantity=currentItem.getInt("quantity");
+					double qt=currentItem.getDouble("quantity");
+					int quantity=(int) qt;
 					Item item=new Item(machine,quantity);
 					order.addItem(item);
 				}
@@ -149,7 +150,7 @@ public class Order implements Serializable {
 			}
 		
 		} catch (Exception e) {
-			System.out.println("Problï¿½me conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
+			System.out.println("Problème conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
 			return null;
 		}
 		return orders;

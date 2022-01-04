@@ -48,20 +48,7 @@ public class OrderDAO implements DAO<Order> {
 		resource=client.resource(getBaseUri());
 	}
 
-	private static  String apiUrl;
-	private Client client;
-	private WebResource resource;
 	
-	private static URI getBaseUri() {
-		return UriBuilder.fromUri(apiUrl).build();
-	}
-
-	public OrderDAO() {
-		ClientConfig config=new DefaultClientConfig();
-		client=Client.create(config);
-		apiUrl=getApiUrl();
-		resource=client.resource(getBaseUri());
-	}
 	@Override
 	public boolean insert(Order obj) {
 		boolean success=false;
@@ -79,7 +66,7 @@ public class OrderDAO implements DAO<Order> {
 		
 		int httpResponseCode=res.getStatus();
 		URI URIlocation = res.getLocation();
-		System.out.println("New URI" + URIlocation);
+		//System.out.println("New URI" + URIlocation);
 		if(httpResponseCode == 201) {
 			success=true;
 		}

@@ -53,13 +53,13 @@ public class CreateOrderServlet extends HttpServlet {
 				Item item = new Item(machine,1);
 				Order order = new Order();
 				order.setEmployee(employee);
-				order.addItem(item);
+				order.addItemWithPrice(item);
 				
-				System.out.println("Total price dans createorderservlet : " + order.getTotalPrice());
+				//System.out.println("Total price dans createorderservlet : " + order.getTotalPrice());
 				
 				success = order.insertOrder();
 				if(success) {
-					System.out.println("Commande effectué avec succès --> redirection");
+					response.sendRedirect("orders");
 				}
 				else {
 					request.setAttribute("error", "Impossible to validate the order please retry later");

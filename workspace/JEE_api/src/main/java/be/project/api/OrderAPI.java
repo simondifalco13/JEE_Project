@@ -68,7 +68,8 @@ public class OrderAPI extends CommunAPI{
 					Item item = new Item(machine,1);
 					Order order = new Order();
 					order.setEmployee(employee);
-					order.addItem(item);
+					order.addItemAndPrice(item);
+					
 					
 					System.out.println("Total price dans orderapi : " + order.getTotalPrice());
 					int code = order.insertOrder();

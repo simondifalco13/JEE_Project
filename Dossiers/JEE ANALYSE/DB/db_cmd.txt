@@ -528,19 +528,31 @@ AS
 	
 BEGIN
 	forException := -1;
-	IF status='done' THEN 
-		end_t:=CURRENT_TIMESTAMP;
+	IF status='done' OR status='toredo' THEN
+		IF status='done' THEN 
+			end_t:=CURRENT_TIMESTAMP;
+		END IF;
+		IF status='toredo' THEN
+			final_start_t := CURRENT_TIMESTAMP;
+			final_maintenance_d := TO_DATE(CURRENT_DATE, 'YYYY-MM-DD');
+		END IF;
+		UPDATE maintenance 
+		SET maintenance_status=status,
+		maintenance_start=final_start_t,
+		maintenance_date=final_maintenance_d,
+		maintenance_end=end_t
+		WHERE maintenance_id=maintenance_id_param;
 	END IF;
-	IF status='toredo' THEN
-		final_start_t := CURRENT_TIMESTAMP;
-		final_maintenance_d := TO_DATE(CURRENT_DATE, 'DD-MM-YYYY');
+	
+	
+	IF status='validated' THEN
+		UPDATE maintenance 
+		SET maintenance_status=status,
+		maintenance_start=final_start_t,
+		maintenance_date=final_maintenance_d
+		WHERE maintenance_id=maintenance_id_param;
 	END IF;
-	UPDATE maintenance 
-	SET maintenance_status=status,
-	maintenance_start=final_start_t,
-	maintenance_end=end_t,
-	maintenance_date=final_maintenance_d
-	WHERE maintenance_id=maintenance_id_param;
+	
 	COMMIT;
 	EXCEPTION 
 		WHEN OTHERS THEN 

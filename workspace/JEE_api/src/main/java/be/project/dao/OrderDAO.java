@@ -1,7 +1,6 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ public class OrderDAO implements DAO<Order> {
 		int code=0;
 		try {
 			CallableStatement sql = conn.prepareCall("{call insert_orders(?,?,?,?,?,?)}");
-			Date date = new Date();  
+			Date date=new Date();
 			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 			sql.setDate(1,sqlDate);
 			sql.setDouble(2, obj.getTotalPrice());

@@ -112,6 +112,9 @@ public class Order implements Serializable {
 	}
 	
 	public void addItemAndPrice(Item item) {
+		if(this.getOrderItems()==null) {
+			this.orderItems = new ArrayList<Item>();
+		}
 		orderItems.add(item);
 		double itemPrice=item.getTotalPrice();
 		this.addAmountToTotal(itemPrice);
