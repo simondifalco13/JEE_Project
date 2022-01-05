@@ -11,7 +11,15 @@
 	<head>
 		<link href="css/style.css" rel="stylesheet" type="text/css">
 		<meta charset="ISO-8859-1">
-		<title>Maintenance détaillée</title>
+				
+		<style>
+  #outer { text-align: center; }
+  #inner { text-align: left; margin: 0 auto; }
+  .t { float: left; }
+  table { border: 1px solid black; }
+  #clearit { clear: left; }
+</style>
+		<title>Maintenance details</title>
 	</head>
 	<body>
 		<% maintenance=(Maintenance)request.getAttribute("maintenance"); 
@@ -66,75 +74,80 @@
 		else{%>
 			<div class="setdone"><button class="btn btn-warning" disabled>To mark this maintenance as done, you need at least 1 written report</button></div>
 			<%} %>
-			<div class="back">
+			<div class="back" style="margin-bottom : 10px">
     		 	<a href="<%=str%>/home" class="btn btn-primary">Back</a>
     		</div>
 		<!-- Informations personnes concernées -->
-		<div class="divtable2">
-		<table class="table table-bordered centered" style="width: auto">
-			<caption>People concerned</caption>
-			<colgroup>
-	        	<col>
-	        	<col span="2" class="col1">
-	        	<col span="1" class="col2">
-   			 </colgroup>
-		 	<% int nbrWorkers = maintenance.getMaintenanceWorkers().size()+1;%>
-		 		<tr>
-			        <td></td>
-			        <th scope="col">Lastname</th>
-			        <th scope="col">Firstname</th>
-			        <th scope="col">SerialNumber</th>
-	  			</tr>
-				<tr>
-			        <th scope="row">Leader</th>
-			        <td><%= maintenance.getMaintenanceLeader().getLastname() %></td>
-			        <td><%= maintenance.getMaintenanceLeader().getFirstname() %></td>
-			        <td><%= maintenance.getMaintenanceLeader().getSerialNumber() %>
-				</tr>
-				<tr>
-			        <th scope="row" rowspan="<%=nbrWorkers%>">Workers</th>
-			    </tr>
-			    <% for(Worker workerMaintenance : maintenance.getMaintenanceWorkers()) {%>
-			    <tr>
-			        <td><%= workerMaintenance.getLastname() %></td>
-			        <td><%= workerMaintenance.getFirstname() %></td>
-			        <td><%= workerMaintenance.getSerialNumber() %></td>
-				</tr>
-		 	<%} %>
+		<table class="centered" style="margin-bottom : 10px"><tr><td>
+				<table class="table table-bordered centered" style="width: auto">
+				<caption>People concerned</caption>
+				<colgroup>
+		        	<col>
+		        	<col span="2" class="col1">
+		        	<col span="1" class="col2">
+	   			 </colgroup>
+			 	<% int nbrWorkers = maintenance.getMaintenanceWorkers().size()+1;%>
+			 		<tr>
+				        <td></td>
+				        <th scope="col">Lastname</th>
+				        <th scope="col">Firstname</th>
+				        <th scope="col">SerialNumber</th>
+		  			</tr>
+					<tr>
+				        <th scope="row">Leader</th>
+				        <td><%= maintenance.getMaintenanceLeader().getLastname() %></td>
+				        <td><%= maintenance.getMaintenanceLeader().getFirstname() %></td>
+				        <td><%= maintenance.getMaintenanceLeader().getSerialNumber() %>
+					</tr>
+					<tr>
+				        <th scope="row" rowspan="<%=nbrWorkers%>">Workers</th>
+				    </tr>
+				    <% for(Worker workerMaintenance : maintenance.getMaintenanceWorkers()) {%>
+				    <tr>
+				        <td><%= workerMaintenance.getLastname() %></td>
+				        <td><%= workerMaintenance.getFirstname() %></td>
+				        <td><%= workerMaintenance.getSerialNumber() %></td>
+					</tr>
+			 	<%} %>
+			</table>
+			</td><td>
+				<table class="table table-bordered" style="width: auto">
+				<caption>Report list</caption>
+				<% for(Report report : maintenance.getMaintenanceReports()){
+				%>
+			 		<tr>
+				        <td><ul><li><%= report.getWorker().getLastname() %>  <%=report.getWorker().getFirstname()%> :
+				        <% if(report.getReport()!=null && !report.getReport().isBlank()){
+					     	%>
+				        <textarea class="rapport" readonly><%=report.getReport()%></textarea><%}else{ %>
+				        Any report submitted
+				        <!-- SI aucun rapport + utilisateur = worker parcouru -->
+				        <% if(report.getWorker().getSerialNumber() == user.getSerialNumber() && maintenance.reportAndStatusAllow() == true){%>
+				        <br>
+				        <form action="maintenanceinfos" method="POST">
+							<button type="submit" class="btn btn btn-link" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Write a report</button>
+						</form>
+				        <%} %>
+				        </li></ul></td>
+		  				<%}} %>
+		  			</tr>
+			</table>
+			</td></tr>
 		</table>
-		</div>
-		<div class="divtable3">
-		<table class="table table-bordered centered" style="width: auto">
-			<caption>Report list</caption>
-			<% for(Report report : maintenance.getMaintenanceReports()){
-			%>
-		 		<tr>
-			        <td><ul><li><%= report.getWorker().getLastname() %>  <%=report.getWorker().getFirstname()%> :
-			        <% if(report.getReport()!=null && !report.getReport().isBlank()){
-				     	%>
-			        <textarea class="rapport" readonly><%=report.getReport()%></textarea><%}else{ %>
-			        Any report submitted
-			        <!-- SI aucun rapport + utilisateur = worker parcouru -->
-			        <% if(report.getWorker().getSerialNumber() == user.getSerialNumber() && maintenance.reportAndStatusAllow() == true){%>
-			        <br>
-			        <form action="maintenanceinfos" method="POST">
-						<button type="submit" class="btn btn btn-link" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Write a report</button>
-					</form>
-			        <%} %>
-			        </li></ul></td>
-	  				<%}} %>
-	  			</tr>
-	  		
-		</table>
-		</div>
 
 		<table class="table table-bordered centered" style="width: auto">
 		<caption>Affected machine</caption>
 				   	 <tr>
-						<td>Machine number :<%=maintenance.getMachine().getId() %></td>
-						<td>Machine type : <%=maintenance.getMachine().getType() %></td>
-						<td>Brand : <%= maintenance.getMachine().getBrand() %></td>
-						<td>Model : <%= maintenance.getMachine().getModel() %></td>
+					   	 <th>Machine number</th>
+					   	 <th>Machine type</th>
+					     <th>Brand</th>
+					 	 <th>Model</th>
+				    </tr>
+				    <tr>
+				    	<td><%=maintenance.getMachine().getId() %></td>
+						<td><%=maintenance.getMachine().getType() %></td>
+						<td><%= maintenance.getMachine().getBrand() %></td>
+						<td><%= maintenance.getMachine().getModel() %></td>
 				    </tr>
 		</table>
 	</body>
