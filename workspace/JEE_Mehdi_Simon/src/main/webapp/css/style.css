@@ -1,8 +1,10 @@
 @charset "ISO-8859-1";
 table{
 	table-layout : auto;
+	
 }
 caption{
+	caption-side: top;
 	font-weight: bold;
 	color: black;
 	background-color: #1F9DBC;
@@ -57,4 +59,7 @@ th, td, li{
 }
 .border{
 	border: 2px solid black;
+}
+.black{
+	background-color: black;
 }
