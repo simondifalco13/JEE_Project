@@ -39,7 +39,8 @@ public class OrderDAO implements DAO<Order> {
 			CallableStatement sql = conn.prepareCall("{call insert_orders(?,?,?,?,?,?)}");
 			Date date=new Date();
 			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-			sql.setDate(1,sqlDate);
+			SimpleDateFormat DateFor = new SimpleDateFormat("yyyy-MM-dd");
+			sql.setString(1,DateFor.format(sqlDate));
 			sql.setDouble(2, obj.getTotalPrice());
 			sql.setInt(3, obj.getEmployee().getSerialNumber());
 			sql.setInt(5, obj.getOrderItems().get(0).getMachine().getId());

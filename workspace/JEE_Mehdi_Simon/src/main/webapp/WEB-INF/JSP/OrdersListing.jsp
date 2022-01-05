@@ -4,6 +4,7 @@
 <%@page import="be.project.javabeans.Order" %>
 <%@page import="be.project.javabeans.Item" %>
 <%@page import="java.util.ArrayList" %>
+<%@page import="java.text.SimpleDateFormat" %>
 <%@ include file="Navbar.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,8 @@
 <title>List of the orders</title>
 </head>
 <body>
-	<% ArrayList<Order> orders=(ArrayList<Order>) request.getAttribute("orders"); %>
+	<% ArrayList<Order> orders=(ArrayList<Order>) request.getAttribute("orders");
+	SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");%>
 	<div class="container">
 		<% if(orders!=null){
 		for(int i=0;i<orders.size();i++){
@@ -26,6 +28,8 @@
 			  <div class="card-body">
 			    <h5 class="card-title">Order details</h5>
 			    <p class="card-text">
+			    	<span>Date : <%=DateFor.format(order.getOrderDate()) %></span>
+			    	<br>
 			    	<table class="table table-hover">
 			    		<thead>
 						    <tr>
