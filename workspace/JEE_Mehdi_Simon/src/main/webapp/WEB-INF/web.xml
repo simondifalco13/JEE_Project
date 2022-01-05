@@ -18,7 +18,7 @@
   <!-- CONTEXT PARAMS -->
   <context-param>
   	<param-name>apiUrl</param-name>
-  	<param-value>http://localhost:8080/JEE_API/api</param-value>
+  	<param-value>http://localhost:8888/JEE_API/api</param-value>
   </context-param>
   <context-param>
   	<param-name>adminMail</param-name>
@@ -39,7 +39,7 @@
   <env-entry> 
     <env-entry-name>apiUrl</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>http://localhost:8080/JEE_api/api</env-entry-value> 
+    <env-entry-value>http://localhost:8888/JEE_api/api</env-entry-value> 
  </env-entry>
   <!-- SERVLETS -->
   <servlet>
@@ -95,7 +95,7 @@
   	<servlet-class>be.project.servlets.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>OrdersListingServlet</servlet-name>
+  	<servlet-name>OrdersListing</servlet-name>
   	<servlet-class>be.project.servlets.OrdersListingServlet</servlet-class>
   </servlet>
   <!-- MAPPING SERVLET -->
@@ -156,7 +156,7 @@
   		<url-pattern>/suppliersmachines</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>OrdersListingServlet</servlet-name>
+  	<servlet-name>OrdersListing</servlet-name>
   	<url-pattern>/orders</url-pattern>
   </servlet-mapping>
   	<servlet-mapping>
@@ -197,6 +197,7 @@
 			<servlet-name>HomeEmployee</servlet-name>
 			<servlet-name>ShowSupplierMachines</servlet-name>
 			<servlet-name>CreateOrder</servlet-name>
+			<servlet-name>OrdersListing</servlet-name>
 	</filter-mapping>
 	
 	<filter-mapping>
@@ -220,5 +221,6 @@
 			<servlet-name>HomeEmployee</servlet-name>
 			<servlet-name>ShowSupplierMachines</servlet-name>
 			<servlet-name>CreateOrder</servlet-name>
+			<servlet-name>OrdersListing</servlet-name>
 	</filter-mapping>
 </web-app>

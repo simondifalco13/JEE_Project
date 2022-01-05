@@ -2,9 +2,7 @@ package be.project.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,23 +13,17 @@ import be.project.javabeans.Report;
 import be.project.javabeans.User;
 import be.project.javabeans.Worker;
 
-/**
- * Servlet implementation class WriteReportServlet
- */
+
 public class WriteReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public WriteReportServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		try {
@@ -56,7 +48,6 @@ public class WriteReportServlet extends HttpServlet {
 		try {
 			if(session.getAttribute("maintenanceid")!=null) {
 				if(request.getParameter("report")!=null && request.getParameter("maintenanceid")!=null) {
-					try {
 						User user = (User)session.getAttribute("connectedUser");
 						String report = request.getParameter("report");
 						int maintenance_id_session = (int)session.getAttribute("maintenanceid");
@@ -99,10 +90,6 @@ public class WriteReportServlet extends HttpServlet {
 							request.setAttribute("error", error);
 							doGet(request,response);
 						}
-					}
-					catch(Exception e) {
-						System.out.println("Error : "+ e.getMessage() + e.toString());
-					}
 				}
 				else {
 					error = "A report can't be empty and must contain at least 10 letters";

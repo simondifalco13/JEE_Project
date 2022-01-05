@@ -2,7 +2,6 @@ package be.project.servlets;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +10,7 @@ import javax.servlet.http.HttpSession;
 import be.project.enumerations.OperationState;
 import be.project.javabeans.FactoryMachine;
 
-/**
- * Servlet implementation class ManageMachine
- */
+
 
 public class ManageMachineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,18 +23,11 @@ public class ManageMachineServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(false);
-		if(session!=null) {
-			request.getRequestDispatcher("/WEB-INF/JSP/manageMachine.jsp").forward(request,response);
 
-		}else {
-			//redirection sur page d'erreur
-		}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		request.getRequestDispatcher("/WEB-INF/JSP/manageMachine.jsp").forward(request,response);
+
 	}
 
 	/**
@@ -45,7 +35,7 @@ public class ManageMachineServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		if(session!=null) {
+		try {
 			FactoryMachine machine=(FactoryMachine) session.getAttribute("machineToManage");
 			String state=request.getParameter("state");
 			if(state!=null) {
@@ -62,8 +52,9 @@ public class ManageMachineServlet extends HttpServlet {
 					}
 				}
 			}
-		}else {
-			//redirection sur page d'erreur
+		}
+		catch(Exception e) {
+			System.out.println("Exception dans managemachien servlet doPost "+ e.getMessage()+e.toString() );
 		}
 		
 	}

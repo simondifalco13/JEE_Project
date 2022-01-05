@@ -27,12 +27,15 @@ public class CreateOrderServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		try {
-			int supplierMachineId = (int)session.getAttribute("suppliermachineid");
-			SupplierMachine machine = SupplierMachine.getSupplierMachine(supplierMachineId);
-			request.setAttribute("suppliermachine", machine);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/ValidateOrder.jsp");
-			dispatcher.forward(request, response);
+			if(session.getAttribute("suppliermachineid")!=null) {
+				int supplierMachineId = (int)session.getAttribute("suppliermachineid");
+				SupplierMachine machine = SupplierMachine.getSupplierMachine(supplierMachineId);
+				request.setAttribute("suppliermachine", machine);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/JSP/ValidateOrder.jsp");
+				dispatcher.forward(request, response);
+			}
+			else response.sendRedirect("maintenances");
 		}
 		catch(Exception e) {
 			System.out.println("Exception dans createorderservlet doGet" + e.getMessage());
@@ -45,31 +48,32 @@ public class CreateOrderServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		boolean success = false;
 		try {
-			if(request.getParameter("suppliermachineid")!=null) {
+			if(request.getParameter("suppliermachineid")!=null && session.getAttribute("suppliermachineid")!=null) {
+				int idInSession = (int)session.getAttribute("suppliermachineid");
 				int id = Integer.valueOf(request.getParameter("suppliermachineid"));
-				Employee employee= (Employee)session.getAttribute("connectedUser");
-				SupplierMachine machine = SupplierMachine.getSupplierMachine(id);
+				if(id==idInSession) {
+					Employee employee= (Employee)session.getAttribute("connectedUser");
+					SupplierMachine machine = SupplierMachine.getSupplierMachine(id);
 
-				Item item = new Item(machine,1);
-				Order order = new Order();
-				order.setEmployee(employee);
-				order.addItemWithPrice(item);
-				
-				//System.out.println("Total price dans createorderservlet : " + order.getTotalPrice());
-				
-				success = order.insertOrder();
-				if(success) {
-					response.sendRedirect("orders");
+					Item item = new Item(machine,1);
+					Order order = new Order();
+					order.setEmployee(employee);
+					order.addItemWithPrice(item);
+									
+					success = order.insertOrder();
+					if(success) {
+						response.sendRedirect("orders");
+					}
+					else {
+						request.setAttribute("error", "Impossible to validate the order please retry later");
+						doGet(request,response);
+					}
 				}
-				else {
-					request.setAttribute("error", "Impossible to validate the order please retry later");
-					doGet(request,response);
-				}
+				else response.sendRedirect("maintenances");	
 			}
 		}
 		catch(Exception e) {
 			System.out.println("Exception dans createorderservlet doPost" + e.getMessage());
-		
 		}
 	}
 }

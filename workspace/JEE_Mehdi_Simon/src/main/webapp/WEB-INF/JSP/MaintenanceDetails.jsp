@@ -12,13 +12,7 @@
 		<link href="css/style.css" rel="stylesheet" type="text/css">
 		<meta charset="ISO-8859-1">
 				
-		<style>
-  #outer { text-align: center; }
-  #inner { text-align: left; margin: 0 auto; }
-  .t { float: left; }
-  table { border: 1px solid black; }
-  #clearit { clear: left; }
-</style>
+
 		<title>Maintenance details</title>
 	</head>
 	<body>

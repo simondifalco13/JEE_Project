@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,28 +23,21 @@ import be.project.javabeans.Maintenance;
 import be.project.javabeans.Site;
 import be.project.javabeans.Worker;
 
-/**
- * Servlet implementation class CreateMaintenanceServlet
- */
+
 
 public class CreateMaintenanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+  
     public CreateMaintenanceServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
-		if(session!=null) {
+		try {
 			FactoryMachine machine=(FactoryMachine) session.getAttribute("machine");
 			ArrayList<Area> machineAreas=machine.getMachineAreas();
 			for(int i=0;i<machineAreas.size();i++) {
@@ -56,19 +48,18 @@ public class CreateMaintenanceServlet extends HttpServlet {
 			machine.setMachineAreas(machineAreas);
 			session.setAttribute("machine", machine);
 			request.getRequestDispatcher("/WEB-INF/JSP/CreateMaintenance.jsp").forward(request,response);
-		}else {
-			//redirection sur page d'erreur
 		}
-
+		catch(Exception e) {
+			System.out.println("Exception dans createmaintenance servlet doGet " + e.getMessage() + e.toString());
+		}
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		String errors="";
-		if(session!=null) {
+		try {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
 			FactoryMachine machine=(FactoryMachine) session.getAttribute("machine");
 			String inputDate= request.getParameter("date");
@@ -127,10 +118,13 @@ public class CreateMaintenanceServlet extends HttpServlet {
 				request.setAttribute("error", errors);
 				doGet(request,response);
 			}
-
-		}else {
-			//redirection sur page d'erreur
 		}
+		catch(Exception e) {
+			System.out.println("Exception dans createmaintenance servlet doPost " + e.getMessage() + e.toString());
+		}
+			
+
+	
 		
 	}
 

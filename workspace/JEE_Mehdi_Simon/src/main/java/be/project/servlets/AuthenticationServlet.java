@@ -2,35 +2,27 @@ package be.project.servlets;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Cookie;
 
 import be.project.javabeans.User;
 import be.project.javabeans.Worker;
 import be.project.javabeans.Employee;
 import be.project.javabeans.Leader;
 
-/**
- * Servlet implementation class AuthenticationServlet
- */
+
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String apiKey;
 
-    /**
-     * Default constructor. 
-     */
+    
     public AuthenticationServlet() {
         // TODO Auto-generated constructor stub
     }
@@ -54,9 +46,7 @@ public class AuthenticationServlet extends HttpServlet {
     
     
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if(session!=null && !session.isNew()) {
@@ -74,15 +64,11 @@ public class AuthenticationServlet extends HttpServlet {
 					response.sendRedirect("machines");
 					return;
 				}
-				
 			}
 		}
 		request.getRequestDispatcher("/WEB-INF/JSP/authentication.jsp").forward(request,response);
 }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext context = getServletContext();
 		request.setAttribute("error", null);

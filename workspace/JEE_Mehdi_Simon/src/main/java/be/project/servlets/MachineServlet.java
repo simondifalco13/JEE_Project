@@ -7,23 +7,15 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Cookie;
 
-import be.project.enumerations.OperationState;
-import be.project.javabeans.Employee;
 import be.project.javabeans.FactoryMachine;
 import be.project.javabeans.Leader;
 import be.project.javabeans.Maintenance;
-import be.project.javabeans.Site;
 
-/**
- * Servlet implementation class MachineServlet
- */
 
 public class MachineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -54,71 +46,66 @@ public class MachineServlet extends HttpServlet {
     	apiKey=getApiKey();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		if(session!=null) {
+		try {
 			Leader leader=(Leader) session.getAttribute("connectedUser");
 			machines=FactoryMachine.getAllFactoryMachinesBySite(leader.getSite());
 			request.setAttribute("machines", machines);
 			request.getRequestDispatcher("/WEB-INF/JSP/Machines.jsp").forward(request,response);
-		}else {
-			//redirection sur page d'erreur
 		}
-
-		
+		catch(Exception e) {
+			System.out.println("Exception dans machienservlet doGet "+ e.getMessage()+e.toString());
+		}	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("machine")!=null) {
-			if(!request.getParameter("machine").equals("") && !request.getParameter("machine").isEmpty()) {
-				int machineToManageId=Integer.valueOf(request.getParameter("machine"));
-				 FactoryMachine machineToManage=new FactoryMachine();
-				 for(int i=0;i<machines.size();i++) {
-					 if(machines.get(i).getId()==machineToManageId) {
-						 machineToManage=machines.get(i);
+		try {
+			if(request.getParameter("machine")!=null) {
+				if(!request.getParameter("machine").equals("") && !request.getParameter("machine").isEmpty()) {
+					int machineToManageId=Integer.valueOf(request.getParameter("machine"));
+					 FactoryMachine machineToManage=new FactoryMachine();
+					 for(int i=0;i<machines.size();i++) {
+						 if(machines.get(i).getId()==machineToManageId) {
+							 machineToManage=machines.get(i);
+						 }
 					 }
-				 }
-				 HttpSession session = request.getSession(false);
-				 if(session!=null) {
+					 HttpSession session = request.getSession(false);
 					 session.setAttribute("machineToManage", machineToManage);
+					 
 					 response.sendRedirect("ManageMachine");
-				 }else {
-					 //redirection sur page d'erreur
-				 }
+				}
 			}
-		}
-		if(request.getParameter("maintenance")!=null) {
-			if(!request.getParameter("maintenance").equals("") && !request.getParameter("maintenance").isEmpty()) {
-				int maintenanceId=Integer.valueOf(request.getParameter("maintenance"));
-				Maintenance maintenanceToConsult = null;
-				for(int i=0;i<machines.size();i++) {
-					FactoryMachine currentMachine=machines.get(i);
-					for(int j=0;j<currentMachine.getMachineMaintenances().size();j++) {
-						if(currentMachine.getMachineMaintenances().get(j).getMaintenanceId()==maintenanceId) {
-							maintenanceToConsult=currentMachine.getMachineMaintenances().get(j);
+			if(request.getParameter("maintenance")!=null) {
+				if(!request.getParameter("maintenance").equals("") && !request.getParameter("maintenance").isEmpty()) {
+					int maintenanceId=Integer.valueOf(request.getParameter("maintenance"));
+					Maintenance maintenanceToConsult = null;
+					for(int i=0;i<machines.size();i++) {
+						FactoryMachine currentMachine=machines.get(i);
+						for(int j=0;j<currentMachine.getMachineMaintenances().size();j++) {
+							if(currentMachine.getMachineMaintenances().get(j).getMaintenanceId()==maintenanceId) {
+								maintenanceToConsult=currentMachine.getMachineMaintenances().get(j);
+							}
 						}
 					}
-				}
-				HttpSession session = request.getSession(false);
-				 if(session!=null) {
-					 if(maintenanceToConsult!=null) {
-						 session.setAttribute("maintenance", maintenanceToConsult);
-						 response.sendRedirect("ConsultMaintenance");
-					 }else {
+					HttpSession session = request.getSession(false);
+
+					if(maintenanceToConsult!=null) {
+						session.setAttribute("maintenance", maintenanceToConsult);
+						response.sendRedirect("ConsultMaintenance");
+					}else {
 						 doGet(request,response);
-					 }
-				 }else {
-					 //redirection sur page d'erreur
-				 }
+					}
+				}
 			}
+		}
+		catch(Exception e) {
+			System.out.println("Exception dans machienservlet doPost "+ e.getMessage()+e.toString());
 		}
 		
 	}
-
 }

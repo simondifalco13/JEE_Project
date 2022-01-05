@@ -60,8 +60,10 @@
 					    		 <%
 					    	} %>
 					    </p>
-			
-					    	<p class="card-text"><b>Maintenance(s)</b>:</p>
+							<details>
+								<summary>Show maintenances</summary>
+								
+								<p class="card-text"><b>Maintenance(s)</b>:</p>
 					    	<% for(int k=0;k<machines.get(i).getMachineMaintenances().size();k++) {
 					    		Maintenance currentMaintenance=machines.get(i).getMachineMaintenances().get(k);
 					    		
@@ -96,6 +98,7 @@
 			    						<button type="submit" class="btn btn-primary" name="machine" value="<%=machines.get(i).getId()%>">Replace </button>
 			    					</form>
 					    		<%} %>
+							</details>
 					    	</div>
 					    </div>
 					<%}%>
