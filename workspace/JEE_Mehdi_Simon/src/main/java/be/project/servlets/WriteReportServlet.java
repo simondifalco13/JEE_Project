@@ -64,23 +64,13 @@ public class WriteReportServlet extends HttpServlet {
 							worker.setLastname(user.getLastname());
 							worker.setFirstname(user.getFirstname());
 							Report reportObject = new Report(maintenance,worker,report);
-							int code = reportObject.createReport();
-							switch(code) {
-								case 0 : 
-									message= "Report create";
-									break;
-								case -1 : 
-									message= "Report not created";
-									break;
-								case 401 : 
-									System.out.println("Accès non autorisé");
-									response.sendRedirect("connexion");
-									return;
-								default:
-									System.out.println("Exception sql généré dans la procédure stockée : " + code);
-									message= "Report not created --> error code : " + code;
-									break;
+							boolean success = reportObject.createReportString();
+							if(success) {
+									message="Report create";
 							}
+							else {
+								message= "Report not created";
+							}	
 							request.setAttribute("message", message);
 							request.getRequestDispatcher("maintenanceinfos").forward(request, response);
 							return;

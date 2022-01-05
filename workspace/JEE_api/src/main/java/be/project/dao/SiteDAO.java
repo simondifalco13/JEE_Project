@@ -1,18 +1,10 @@
 package be.project.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import be.project.models.Area;
-import be.project.models.Employee;
-import be.project.models.Leader;
 import be.project.models.Site;
-import be.project.models.Worker;
 
 public class SiteDAO implements DAO<Site> {
 

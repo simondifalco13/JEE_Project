@@ -32,10 +32,6 @@ public class Employee extends User implements Serializable {
 		this.allMaintenances=maintenances;
 	}
 	
-	
-	
-	
-	
 	//GET & SET
 	public ArrayList<Maintenance> getAllMaintenances() {
 		return allMaintenances;
@@ -53,7 +49,6 @@ public class Employee extends User implements Serializable {
 		this.orders = orders;
 	}
 
-	
 	
 	//METHODS
 	public void addOrder(Order order) {

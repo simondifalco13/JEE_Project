@@ -1,16 +1,9 @@
 package be.project.models;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import be.project.dao.EmployeeDAO;
 import be.project.dao.LeaderDAO;
 import be.project.dao.WorkerDAO;
-import be.project.models.Site;
+
 
 public abstract class User  {
 

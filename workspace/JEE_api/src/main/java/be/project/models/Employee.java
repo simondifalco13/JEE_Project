@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.project.dao.EmployeeDAO;
-import be.project.models.Maintenance;
-import be.project.models.Order;
-import be.project.models.Site;
-import be.project.models.User;
 
 public class Employee extends User implements Serializable {
 
@@ -38,10 +34,6 @@ public class Employee extends User implements Serializable {
 		this.allMaintenances=maintenances;
 	}
 	
-	
-	
-	
-	
 	//GET & SET
 	public ArrayList<Maintenance> getAllMaintenances() {
 		return allMaintenances;
@@ -59,15 +51,12 @@ public class Employee extends User implements Serializable {
 		this.orders = orders;
 	}
 
-	
-	
 	//METHODS
 	public void addOrder(Order order) {
 		if(order!=null) {
 			this.getOrders().add(order);
 		}
 	}
-	
 	public static Employee getEmployee(int serialNumber) {
 		Employee emp=null;
 		EmployeeDAO employeeDAO=new EmployeeDAO();

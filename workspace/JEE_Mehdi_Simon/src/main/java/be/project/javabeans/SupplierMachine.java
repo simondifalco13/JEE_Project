@@ -16,7 +16,7 @@ public class SupplierMachine extends Machine implements Serializable {
 	private Supplier supplier;
 	private ArrayList<Order> orders;
 	public SupplierMachine() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public SupplierMachine(String model, String brand, String description, MachineType type,double price,Supplier supplier) {
@@ -70,8 +70,4 @@ public class SupplierMachine extends Machine implements Serializable {
 		machine= smDAO.find(supplierMachineId);
 		return machine;
 	}
-
-	
-	//METHODS
-	
 }

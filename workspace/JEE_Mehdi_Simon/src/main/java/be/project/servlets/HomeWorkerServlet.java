@@ -36,7 +36,7 @@ public class HomeWorkerServlet extends HttpServlet {
 			}
 			Worker worker =(Worker)session.getAttribute("connectedUser");
 			ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-			maintenances= Worker.getMaintenances(worker.getSerialNumber());
+			maintenances= Maintenance.getWorkerMaintenances(worker.getSerialNumber());
 			worker.setMaintenances(maintenances);
 			
 			request.setAttribute("worker", worker);

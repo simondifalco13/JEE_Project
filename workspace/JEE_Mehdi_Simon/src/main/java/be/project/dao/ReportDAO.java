@@ -3,7 +3,6 @@ package be.project.dao;
 import java.net.URI;
 import java.util.ArrayList;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
@@ -35,9 +34,27 @@ public class ReportDAO implements DAO<Report> {
 	}
 	@Override
 	public boolean update(Report report) {
-		return false;
+		String key=getApiKey();
+		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
+		parameters.add("maintenance_id", String.valueOf(report.getMaintenance().getMaintenanceId()));
+		parameters.add("worker_id", String.valueOf(report.getWorker().getSerialNumber()));
+		parameters.add("report", report.getReport());
+		ClientResponse res = resource
+				.path("maintenance")
+				.path(String.valueOf(report.getMaintenance().getMaintenanceId()))
+				.path("workerReport")
+				.path(String.valueOf(report.getWorker().getSerialNumber()))
+				.header("key",key)
+				.put(ClientResponse.class,parameters);
+
+		int httpResponseCode = res.getStatus();
+		if(httpResponseCode==204) {
+			return true;
+		}
+		else return false;
 	}
-	public int update1(Report report) {
+	
+	/*public int updateReport(Report report) {
 		String key=getApiKey();
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("maintenance_id", String.valueOf(report.getMaintenance().getMaintenanceId()));
@@ -53,7 +70,6 @@ public class ReportDAO implements DAO<Report> {
 
 		int httpResponseCode = res.getStatus();
 		String sqlcode =res.getStatusInfo().getReasonPhrase();
-		 ;
 		switch(httpResponseCode) {
 			case 204 :
 				return 0;
@@ -66,7 +82,7 @@ public class ReportDAO implements DAO<Report> {
 			default : 
 				return -1;
 		}
-	}
+	}**/
 
 	@Override
 	public boolean delete(Report obj) {

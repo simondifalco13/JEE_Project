@@ -1,26 +1,13 @@
 package be.project.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
-import be.project.enumerations.ColorCode;
 import be.project.enumerations.MachineType;
-import be.project.enumerations.MaintenanceStatus;
-import be.project.enumerations.OperationState;
-import be.project.models.Area;
-import be.project.models.FactoryMachine;
-import be.project.models.Leader;
-import be.project.models.Maintenance;
-import be.project.models.Report;
-import be.project.models.Site;
 import be.project.models.Supplier;
 import be.project.models.SupplierMachine;
-import be.project.models.Worker;
 
 public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 
@@ -130,8 +117,6 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 				
 				machines.add(machine);
 			}
-			
-			
 		} catch (Exception e) {
 			System.out.println("Erreur dans suppleirMachineDAO de l'api :"+e.getMessage());
 		}

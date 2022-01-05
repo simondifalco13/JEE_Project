@@ -3,16 +3,12 @@ package be.project.javabeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import be.project.dao.OrderDAO;
-import be.project.javabeans.Item;
 
 public class Order implements Serializable {
 
@@ -73,17 +69,13 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	
-
 	public Date getOrderDate() {
 		return orderDate;
 	}
-
-
+	
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
-
 
 	//METHODS
 	public void addAmountToTotal(double amount) {
@@ -150,12 +142,11 @@ public class Order implements Serializable {
 			}
 		
 		} catch (Exception e) {
-			System.out.println("Problème conversion json en objet maintenance dans ORDERDAO : " + e.getMessage());
+			System.out.println("Problème conversion json en objet maintenance dans ORDER class : " + e.getMessage());
 			return null;
 		}
 		return orders;
 	}
-
 
 	public boolean insertOrder() {
 		OrderDAO orderDAO = new OrderDAO();

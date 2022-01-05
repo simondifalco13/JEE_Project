@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8124487508738093428L;
 	private SupplierMachine machine;
 	private int quantity;

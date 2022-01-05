@@ -2,18 +2,8 @@ package be.project.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
-
-import be.project.enumerations.MaintenanceStatus;
-import be.project.models.FactoryMachine;
-import be.project.models.Leader;
-import be.project.models.Maintenance;
-import be.project.models.Report;
 import be.project.models.Site;
 import be.project.models.Worker;
 

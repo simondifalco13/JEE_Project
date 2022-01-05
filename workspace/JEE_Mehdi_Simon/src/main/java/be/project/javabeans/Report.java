@@ -5,16 +5,13 @@ import java.io.Serializable;
 import be.project.dao.ReportDAO;
 
 public class Report implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1954302769087152816L;
 	private String report;
 	private Maintenance maintenance;
 	private Worker worker;
 	
 	public Report() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Report(Maintenance maintenance, Worker worker) {
@@ -52,16 +49,16 @@ public class Report implements Serializable{
 	}
 	
 	public static boolean reportIsValid(String report) {
-		if(report== null) {
+		if(report==null) {
 			return false;
 		}
-		else if(report.isBlank() == true || report.length()<=10 ) {
+		else if(report.isBlank() || report.length()<=10 ) {
 			return false;
 		}
 		else return true;
 	}
-	public int createReport() {
+	public boolean createReportString() {
 		ReportDAO dao = new ReportDAO() ;
-		return dao.update1(this);
+		return dao.update(this);
 	}
 }

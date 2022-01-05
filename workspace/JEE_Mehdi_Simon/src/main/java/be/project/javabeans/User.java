@@ -1,7 +1,5 @@
 package be.project.javabeans;
 
-import java.io.Serializable;
-
 import be.project.dao.EmployeeDAO;
 import be.project.dao.LeaderDAO;
 import be.project.dao.UserDAO;
@@ -92,7 +90,7 @@ public abstract class User  {
 	
 	public static User getUser(int serialNumber) {
 		User user=null;
-		UserDAO userDAO=new UserDAO();
+		
 		if(serialNumber!=0) {
 			if(serialNumber>=20000 && serialNumber<30000) {
 				 WorkerDAO workerDAO=new WorkerDAO();
@@ -110,5 +108,4 @@ public abstract class User  {
 		}
 		return user;
 	}
-
 }

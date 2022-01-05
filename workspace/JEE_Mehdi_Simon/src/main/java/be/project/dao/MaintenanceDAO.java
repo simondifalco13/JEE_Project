@@ -2,10 +2,8 @@ package be.project.dao;
 
 import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
@@ -16,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -24,10 +21,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import be.project.javabeans.Employee;
 import be.project.javabeans.Maintenance;
-import be.project.javabeans.Report;
-import be.project.javabeans.Worker;
+
 
 public class MaintenanceDAO implements DAO<Maintenance> {
 
@@ -109,9 +104,8 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		}
 		return success;
 	}
-	public int update1(Maintenance obj) {
+	public int updateByWorker(Maintenance obj) {
 		String key=getApiKey();
-		boolean success = false;
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("maintenance_id", String.valueOf(obj.getMaintenanceId()));
 		parameters.add("maintenanceStatus", String.valueOf(obj.getStatus()));

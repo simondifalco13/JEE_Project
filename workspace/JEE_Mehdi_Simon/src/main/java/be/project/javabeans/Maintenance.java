@@ -6,8 +6,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,10 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import be.project.dao.MaintenanceDAO;
 import be.project.enumerations.MaintenanceStatus;
-import be.project.javabeans.FactoryMachine;
-import be.project.javabeans.Leader;
-import be.project.javabeans.Worker;
-import be.project.javabeans.Report;
 
 public class Maintenance implements Serializable {
 
@@ -44,7 +38,6 @@ public class Maintenance implements Serializable {
 		
 	}
 	
-	
 	public Maintenance(Date date,LocalTime start,
 			FactoryMachine machine, 
 			MaintenanceStatus status,
@@ -58,8 +51,6 @@ public class Maintenance implements Serializable {
 		this.maintenanceLeader=leader;
 		this.maintenanceReports=new ArrayList<Report>();
 	}
-	
-	
 	
 	public Maintenance(int id,Date date,
 			FactoryMachine machine, 
@@ -90,7 +81,6 @@ public class Maintenance implements Serializable {
 			this.duration=getDuration();
 		}
 	}
-	
 	
 	public int getMaintenanceId() {
 		return maintenanceId;
@@ -179,7 +169,8 @@ public class Maintenance implements Serializable {
 		this.maintenanceReports = maintenanceReports;
 	}
 
-
+	//METHODS
+	
 	private String calculateDuration(LocalTime start,LocalTime end) {
 		long hours = ChronoUnit.HOURS.between(start, end);
 		if(hours<0) {
@@ -199,11 +190,21 @@ public class Maintenance implements Serializable {
 		}
         return hours+":"+minutes+":"+seconds;
 	}
-	public static Maintenance getMaintenance(int id) {
+	public static Maintenance getMaintenance(int maintenanceId) {
 		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
-		Maintenance maintenance = maintenanceDAO.find(id);
+		Maintenance maintenance = maintenanceDAO.find(maintenanceId);
 		return maintenance;
 	}
+	
+
+	public static ArrayList<Maintenance> getWorkerMaintenances(int workerId){
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		maintenances = maintenanceDAO.getAllMaintenances(workerId);
+		return maintenances;
+	}
+	
+	
 	public void addWorker(Worker worker) {
 		if(worker!=null) {
 			this.getMaintenanceWorkers().add(worker);
@@ -324,15 +325,6 @@ public class Maintenance implements Serializable {
 		}
 		return exist;
 	}
-	public boolean reportAndStatusAllow() {
-		boolean allow=false;
-		if(this.getStatus()== MaintenanceStatus.ongoing || this.getStatus()== MaintenanceStatus.todo || this.getStatus()== MaintenanceStatus.toredo) {
-			allow =true;
-		}
-		return allow;
-	}
-
-
 
 	public boolean insertMaintenance() {
 		boolean success=false;
@@ -350,7 +342,6 @@ public class Maintenance implements Serializable {
 	
 	public int changeStatusDone() {
 		MaintenanceDAO maintenanceDAO= new MaintenanceDAO();
-		return maintenanceDAO.update1(this);
-
+		return maintenanceDAO.updateByWorker(this);
 	}
 }

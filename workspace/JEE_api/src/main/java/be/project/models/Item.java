@@ -2,7 +2,6 @@ package be.project.models;
 
 import java.io.Serializable;
 
-import be.project.models.SupplierMachine;
 
 public class Item implements Serializable {
 

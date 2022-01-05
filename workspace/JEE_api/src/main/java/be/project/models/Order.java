@@ -3,13 +3,8 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import be.project.models.SupplierMachine;
 import be.project.dao.OrderDAO;
-import be.project.models.Employee;
-import be.project.models.Item;
 
 public class Order implements Serializable {
 
@@ -79,9 +74,6 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 
-	
-
-	
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -133,6 +125,5 @@ public class Order implements Serializable {
 		OrderDAO orderDAO = new OrderDAO();
 		return orderDAO.insertOrder(this);
 	}
-
 }
 

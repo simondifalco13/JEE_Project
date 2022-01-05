@@ -16,14 +16,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import be.project.enumerations.MachineType;
-import be.project.enumerations.OperationState;
-import be.project.javabeans.Area;
-import be.project.javabeans.FactoryMachine;
-import be.project.javabeans.Leader;
-import be.project.javabeans.Maintenance;
 import be.project.javabeans.Supplier;
 import be.project.javabeans.SupplierMachine;
-import be.project.javabeans.Worker;
 
 public class SupplierMachineDAO implements DAO<SupplierMachine> {
 	
@@ -126,7 +120,6 @@ public class SupplierMachineDAO implements DAO<SupplierMachine> {
 
 	@Override
 	public ArrayList<SupplierMachine> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

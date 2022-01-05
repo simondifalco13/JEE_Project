@@ -1,35 +1,25 @@
 package be.project.dao;
 
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-import be.project.javabeans.Employee;
-import be.project.javabeans.Item;
-import be.project.javabeans.Maintenance;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriBuilder;
-
 
 import com.sun.jersey.api.client.ClientResponse;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import be.project.javabeans.Order;
-import be.project.javabeans.SupplierMachine;
 
 public class OrderDAO implements DAO<Order> {
 	
@@ -48,7 +38,6 @@ public class OrderDAO implements DAO<Order> {
 		resource=client.resource(getBaseUri());
 	}
 
-	
 	@Override
 	public boolean insert(Order obj) {
 		boolean success=false;
@@ -102,7 +91,6 @@ public class OrderDAO implements DAO<Order> {
 				.accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 	
-		
 		JSONArray jsonArray = new JSONArray(responseJSON);
 		orders=Order.getOrderByJSONArray(jsonArray);
 		

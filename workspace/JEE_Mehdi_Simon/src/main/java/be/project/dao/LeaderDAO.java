@@ -3,9 +3,6 @@ package be.project.dao;
 import java.net.URI;
 import java.util.ArrayList;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
@@ -15,7 +12,6 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
-import be.project.javabeans.Employee;
 import be.project.javabeans.Leader;
 
 public class LeaderDAO implements DAO<Leader> {

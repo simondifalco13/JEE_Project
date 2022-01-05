@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.project.dao.SiteDAO;
-import be.project.dao.WorkerDAO;
 
 public class Site implements Serializable {
 

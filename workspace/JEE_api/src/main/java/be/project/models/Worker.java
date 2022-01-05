@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 import be.project.dao.MaintenanceDAO;
 import be.project.dao.WorkerDAO;
-import be.project.models.Maintenance;
-import be.project.models.Site;
-import be.project.models.User;
 
 public class Worker extends User implements Serializable {
 

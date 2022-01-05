@@ -2,13 +2,10 @@ package be.project.models;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,13 +16,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import be.project.dao.MaintenanceDAO;
-import be.project.dao.WorkerDAO;
 import be.project.enumerations.MaintenanceStatus;
 import be.project.models.Maintenance;
-import be.project.models.Report;
-import be.project.models.FactoryMachine;
-import be.project.models.Leader;
-import be.project.models.Worker;
 
 public class Maintenance implements Serializable {
 
@@ -107,13 +99,6 @@ public class Maintenance implements Serializable {
 			this.duration=getDuration();
 		}
 	}
-	
-	
-	
-	
-	
-
-
 	public Maintenance(int maintenanceId, Date maintenanceDate, LocalTime startTime, FactoryMachine machine,
 			MaintenanceStatus status, ArrayList<Worker> maintenanceWorkers, Leader maintenanceLeader, LocalTime endTime,
 			ArrayList<Report> maintenanceReports) {
@@ -291,7 +276,7 @@ public class Maintenance implements Serializable {
 	public int updateMaintenance() {
 		boolean success=false;
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
-		int updateCode=maintenanceDAO.updateMaintenance(this);
+		int updateCode=maintenanceDAO.update(this);
 		return updateCode;
 	}
 	public static Maintenance getMaintenance(int maintenance_id) {
@@ -310,10 +295,8 @@ public class Maintenance implements Serializable {
 			this.getMaintenanceReports().add(report);
 		}
 	}
-
-
 	public int changeStatusDone() {
 		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
-		return maintenanceDAO.update1(this);
+		return maintenanceDAO.updateByWorker(this);
 	}
 }

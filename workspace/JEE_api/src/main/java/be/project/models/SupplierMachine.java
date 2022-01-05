@@ -3,7 +3,6 @@ package be.project.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import be.project.dao.FactoryMachineDAO;
 import be.project.dao.SupplierMachineDAO;
 import be.project.enumerations.MachineType;
 

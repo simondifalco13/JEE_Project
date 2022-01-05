@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.project.dao.LeaderDAO;
-import be.project.models.Maintenance;
-import be.project.models.Site;
-import be.project.models.User;
 
 public class Leader extends User implements Serializable {
 
@@ -25,8 +22,6 @@ public class Leader extends User implements Serializable {
 	public Leader(int serialNumber, String firstname, String lastname, String password, String email,Site site) {
 		super(serialNumber, firstname, lastname, password, email,site);
 	}
-	
-	
 	
 	public Leader(int serialNumber, 
 			String firstname, String lastname, 

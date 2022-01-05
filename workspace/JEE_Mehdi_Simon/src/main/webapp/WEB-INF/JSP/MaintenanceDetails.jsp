@@ -8,16 +8,23 @@
     <jsp:useBean id="maintenance" class="be.project.javabeans.Maintenance" scope="session"></jsp:useBean>
 <!DOCTYPE html>
 <html>
-	<head>
-		<link href="css/style.css" rel="stylesheet" type="text/css">
-		<meta charset="ISO-8859-1">
-				
-
-		<title>Maintenance details</title>
-	</head>
+<head>
+	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<meta charset="ISO-8859-1">
+	<title>Maintenance details</title>
+</head>
 	<body>
 		<% maintenance=(Maintenance)request.getAttribute("maintenance"); 
 		%>
+		<%!	public boolean reportAndStatusAllow(Maintenance maintenance) {
+				boolean allow=false;
+				if(maintenance.getStatus()== MaintenanceStatus.ongoing || maintenance.getStatus()== MaintenanceStatus.todo || maintenance.getStatus()== MaintenanceStatus.toredo) {
+					allow =true;
+				}
+				return allow;
+		} %>
+		
+		
 		<div class="title"><p>Details maintenance number : <%=maintenance.getMaintenanceId() %> </p></div>
 		<% if(request.getAttribute("message")!=null){%>
 			<div class="alert alert-success" style='text-align: center' role="alert">
@@ -58,13 +65,13 @@
 					    </tr>
 			 		</tbody>
 			</table>
-		<% if(maintenance.reportExist() == true & maintenance.reportAndStatusAllow()== true){ %>
+		<% if(maintenance.reportExist() == true & reportAndStatusAllow(maintenance)== true){ %>
 			<div class="setdone">
 				<form action="maintenanceinfos" method="POST">
 					<button type="submit" class="btn btn-success" name="maintenanceidfordone" value="<%=maintenance.getMaintenanceId()%>">Mark as done</button>
 				</form>
 			</div>
-		<%}else if(!maintenance.reportAndStatusAllow()){ }
+		<%}else if(!reportAndStatusAllow(maintenance)){ }
 		else{%>
 			<div class="setdone"><button class="btn btn-warning" disabled>To mark this maintenance as done, you need at least 1 written report</button></div>
 			<%} %>
@@ -116,7 +123,7 @@
 				        <textarea class="rapport" readonly><%=report.getReport()%></textarea><%}else{ %>
 				        Any report submitted
 				        <!-- SI aucun rapport + utilisateur = worker parcouru -->
-				        <% if(report.getWorker().getSerialNumber() == user.getSerialNumber() && maintenance.reportAndStatusAllow() == true){%>
+				        <% if(report.getWorker().getSerialNumber() == user.getSerialNumber() && reportAndStatusAllow(maintenance) == true){%>
 				        <br>
 				        <form action="maintenanceinfos" method="POST">
 							<button type="submit" class="btn btn btn-link" name="maintenanceid" value="<%=maintenance.getMaintenanceId()%>">Write a report</button>

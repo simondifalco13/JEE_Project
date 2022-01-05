@@ -3,11 +3,6 @@ package be.project.javabeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import be.project.javabeans.Area;
-import be.project.javabeans.Employee;
-import be.project.javabeans.Leader;
-import be.project.javabeans.Worker;
-
 public class Site implements Serializable {
 
 	
@@ -22,7 +17,6 @@ public class Site implements Serializable {
 	private ArrayList<Area> siteAreas;
 	
 	public Site() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Site(String city,String address,ArrayList<Area> siteAreas,ArrayList<Leader> siteLeaders,ArrayList<Employee> siteEmployees,ArrayList<Worker> siteWorkers) {
@@ -75,9 +69,7 @@ public class Site implements Serializable {
 	public void setSiteAreas(ArrayList<Area> siteAreas) {
 		this.siteAreas = siteAreas;
 	}
-
 	
-
 	public int getId() {
 		return id;
 	}
@@ -93,6 +85,4 @@ public class Site implements Serializable {
 	public void setSiteEmployees(ArrayList<Employee> siteEmployee) {
 		this.siteEmployees = siteEmployee;
 	}
-	
-
 }

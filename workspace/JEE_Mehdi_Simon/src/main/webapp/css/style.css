@@ -1,7 +1,6 @@
 @charset "ISO-8859-1";
 table{
 	table-layout : auto;
-	
 }
 caption{
 	caption-side: top;
@@ -49,7 +48,6 @@ th, td, li{
     margin-left: auto;
     margin-right: auto;
 }
-
 .divtable2, .divtable3{
 	display: inline-block;;
 }
@@ -59,7 +57,4 @@ th, td, li{
 }
 .border{
 	border: 2px solid black;
-}
-.black{
-	background-color: black;
 }

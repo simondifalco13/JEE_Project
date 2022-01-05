@@ -14,9 +14,6 @@ public class ReportDAO implements DAO<Report> {
 
 	@Override
 	public int update(Report obj) {
-		return 0;
-	}
-	public int update1(Report obj) {
 		int code =-1;
 		CallableStatement callableStatement = null;
 		try {
@@ -44,7 +41,6 @@ public class ReportDAO implements DAO<Report> {
 			}
 		}
 	}
-
 	@Override
 	public boolean delete(Report obj) {
 		// TODO Auto-generated method stub

@@ -7,7 +7,6 @@ import be.project.dao.FactoryMachineDAO;
 import be.project.enumerations.MachineType;
 import be.project.enumerations.OperationState;
 import be.project.models.FactoryMachine;
-import be.project.models.Site;
 
 public class FactoryMachine extends Machine implements Serializable {
 

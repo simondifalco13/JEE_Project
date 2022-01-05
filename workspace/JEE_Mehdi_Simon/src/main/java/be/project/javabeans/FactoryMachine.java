@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import be.project.dao.FactoryMachineDAO;
 import be.project.enumerations.MachineType;
 import be.project.enumerations.OperationState;
-import be.project.javabeans.Area;
-import be.project.javabeans.Maintenance;
 
 public class FactoryMachine extends Machine implements Serializable {
 
@@ -45,9 +43,6 @@ public class FactoryMachine extends Machine implements Serializable {
 		
 	}
 	
-	
-	
-
 	public ArrayList<Area> getMachineAreas() {
 		return machineAreas;
 	}

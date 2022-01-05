@@ -40,7 +40,7 @@
 					<tr>
 						<td>Writing worker : 	
 						<ul>
-							<li>Serialnumber : <%=user.getSerialNumber() %></li>
+							<li>Serial number : <%=user.getSerialNumber() %></li>
 							<li>Lastname : <%=user.getLastname() %></li>
 							<li>Firstname : <%=user.getFirstname()%></li>
 						</ul></td>

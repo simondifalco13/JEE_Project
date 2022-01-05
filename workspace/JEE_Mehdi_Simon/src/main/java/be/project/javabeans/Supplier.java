@@ -13,7 +13,7 @@ public class Supplier implements Serializable {
 	private ArrayList<SupplierMachine> machines;
 	
 	public Supplier() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public Supplier(String supplierName,String supplierPhone,String supplierMail, ArrayList<SupplierMachine> machines) {
@@ -62,10 +62,4 @@ public class Supplier implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	
-	//methods
-	
-	
-
 }

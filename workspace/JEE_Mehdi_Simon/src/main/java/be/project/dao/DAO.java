@@ -1,12 +1,10 @@
 package be.project.dao;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.ws.rs.core.UriBuilder;
 
 public interface DAO<T> {
 	public boolean insert(T obj);

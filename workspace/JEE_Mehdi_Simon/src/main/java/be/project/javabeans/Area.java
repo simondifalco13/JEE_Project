@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.project.enumerations.ColorCode;
-import be.project.javabeans.FactoryMachine;
-import be.project.javabeans.Site;
 
 public class Area implements Serializable {
 
@@ -80,8 +78,4 @@ public class Area implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
-	
-
 }

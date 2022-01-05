@@ -6,29 +6,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.sql.CallableStatement;
 import java.sql.Date;
 
 import be.project.enumerations.MachineType;
 import be.project.enumerations.MaintenanceStatus;
-import be.project.enumerations.OperationState;
-import be.project.models.Area;
 import be.project.models.FactoryMachine;
 import be.project.models.Leader;
 import be.project.models.Maintenance;
-import be.project.models.Site;
 import be.project.models.Worker;
 import be.project.utils.Error;
 
-import be.project.models.Employee;
 import be.project.models.Report;
 
 
@@ -105,9 +98,9 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return false;
 	}
 	
-	
-	
-	public int updateMaintenance(Maintenance obj) {
+
+	@Override
+	public int update(Maintenance obj) {
 		int exception = -1;
 		LocalDate maintenanceDate=obj.getMaintenanceDate()
 				.toInstant()
@@ -136,7 +129,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return exception;
 	}
 
-	public int update1(Maintenance obj) {
+	public int updateByWorker(Maintenance obj) {
 		int code =-1;
 		CallableStatement callableStatement = null;
 		try {
@@ -303,7 +296,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return maintenances;
 		
 	}
-	public ArrayList<Maintenance> getWorkerMaintenances(int id) {
+	public ArrayList<Maintenance> getWorkerMaintenances(int workerId) {
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
@@ -316,7 +309,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				+ "WHERE maintenance.maintenance_id = worker_maintenance.maintenance_id "
 				+" AND maintenance.leader_id = leader.leader_id AND worker_id=?"
 			);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(1, workerId);
 			resultSet=preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				int maintenanceId=resultSet.getInt("maintenance_id");
@@ -337,7 +330,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				ArrayList<Worker> workers = new ArrayList<Worker>();
 				
 				Worker worker = new Worker();
-				worker.setSerialNumber(id);
+				worker.setSerialNumber(workerId);
 				workers.add(worker);
 
 				Maintenance maintenanceTemp = new Maintenance();
@@ -376,11 +369,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return maintenances;
 	}
 
-	@Override
-	public int update(Maintenance obj) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	
 

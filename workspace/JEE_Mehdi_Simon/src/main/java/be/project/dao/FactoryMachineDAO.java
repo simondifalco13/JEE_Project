@@ -1,21 +1,17 @@
 package be.project.dao;
 
-import java.io.IOException;
+
 import java.net.URI;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -24,16 +20,11 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import be.project.enumerations.MachineType;
-import be.project.enumerations.MaintenanceStatus;
 import be.project.enumerations.OperationState;
 import be.project.javabeans.Area;
 import be.project.javabeans.FactoryMachine;
-import be.project.javabeans.Leader;
-import be.project.javabeans.Machine;
 import be.project.javabeans.Maintenance;
-import be.project.javabeans.Report;
 import be.project.javabeans.Site;
-import be.project.javabeans.Worker;
 
 public class FactoryMachineDAO implements DAO<FactoryMachine> {
 

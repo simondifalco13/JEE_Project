@@ -3,11 +3,6 @@ package be.project.javabeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.annotation.Resource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
-import be.project.dao.MaintenanceDAO;
 import be.project.dao.WorkerDAO;
 
 public class Worker extends User implements Serializable {
@@ -40,20 +35,10 @@ public class Worker extends User implements Serializable {
 		this.maintenances = maintenances;
 	}
 
-	
 	public static ArrayList<Worker> findSiteWorker(Site site){
 		ArrayList<Worker> workers=new ArrayList<Worker>();
 		WorkerDAO workerDAO=new WorkerDAO();
 		workers=workerDAO.findSiteWorker(site.getId());
 		return workers;
 	}
-
-
-	public static ArrayList<Maintenance> getMaintenances(int workerId){
-		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
-		maintenances = maintenanceDAO.getAllMaintenances(workerId);
-		return maintenances;
-	}
-
 }
