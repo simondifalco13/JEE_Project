@@ -1,7 +1,9 @@
 package be.project.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import be.project.models.Employee;
@@ -31,6 +33,7 @@ public class EmployeeDAO implements DAO<Employee> {
 	@Override
 	public Employee find(int id) {
 		Employee emp=null;
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT employee_id,employee_firstname,employee_lastname,"
@@ -53,6 +56,13 @@ public class EmployeeDAO implements DAO<Employee> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return emp;
 	}
 
@@ -69,6 +79,7 @@ public class EmployeeDAO implements DAO<Employee> {
 	}
 	
 	public  boolean login(int matricule,String password) {
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT employee_id,employee_password FROM factory_employee WHERE employee_id=?");
 			preparedStatement.setInt(1, matricule);
@@ -82,11 +93,19 @@ public class EmployeeDAO implements DAO<Employee> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return false;
 	}
 	
 	public ArrayList<Employee> getSiteEmployees(int siteId){
 		ArrayList<Employee> employees=new ArrayList<Employee>();
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT DISTINCT employee_id FROM site "
@@ -102,6 +121,13 @@ public class EmployeeDAO implements DAO<Employee> {
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return employees;
 	}

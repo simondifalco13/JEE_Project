@@ -1,8 +1,10 @@
 
 package be.project.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import be.project.models.Leader;
@@ -32,6 +34,7 @@ public class LeaderDAO implements DAO<Leader> {
 	@Override
 	public Leader find(int id) {
 		Leader leader=null;
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT leader_id,leader_firstname,leader_lastname,"
@@ -53,6 +56,13 @@ public class LeaderDAO implements DAO<Leader> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return leader;
 	}
 
@@ -70,6 +80,7 @@ public class LeaderDAO implements DAO<Leader> {
 	
 	
 	public  boolean login(int matricule,String password) {
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT leader_id,leader_password FROM leader WHERE leader_id=?");
 			preparedStatement.setInt(1, matricule);
@@ -83,10 +94,18 @@ public class LeaderDAO implements DAO<Leader> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return false;
 	}
 	
 	public ArrayList<Leader> getSiteLeaders(int siteId){
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Leader> leaders=new ArrayList<Leader>();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -104,6 +123,13 @@ public class LeaderDAO implements DAO<Leader> {
 	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return leaders;
 	}

@@ -17,7 +17,7 @@ public interface DAO<T> {
 	
 	public ArrayList<T> findAll();
 	
-	static final Connection conn = DatabaseConnection.getInstance();
+	
 	
 	
 }

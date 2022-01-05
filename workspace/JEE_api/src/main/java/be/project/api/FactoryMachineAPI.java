@@ -33,11 +33,11 @@ public class FactoryMachineAPI extends CommunAPI  {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllFactoryMachinesBySite(@DefaultValue("1") @QueryParam("site") int siteId,
 			@HeaderParam("key") String key) {
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getConnection();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachinesBySite(siteId);
@@ -52,11 +52,11 @@ public class FactoryMachineAPI extends CommunAPI  {
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllFactoryMachines(@HeaderParam("key") String key) {
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getInstance();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			ArrayList<FactoryMachine> machines=FactoryMachine.getAllFactoryMachines();
@@ -77,11 +77,11 @@ public class FactoryMachineAPI extends CommunAPI  {
 		FactoryMachine machine=new FactoryMachine();
 		machine.setId(machine_id);
 		machine.setOperationState(OperationState.valueOf(operationState));
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getInstance();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			boolean success=machine.update();

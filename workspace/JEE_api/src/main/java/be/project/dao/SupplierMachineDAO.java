@@ -1,5 +1,6 @@
 package be.project.dao;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +51,7 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 
 	@Override
 	public SupplierMachine find(int id) {
+		Connection conn=DatabaseConnection.getConnection();
 		SupplierMachine machine=new SupplierMachine();
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
@@ -87,6 +89,7 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 				if(preparedStatement!=null) {
 					preparedStatement.close();
 				}
+				conn.close();
 			}catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -101,7 +104,7 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 	}
 
 	public ArrayList<SupplierMachine> findAllSuppliersMachines(String type) {
-		
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<SupplierMachine> machines=new ArrayList<SupplierMachine>();
 		SupplierMachine machine;
 		try {
@@ -134,6 +137,14 @@ public class SupplierMachineDAO implements DAO<SupplierMachine>  {
 			
 		} catch (Exception e) {
 			System.out.println("Erreur dans suppleirMachineDAO de l'api :"+e.getMessage());
+		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return machines;
 	}

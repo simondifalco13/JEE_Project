@@ -89,11 +89,11 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("machineId") String machineId,
 			@HeaderParam("key") String key) 
 	{
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getInstance();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			ArrayList<Worker> maintenanceWorkers=new ArrayList<Worker>();
@@ -157,11 +157,11 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("start_t") String start,
 			@FormParam("status") String status,
 			@HeaderParam("key") String key) {
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getInstance();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			Maintenance maintenance=new Maintenance();

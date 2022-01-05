@@ -1,6 +1,7 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,7 @@ public class OrderDAO implements DAO<Order> {
 	}
 	
 	public int insertOrder(Order obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int createdId=0;
 		int code=0;
 		try {
@@ -56,6 +58,13 @@ public class OrderDAO implements DAO<Order> {
 			System.out.println("Exception dans OrderDao de l'api " + e.getMessage());
 			return code;
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return createdId;
 	}
 	@Override
@@ -78,6 +87,7 @@ public class OrderDAO implements DAO<Order> {
 
 	@Override
 	public ArrayList<Order> findAll() {
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Order> orders=new ArrayList<Order>();
 		int orderNumber=0;
 		Order order=null;
@@ -139,6 +149,13 @@ public class OrderDAO implements DAO<Order> {
 			
 		} catch (Exception e) {
 			System.out.println("ORDERDAO API :"+e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return orders;
 	}

@@ -39,6 +39,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	public int update(FactoryMachine obj)  {
 		int success=1;
 		int exception = -1;
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			CallableStatement sql = conn.prepareCall("{call update_machine(?,?,?)}");
 			sql.setInt(1,obj.getId());
@@ -53,6 +54,13 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 			return erreur.getCode();
 
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return success;
 	}
 
@@ -64,6 +72,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public ArrayList<FactoryMachine> findAll() {
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		FactoryMachine machine;
@@ -105,6 +114,13 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO FIND ALL:"+e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		
 		return machines;
 	}
@@ -116,6 +132,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	}
 	
 	public ArrayList<FactoryMachine> findAllSiteMachine(int siteId) {
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		FactoryMachine machine;
@@ -158,6 +175,13 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 			
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO :"+e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return machines;
 	}
