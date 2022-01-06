@@ -82,16 +82,18 @@ public class AreaDAO implements DAO<Area> {
 	}
 
 	
-	public ArrayList<Area> getMachineAreas(int machineId){
+	public ArrayList<Area> getMachineAreas(int machineId,Connection conn){
 		ArrayList<Area> areas = new ArrayList<Area>();
-		Connection conn=DatabaseConnection.getConnection();
+		//Connection conn=DatabaseConnection.getConnection();
+		ResultSet resultSet=null;
+		PreparedStatement preparedStatement=null;
 		int area_id;
 		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
+				preparedStatement = conn.prepareStatement(
 					"SELECT areas_id FROM machine_areas WHERE machine_id=?"
 					);
 			preparedStatement.setInt(1, machineId);
-			ResultSet resultSet=preparedStatement.executeQuery();
+			resultSet=preparedStatement.executeQuery();
 			while(resultSet.next()) {
 				area_id=resultSet.getInt("areas_id");
 				Area area=Area.getArea(area_id);
@@ -102,7 +104,12 @@ public class AreaDAO implements DAO<Area> {
 		}
 		finally {
 			try {
-				conn.close();
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(preparedStatement!=null) {
+					preparedStatement.close();
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}

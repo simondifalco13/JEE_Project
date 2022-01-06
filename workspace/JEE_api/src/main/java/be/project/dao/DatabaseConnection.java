@@ -2,6 +2,7 @@ package be.project.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -45,9 +46,10 @@ public class DatabaseConnection {
 //		return instance;
 //	}
 	
-	public static Connection getConnection() {
+	public static Connection getConnection(){
 		Connection conn=null;
 		try{ 
+			
 			Context ctx = new InitialContext();
 		    Context env = (Context) ctx.lookup("java:comp/env");
 		    final String connectionString = (String) env.lookup("connectionString");
@@ -65,6 +67,7 @@ public class DatabaseConnection {
 		}
 		return conn;
 	}
+
 
 	public static Error getError() {
 		return error;

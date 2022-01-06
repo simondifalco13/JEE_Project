@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
+import oracle.jdbc.OracleTypes;
 
 import be.project.enumerations.MachineType;
 import be.project.enumerations.MaintenanceStatus;
@@ -30,24 +31,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean insert(Maintenance obj) {
-		Connection conn=DatabaseConnection.getConnection();
-		boolean success=false;
-		int exception = -1;
-		try {
-			CallableStatement sql = conn.prepareCall("{call xx(?,?,?)}");
-
-			success=true;
-		}catch(SQLException e) {
-			return false;
-		}
-		finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return success;
+		return false;
 	}
 	
 	public int insertMaintenance(Maintenance obj) {
@@ -283,19 +267,20 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		return false;
 	}
 	
-	public ArrayList<Maintenance> getMachineMaintenances(int machineId){
-		Connection conn=DatabaseConnection.getConnection();
-		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
+	public ArrayList<Maintenance> getMachineMaintenances(int machineId,Connection conn){
+		CallableStatement callableStatement = null;
+		ResultSet resultSet=null;
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+		//Connection conn=DatabaseConnection.getConnection();
+		
+		String sql="{call selectMachineMaintenances(?,?)}";
+	
 		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
-					"SELECT "
-					+ "maintenance_id,maintenance_date,maintenance_status,"
-					+ "leader_id,maintenance_start,maintenance_end "
-					+ "FROM maintenance "
-					+ "WHERE machine_id=?"
-					);
-			preparedStatement.setInt(1, machineId);
-			ResultSet resultSet=preparedStatement.executeQuery();
+			callableStatement = conn.prepareCall(sql);
+			callableStatement.setInt(1, machineId);
+			callableStatement.registerOutParameter(2, OracleTypes.CURSOR);
+			callableStatement.execute();
+			resultSet = (ResultSet) callableStatement.getObject(2);
 			while(resultSet.next()) {
 				int maintenanceId=resultSet.getInt("maintenance_id");
 				Date maintenanceDate=resultSet.getDate("maintenance_date");
@@ -329,90 +314,87 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		}
 		finally {
 			try {
-				conn.close();
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(callableStatement!=null) {
+					callableStatement.close();
+				}
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 		return maintenances;
-		
+	
+
 	}
 	public ArrayList<Maintenance> getWorkerMaintenances(int workerId) {
-		Connection conn=DatabaseConnection.getConnection();
-		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-		PreparedStatement preparedStatement=null;
-		ResultSet resultSet=null;
-		try {
-			 preparedStatement = conn.prepareStatement(
-				"SELECT maintenance.maintenance_id,maintenance.maintenance_date, maintenance.maintenance_status,"
-				+" maintenance.maintenance_start,maintenance.maintenance_end,"
-				+" maintenance.machine_id, maintenance.leader_id, leader.leader_lastname, worker_maintenance.report "
-				+" FROM maintenance, worker_maintenance, leader "
-				+ "WHERE maintenance.maintenance_id = worker_maintenance.maintenance_id "
-				+" AND maintenance.leader_id = leader.leader_id AND worker_id=?"
-			);
-			preparedStatement.setInt(1, workerId);
-			resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
-				int maintenanceId=resultSet.getInt("maintenance_id");
-				Date maintenance_date = resultSet.getDate("maintenance_date");
-				MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
-				Timestamp timeStart = resultSet.getTimestamp("maintenance_start");
-				Timestamp timeEnd = resultSet.getTimestamp("maintenance_end");
-				LocalTime startTime = null;
-				LocalTime endTime = null;
-				if(timeStart != null) {
-					startTime= timeStart.toLocalDateTime().toLocalTime();
-				}
-				if(timeEnd != null) {
-					endTime= timeEnd.toLocalDateTime().toLocalTime();
-				}
-				
-				ArrayList<Report> reports = new ArrayList<Report>();
-				ArrayList<Worker> workers = new ArrayList<Worker>();
-				
-				Worker worker = new Worker();
-				worker.setSerialNumber(workerId);
-				workers.add(worker);
-
-				Maintenance maintenanceTemp = new Maintenance();
-				maintenanceTemp.setMaintenanceId(maintenanceId);
-				String reportString= resultSet.getString("report");
-				Report report = new Report(maintenanceTemp,worker,reportString);
-				reports.add(report);
-				
-				int machineId=resultSet.getInt("machine_id");
-				FactoryMachine machine = new FactoryMachine();
-				machine.setId(machineId);
-				
-				Leader leader = new Leader();
-				int leaderId=resultSet.getInt("leader_id");
-				leader.setLastname(resultSet.getString("leader_lastname"));
-				leader.setSerialNumber(leaderId);
-				Maintenance maintenance = new Maintenance(maintenanceId, maintenance_date, startTime, machine, status, workers,  leader, endTime,reports);
-				maintenances.add(maintenance);
-			}
-		} catch (SQLException e) {
-			System.out.println("Exception dans la worker DAO de l'api");
-			System.out.println(e.getMessage() + e.toString());
-		}
-		finally {
+			CallableStatement callableStatement = null;
+			ResultSet resultSet=null;
+			ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+			Connection conn=DatabaseConnection.getConnection();
 			try {
-				if(resultSet!=null) {
-					resultSet.close();
+				String sql="{call selectWorkerMaintenances(?,?)}";
+				callableStatement = conn.prepareCall(sql);
+				callableStatement.setInt(1, workerId);
+				
+				callableStatement.registerOutParameter(2, OracleTypes.CURSOR);
+				callableStatement.execute();
+			
+
+				resultSet = (ResultSet) callableStatement.getObject(2);
+			
+				while(resultSet.next()){
+					int maintenanceId=resultSet.getInt("maintenance_id");
+					Date maintenance_date = resultSet.getDate("maintenance_date");
+					MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
+					Timestamp timeStart = resultSet.getTimestamp("maintenance_start");
+					Timestamp timeEnd = resultSet.getTimestamp("maintenance_end");
+					LocalTime startTime = null;
+					LocalTime endTime = null;
+					if(timeStart != null) {
+						startTime= timeStart.toLocalDateTime().toLocalTime();
+					}
+					if(timeEnd != null) {
+						endTime= timeEnd.toLocalDateTime().toLocalTime();
+					}
+					
+					ArrayList<Report> reports = new ArrayList<Report>();
+					ArrayList<Worker> workers = new ArrayList<Worker>();
+					
+					Worker worker = new Worker();
+					worker.setSerialNumber(workerId);
+					workers.add(worker);
+	
+					Maintenance maintenanceTemp = new Maintenance();
+					maintenanceTemp.setMaintenanceId(maintenanceId);
+					String reportString= resultSet.getString("report");
+					Report report = new Report(maintenanceTemp,worker,reportString);
+					reports.add(report);
+					
+					int machineId=resultSet.getInt("machine_id");
+					FactoryMachine machine = new FactoryMachine();
+					machine.setId(machineId);
+					
+					Leader leader = new Leader();
+					int leaderId=resultSet.getInt("leader_id");
+					leader.setLastname(resultSet.getString("leader_lastname"));
+					leader.setSerialNumber(leaderId);
+					Maintenance maintenance = new Maintenance(maintenanceId, maintenance_date, startTime, machine, status, workers,  leader, endTime,reports);
+					maintenances.add(maintenance);
 				}
-				if(preparedStatement!=null) {
-					preparedStatement.close();
-				}	
-				conn.close();
-			}catch (SQLException e) {
-				System.out.println(e.getMessage());
 			}
-		}
-		return maintenances;
+			catch(Exception e){
+					System.out.println("Exception dans maintenanceDAO de l'api " + e.getMessage()+e.toString());
+				}finally{
+					try {
+						resultSet.close();
+						callableStatement.close();
+						conn.close();
+					} catch (SQLException e) {
+						System.out.println("Exception dans maintenanceDAO de l'api (close) " + e.getMessage()+e.toString());
+					}
+				}
+			return maintenances;
 	}
-
-	
-	
-
 }

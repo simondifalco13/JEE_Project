@@ -1,6 +1,7 @@
 package be.project.models;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import be.project.dao.AreaDAO;
@@ -84,10 +85,10 @@ public class Area implements Serializable {
 		return area;
 	}
 	
-	public static ArrayList<Area> getMachineAreas(int machineId) {
+	public static ArrayList<Area> getMachineAreas(int machineId,Connection conn) {
 		ArrayList<Area> areas = new ArrayList<Area>();
 		AreaDAO areaDAO=new AreaDAO();
-		areas=areaDAO.getMachineAreas(machineId);
+		areas=areaDAO.getMachineAreas(machineId,conn);
 		return areas;
 	}
 

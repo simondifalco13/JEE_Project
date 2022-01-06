@@ -38,10 +38,12 @@ public class SiteDAO implements DAO<Site> {
 		Site site=null;
 		String city="",address="";
 		Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement =null;
+		ResultSet resultSet=null;
 		try {
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
+			preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
 			preparedStatement.setInt(1, id);
-			ResultSet resultSet=preparedStatement.executeQuery();
+			resultSet=preparedStatement.executeQuery();
 			if(resultSet.next()) {
 				city=resultSet.getString("city");
 				address=resultSet.getString("address");
@@ -53,13 +55,58 @@ public class SiteDAO implements DAO<Site> {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Exception dans siteDAO " +e.getMessage() );
 		}
 		finally {
 			try {
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(preparedStatement!=null) {
+					preparedStatement.close();
+				}
 				
-				conn.close();
-			}catch (SQLException e) {
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return site;
+	}
+	
+	
+	public Site find(int id,Connection conn) {
+		Site site=null;
+		String city="",address="";
+		//Connection conn=DatabaseConnection.getConnection();
+		PreparedStatement preparedStatement =null;
+		ResultSet resultSet=null;
+		try {
+			preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
+			preparedStatement.setInt(1, id);
+			resultSet=preparedStatement.executeQuery();
+			if(resultSet.next()) {
+				city=resultSet.getString("city");
+				address=resultSet.getString("address");
+				//ArrayList<Worker> workers=new WorkerDAO().findSiteWorker(id);
+				//ArrayList<Area> areas=new AreaDAO().getSiteAreas(id);
+				//ArrayList<Leader> leaders=new LeaderDAO().getSiteLeaders(id);
+				//ArrayList<Employee> employees=new EmployeeDAO().getSiteEmployees(id);
+				site=new Site(id,city,address,null,null,null,null);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Exception dans siteDAO " +e.getMessage() );
+		}
+		finally {
+			try {
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(preparedStatement!=null) {
+					preparedStatement.close();
+				}
+				
+			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}

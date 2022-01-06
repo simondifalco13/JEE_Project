@@ -50,7 +50,7 @@ public class EmployeeDAO implements DAO<Employee> {
 				//mettre ou pas le PWD ? 
 				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
-				Site site=Site.getSite(siteId);
+				Site site=Site.getSite(siteId,conn);
 				emp=new Employee(id,firstname,lastname,null,mail,site);
 			}
 		} catch (Exception e) {

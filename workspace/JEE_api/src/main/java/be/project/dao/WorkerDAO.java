@@ -49,7 +49,7 @@ public class WorkerDAO implements DAO<Worker> {
 				//mettre ou pas le PWD ? 
 				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
-				Site site=Site.getSite(siteId);
+				Site site=Site.getSite(siteId,conn);
 				worker=new Worker(id,firstname,lastname,null,mail,site);
 			}
 		} catch (Exception e) {

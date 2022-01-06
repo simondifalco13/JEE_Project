@@ -1,6 +1,7 @@
 package be.project.models;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import be.project.dao.SiteDAO;
@@ -95,10 +96,10 @@ public class Site implements Serializable {
 		this.siteEmployees = siteEmployee;
 	}
 	
-	public static Site getSite(int id) {
+	public static Site getSite(int id,Connection conn) {
 		Site site=null;
 		SiteDAO siteDAO=new SiteDAO();
-		site=siteDAO.find(id);
+		site=siteDAO.find(id,conn);
 		return site;
 	}
 	

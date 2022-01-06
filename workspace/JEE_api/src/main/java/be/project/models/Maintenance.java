@@ -2,6 +2,7 @@ package be.project.models;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -258,12 +259,18 @@ public class Maintenance implements Serializable {
 	}
 
 	
-	public static ArrayList<Maintenance> getMachineMaintenances(int machineId){
+	public static ArrayList<Maintenance> getMachineMaintenances(int machineId, Connection conn){
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		MaintenanceDAO maintenanceDAO=new MaintenanceDAO();
-		maintenances=maintenanceDAO.getMachineMaintenances(machineId);
+		maintenances=maintenanceDAO.getMachineMaintenances(machineId,conn);
 		return maintenances;
 		
+	}
+	public static ArrayList<Maintenance> getWorkerMaintenances(int workerId){
+		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
+		MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+		maintenances = maintenanceDAO.getWorkerMaintenances(workerId);
+		return maintenances;
 	}
 	
 	public int insertMaintenance() {

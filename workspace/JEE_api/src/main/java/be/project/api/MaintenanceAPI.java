@@ -67,14 +67,12 @@ public class MaintenanceAPI extends CommunAPI {
 		String apiKey=getApiKey();
 		if(key!=null) {
 			if(key.equals(apiKey)) {
-				ArrayList<Maintenance> maintenances= Worker.getMaintenances(serialNumber);
+				ArrayList<Maintenance> maintenances= Maintenance.getWorkerMaintenances(serialNumber);
 				return Response.status(Status.OK).entity(maintenances).build();
 			}
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
-	
-	
 	/*POST**/
 	//////////////////
 	@POST

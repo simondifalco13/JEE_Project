@@ -49,7 +49,7 @@ public class LeaderDAO implements DAO<Leader> {
 				String lastname=resultSet.getString("leader_lastname");
 				String mail=resultSet.getString("leader_mail");
 				int siteId=resultSet.getInt("site_id");
-				Site site=Site.getSite(siteId);
+				Site site=Site.getSite(siteId,conn);
 				leader=new Leader(id,firstname,lastname,null,mail,site);
 			}
 	

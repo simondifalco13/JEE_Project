@@ -2,22 +2,31 @@ package be.project.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.util.ArrayList;
 
 import javax.ws.rs.core.Response;
 
 import be.project.enumerations.ColorCode;
 import be.project.enumerations.MachineType;
+import be.project.enumerations.MaintenanceStatus;
 import be.project.enumerations.OperationState;
 import be.project.models.Area;
 import be.project.models.FactoryMachine;
+import be.project.models.Leader;
 import be.project.models.Maintenance;
+import be.project.models.Report;
 import be.project.models.Site;
 import be.project.models.Worker;
 import be.project.utils.Error;
+import oracle.jdbc.OracleTypes;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -72,6 +81,8 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 
 	@Override
 	public ArrayList<FactoryMachine> findAll() {
+		CallableStatement callableStatement = null;
+		ResultSet resultSet=null;
 		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
@@ -84,15 +95,17 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		ArrayList<Area> machineAreas=new  ArrayList<Area>();
 		Site site=null;
 		try {
+			String sql="{call selectAllFactoryMachines(?)}";
+			callableStatement = conn.prepareCall(sql);
 			
-			PreparedStatement preparedStatement = conn.prepareStatement(
-					"SELECT "
-					+ "machine_id,machine_type,site_id,machine_status,"
-					+ "model,brand,description "
-					+ "FROM machine "
-					);
-			ResultSet resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
+			callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
+			callableStatement.execute();
+			OffsetTime debutRequete = OffsetTime.now();
+			
+			
+			resultSet = (ResultSet) callableStatement.getObject(1);
+		
+			while(resultSet.next()){
 				machineAreas=new  ArrayList<Area>();
 				maintenances=new ArrayList<Maintenance>();
 				machineId=resultSet.getInt("machine_id");
@@ -102,13 +115,32 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				model=resultSet.getString("model");
 				brand=resultSet.getString("brand");
 				description=resultSet.getString("description");
-				site=Site.getSite(site_id);
+				
+				OffsetTime debutSite= OffsetTime.now();
+				site=Site.getSite(site_id,conn);
+				OffsetTime finSite = OffsetTime.now();
+				Duration duration2 = Duration.between(debutSite , finSite);
+				
+				System.out.println("Temps écoulé pour getSite: " + duration2.toHours() + "h/"+ duration2.toMinutes() + "m/" + duration2.toSeconds() + "s");
 				if(machineId!=0) {
-					machineAreas=Area.getMachineAreas(machineId);
-					maintenances=Maintenance.getMachineMaintenances(machineId);
+					OffsetTime debutArea= OffsetTime.now();
+					machineAreas=Area.getMachineAreas(machineId,conn);
+					OffsetTime finArea = OffsetTime.now();
+					Duration duration3 = Duration.between(debutArea , finArea);
+					System.out.println("Temps écoulé pour getMachineAreas: " + duration3.toHours() + "h/"+ duration3.toMinutes() + "m/" + duration3.toSeconds() + "s");
+					
+					OffsetTime debutmaintenance= OffsetTime.now();
+					maintenances=Maintenance.getMachineMaintenances(machineId,conn);
+					OffsetTime finMaintenance = OffsetTime.now();
+					Duration duration4 = Duration.between(debutmaintenance , finMaintenance);
+					System.out.println("Temps écoulé pour maintenance: " + duration4.toHours() + "h/"+ duration4.toMinutes() + "m/" + duration4.toSeconds() + "s");
 				}
 				machine=new FactoryMachine(machineId,model,brand,description,type,status,machineAreas,maintenances);
 				machines.add(machine);
+				
+				OffsetTime finRequete = OffsetTime.now();
+				Duration duration5 = Duration.between(debutRequete , finRequete);
+				System.out.println("Temps écoulé pour requete: " + duration5.toHours() + "h/"+ duration5.toMinutes() + "m/" + duration5.toSeconds() + "s");
 			}
 			
 		} catch (Exception e) {
@@ -116,12 +148,22 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		}
 		finally {
 			try {
-				conn.close();
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(callableStatement!=null) {
+					callableStatement.close();
+				}
+				if(conn!=null) {
+					conn.close();
+				}
+
+				
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+
 		return machines;
 	}
 
@@ -132,6 +174,8 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 	}
 	
 	public ArrayList<FactoryMachine> findAllSiteMachine(int siteId) {
+		CallableStatement callableStatement = null;
+		ResultSet resultSet=null;
 		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<FactoryMachine> machines=new ArrayList<FactoryMachine>();
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
@@ -144,16 +188,15 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		ArrayList<Area> machineAreas=new  ArrayList<Area>();
 		Site site=null;
 		try {
-			PreparedStatement preparedStatement = conn.prepareStatement(
-					"SELECT "
-					+ "machine_id,machine_type,site_id,machine_status,"
-					+ "model,brand,description "
-					+ "FROM machine "
-					+ "WHERE site_id=?"
-					);
-			preparedStatement.setInt(1, siteId);
-			ResultSet resultSet=preparedStatement.executeQuery();
-			while(resultSet.next()) {
+			String sql="{call selectAllSiteMachine(?,?)}";
+			callableStatement = conn.prepareCall(sql);
+			callableStatement.setInt(1, siteId);
+			callableStatement.registerOutParameter(2, OracleTypes.CURSOR);
+			callableStatement.execute();
+		
+			resultSet = (ResultSet) callableStatement.getObject(2);
+		
+			while(resultSet.next()){
 				machineAreas=new  ArrayList<Area>();
 				maintenances=new ArrayList<Maintenance>();
 				machineId=resultSet.getInt("machine_id");
@@ -163,22 +206,30 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				model=resultSet.getString("model");
 				brand=resultSet.getString("brand");
 				description=resultSet.getString("description");
-				site=Site.getSite(site_id);
+				site=Site.getSite(site_id,conn);
 				if(machineId!=0) {
-					machineAreas=Area.getMachineAreas(machineId);
-					maintenances=Maintenance.getMachineMaintenances(machineId);
+					machineAreas=Area.getMachineAreas(machineId,conn);
+					maintenances=Maintenance.getMachineMaintenances(machineId,conn);
 				}
 				machine=new FactoryMachine(machineId,model,brand,description,type,status,machineAreas,maintenances);
 				machines.add(machine);
 			}
-			
 			
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO :"+e.getMessage());
 		}
 		finally {
 			try {
-				conn.close();
+				if(resultSet !=null) {
+					resultSet.close();
+				}
+				if(callableStatement!=null) {
+					callableStatement.close();
+				}
+				if(conn!=null) {
+					conn.close();
+				}
+				
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
