@@ -91,7 +91,9 @@
 						    </div>
 						    <div class="m-2">
 						    	<p class="card-text"><b>Maintenance(s)</b>:</p>
-						    	<% for(int k=0;k<machines.get(i).getMachineMaintenances().size();k++) {
+						    	<details>
+									<summary>Show maintenances</summary>
+									<% for(int k=0;k<machines.get(i).getMachineMaintenances().size();k++) {
 						    		Maintenance currentMaintenance=machines.get(i).getMachineMaintenances().get(k);
 						    		SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 						    		%>
@@ -124,6 +126,8 @@
 						    			</div>
 						    		<%
 						    	}%>
+								</details>
+						    	
 						    </div>
 						   
 					    	<form action="machines" method="POST">

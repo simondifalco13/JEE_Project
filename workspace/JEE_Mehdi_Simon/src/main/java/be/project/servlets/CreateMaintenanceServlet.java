@@ -103,6 +103,7 @@ public class CreateMaintenanceServlet extends HttpServlet {
 				}
 
 				if(errors.equals("")) {
+					System.out.println("AFFICHAGE DE DATE MAINTENANCE : "+maintenanceDate.toString());
 					Maintenance maintenance=new Maintenance(maintenanceDate,localTime,machine,status,workers,leader);
 					boolean success=maintenance.insertMaintenance();
 					if(success) {
