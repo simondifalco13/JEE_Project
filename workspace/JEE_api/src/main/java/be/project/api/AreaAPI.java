@@ -64,22 +64,7 @@ public class AreaAPI extends CommunAPI {
 		
 	}
 
-//	@PUT
-//	@Path("{id}")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public Response modifyArea(Area area) {
-//		
-//		boolean success=areaDAO.update(area);
-//		if(success) {
-//			return Response
-//					.status(Status.NO_CONTENT)
-//					.build();
-//		}
-//		return Response
-//				.status(Status.SERVICE_UNAVAILABLE)
-//				.build();
-//		
-//	}
+
 	
 	@DELETE
 	@Path("{id}")

@@ -53,7 +53,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			}
 			workers+=String.valueOf(obj.getMaintenanceWorkers().get(i).getSerialNumber());
 		}
-		//System.out.println("MAINTENANCEDAO CLIENT : "+DateFor.format(obj.getMaintenanceDate()));
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("date_m", DateFor.format(obj.getMaintenanceDate()));
 		parameters.add("start_m",obj.getStartTime().toString());
@@ -61,7 +60,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		parameters.add("leaderId", String.valueOf(obj.getMaintenanceLeader().getSerialNumber()));
 		parameters.add("workers", workers);
 		parameters.add("machineId", String.valueOf(obj.getMachine().getId()));
-		//System.out.println("WORKERS : "+workers+ ", date : "+DateFor.format(obj.getMaintenanceDate())+ "start at : "+obj.getStartTime().toString());
 		ClientResponse res=resource
 				.path("maintenance")
 				.path("create")

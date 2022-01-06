@@ -61,12 +61,6 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		String key=getApiKey();
 		MultivaluedMap<String, String> parameters = new MultivaluedMapImpl();
 		parameters.add("id", String.valueOf(obj.getId()));
-//		parameters.add("model",obj.getModel());
-//		parameters.add("brand",obj.getBrand());
-//		parameters.add("description",obj.getDescription());
-//		parameters.add("type",String.valueOf(obj.getType()));
-//		parameters.add("machineMaintenances",null);
-//		parameters.add("machineAreas",null);
 		parameters.add("operationState", String.valueOf(obj.getOperationState()));
 		ClientResponse res=resource
 				.path("factory/machine")

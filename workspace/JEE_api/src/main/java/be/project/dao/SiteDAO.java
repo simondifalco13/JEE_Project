@@ -47,10 +47,6 @@ public class SiteDAO implements DAO<Site> {
 			if(resultSet.next()) {
 				city=resultSet.getString("city");
 				address=resultSet.getString("address");
-				//ArrayList<Worker> workers=new WorkerDAO().findSiteWorker(id);
-				//ArrayList<Area> areas=new AreaDAO().getSiteAreas(id);
-				//ArrayList<Leader> leaders=new LeaderDAO().getSiteLeaders(id);
-				//ArrayList<Employee> employees=new EmployeeDAO().getSiteEmployees(id);
 				site=new Site(id,city,address,null,null,null,null);
 			}
 
@@ -87,10 +83,6 @@ public class SiteDAO implements DAO<Site> {
 			if(resultSet.next()) {
 				city=resultSet.getString("city");
 				address=resultSet.getString("address");
-				//ArrayList<Worker> workers=new WorkerDAO().findSiteWorker(id);
-				//ArrayList<Area> areas=new AreaDAO().getSiteAreas(id);
-				//ArrayList<Leader> leaders=new LeaderDAO().getSiteLeaders(id);
-				//ArrayList<Employee> employees=new EmployeeDAO().getSiteEmployees(id);
 				site=new Site(id,city,address,null,null,null,null);
 			}
 
