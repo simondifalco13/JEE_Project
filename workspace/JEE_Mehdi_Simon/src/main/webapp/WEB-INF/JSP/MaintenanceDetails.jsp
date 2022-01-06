@@ -10,6 +10,7 @@
 <html>
 <head>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<meta charset="ISO-8859-1">
 	<title>Maintenance details</title>
 </head>
@@ -31,8 +32,8 @@
   				<%= request.getAttribute("message") %>
 			</div>
 			<% } %>
-			<table class="table table-bordered centered" style="width: auto">
-			<caption>Maintenance infos</caption>
+			<table class="table table-bordered centered caption-top" style="width: auto">
+			<caption class="text-dark">Maintenance infos</caption>
 			 		<thead>
 	                     <tr>
 	                     	<th>Maintenance number</th>
@@ -78,7 +79,7 @@
 			<div class="back" style="margin-bottom : 10px">
     		 	<a href="<%=str%>/home" class="btn btn-primary">Back</a>
     		</div>
-		<!-- Informations personnes concernées -->
+		<!-- Informations personnes concernï¿½es -->
 		<table class="centered" style="margin-bottom : 10px"><tr><td>
 				<table class="table table-bordered centered" style="width: auto">
 				<caption>People concerned</caption>
@@ -135,9 +136,10 @@
 			</table>
 			</td></tr>
 		</table>
+		</table>
 
-		<table class="table table-bordered centered" style="width: auto">
-		<caption>Affected machine</caption>
+		<table class="table table-bordered centered caption-top" style="width: auto">
+		<caption class="text-dark">Affected machine</caption>
 				   	 <tr>
 					   	 <th>Machine number</th>
 					   	 <th>Machine type</th>

@@ -1,5 +1,6 @@
 package be.project.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class WorkerDAO implements DAO<Worker> {
 
 	@Override
 	public Worker find(int id) {
+		Connection conn=DatabaseConnection.getConnection();
 		Worker worker=null;
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -52,6 +54,14 @@ public class WorkerDAO implements DAO<Worker> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return worker;
 	}
 
@@ -69,6 +79,7 @@ public class WorkerDAO implements DAO<Worker> {
 	
 	
 	public  boolean login(int matricule,String password) {
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT worker_id,worker_password FROM worker WHERE worker_id=?");
 			preparedStatement.setInt(1, matricule);
@@ -82,12 +93,21 @@ public class WorkerDAO implements DAO<Worker> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return false;
 	}
 	
 	
 	public ArrayList<Worker> getMaintenanceWorker(int maintenanceId){
 		ArrayList<Worker> workers=new ArrayList<Worker>();
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 				"SELECT worker_id FROM worker_maintenance WHERE maintenance_id=?");
@@ -102,11 +122,20 @@ public class WorkerDAO implements DAO<Worker> {
 		} catch (Exception e) {
 			System.out.println("WORKERDAO :"+e.getMessage());
 		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return workers;
 	}
 	
 	public ArrayList<Worker> findSiteWorker(int siteId){
 		ArrayList<Worker> workers=new ArrayList<Worker>();
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 				"SELECT DISTINCT worker_id FROM site LEFT JOIN worker ON worker.site_id=site.site_id WHERE site.site_id=?");
@@ -120,6 +149,14 @@ public class WorkerDAO implements DAO<Worker> {
 	
 		} catch (Exception e) {
 			System.out.println("WORKERDAO :"+e.getMessage());
+		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return workers;
 	}

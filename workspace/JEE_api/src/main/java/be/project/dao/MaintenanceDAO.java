@@ -1,6 +1,7 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public boolean insert(Maintenance obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		boolean success=false;
 		int exception = -1;
 		try {
@@ -38,10 +40,18 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		}catch(SQLException e) {
 			return false;
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return success;
 	}
 	
 	public int insertMaintenance(Maintenance obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int createdId=0;
 		int exception = -1;
 		LocalDate maintenanceDate=obj.getMaintenanceDate()
@@ -89,6 +99,13 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			System.out.println(e.getMessage());
 			return 0;
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return createdId;
 	}
 
@@ -101,6 +118,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public int update(Maintenance obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int exception = -1;
 		LocalDate maintenanceDate=obj.getMaintenanceDate()
 				.toInstant()
@@ -112,9 +130,12 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			end=LocalDateTime.of(maintenanceDate, obj.getEndTime());
 		}
 		try {
+			SimpleDateFormat sqlFormatDate = new SimpleDateFormat("MM/dd/yyyy");
+			java.sql.Date sqlDate=new java.sql.Date(obj.getMaintenanceDate().getTime());
 			CallableStatement sql = conn.prepareCall("{call update_maintenance(?,?,?,?,?)}");
 			sql.setInt(1, obj.getMaintenanceId());
 			sql.setDate(2, new java.sql.Date(obj.getMaintenanceDate().getTime()));
+			//sql.setString(2, sqlDate.toString());
 			sql.setTimestamp(3,Timestamp.valueOf(start));
 			sql.setString(4,obj.getStatus().toString());
 			sql.registerOutParameter(5, java.sql.Types.NUMERIC);
@@ -126,10 +147,18 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			System.out.println(e.getMessage());
 			return Error.SQL_EXCEPTION.getCode();
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return exception;
 	}
 
 	public int updateByWorker(Maintenance obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int code =-1;
 		CallableStatement callableStatement = null;
 		try {
@@ -151,6 +180,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				if(callableStatement!=null) {
 					callableStatement.close();
 				}	
+				conn.close();
 			}catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -159,6 +189,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 
 	@Override
 	public Maintenance find(int id) {
+		Connection conn=DatabaseConnection.getConnection();
 		Maintenance maintenance=null;
 		int count=0;
 		PreparedStatement preparedStatement=null;
@@ -233,6 +264,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				if(preparedStatement!=null) {
 					preparedStatement.close();
 				}
+				conn.close();
 			}catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -252,6 +284,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 	}
 	
 	public ArrayList<Maintenance> getMachineMaintenances(int machineId){
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Maintenance> maintenances=new ArrayList<Maintenance>();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -266,6 +299,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			while(resultSet.next()) {
 				int maintenanceId=resultSet.getInt("maintenance_id");
 				Date maintenanceDate=resultSet.getDate("maintenance_date");
+				//System.out.println("MAINTENANCE DAO API getMachineMaintenances : "+" m "+maintenanceId+"="+maintenanceDate);
 				MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
 				int leaderId=resultSet.getInt("leader_id");
 				Timestamp tsStart=resultSet.getTimestamp("maintenance_start");
@@ -293,10 +327,18 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		} catch (SQLException e) {
 			System.out.println("MAINTENANCE DAO : "+e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return maintenances;
 		
 	}
 	public ArrayList<Maintenance> getWorkerMaintenances(int workerId) {
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
@@ -362,6 +404,7 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 				if(preparedStatement!=null) {
 					preparedStatement.close();
 				}	
+				conn.close();
 			}catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}

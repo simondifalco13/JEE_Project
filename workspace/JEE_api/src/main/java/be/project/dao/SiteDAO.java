@@ -2,6 +2,7 @@ package be.project.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import be.project.models.Site;
@@ -35,6 +36,7 @@ public class SiteDAO implements DAO<Site> {
 	public Site find(int id) {
 		Site site=null;
 		String city="",address="";
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement("SELECT city,address FROM site WHERE site_id=?");
 			preparedStatement.setInt(1, id);
@@ -52,32 +54,21 @@ public class SiteDAO implements DAO<Site> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		finally {
+			try {
+				
+				conn.close();
+			}catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return site;
 	}
 
 	@Override
 	public ArrayList<Site> findAll() {
-		ArrayList<Site> sites=new ArrayList<Site>();
-		//faire appel à une méthode du package 
-//		Site site=null;
-//		String city="",address="";
-//		int id;
-//		try {
-//			PreparedStatement preparedStatement = conn.prepareStatement("SELECT site_id,city,address FROM site");
-//			ResultSet resultSet=preparedStatement.executeQuery();
-//			while(resultSet.next()) {
-//				city=resultSet.getString("city");
-//				System.out.println(city);
-//				address=resultSet.getString("address");
-//				id=resultSet.getInt("site_id");
-//				site=new Site(id,city,address);
-//				System.out.println("id "+site.getId()+" , city "+site.getCity());
-//				sites.add(site);
-//			}
-//
-//		} catch (Exception e) {
-//			//
-//		}
+		ArrayList<Site> sites=null;
+
 		return sites;
 	}
 

@@ -45,11 +45,11 @@ public class SupplierMachineAPI extends CommunAPI{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllSuppliersMachines(@PathParam("type")String type, 
 			@HeaderParam("key") String key) {
-		Connection conn=DatabaseConnection.getInstance();
-		if(DatabaseConnection.getError()!=null && conn==null) {
-			System.out.println(DatabaseConnection.getError().getJSON());
-			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-		}
+//		Connection conn=DatabaseConnection.getInstance();
+//		if(DatabaseConnection.getError()!=null && conn==null) {
+//			System.out.println(DatabaseConnection.getError().getJSON());
+//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
+//		}
 		String apiKey=getApiKey();
 		if(key!=null) {
 			if(key.equals(apiKey)) {

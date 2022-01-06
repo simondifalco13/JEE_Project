@@ -1,6 +1,7 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,13 +34,15 @@ public class OrderDAO implements DAO<Order> {
 	}
 	
 	public int insertOrder(Order obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int createdId=0;
 		int code=0;
 		try {
 			CallableStatement sql = conn.prepareCall("{call insert_orders(?,?,?,?,?,?)}");
 			Date date=new Date();
 			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-			sql.setDate(1,sqlDate);
+			SimpleDateFormat DateFor = new SimpleDateFormat("yyyy-MM-dd");
+			sql.setString(1,DateFor.format(sqlDate));
 			sql.setDouble(2, obj.getTotalPrice());
 			sql.setInt(3, obj.getEmployee().getSerialNumber());
 			sql.setInt(5, obj.getOrderItems().get(0).getMachine().getId());
@@ -54,6 +57,13 @@ public class OrderDAO implements DAO<Order> {
 		}catch(SQLException e) {
 			System.out.println("Exception dans OrderDao de l'api " + e.getMessage());
 			return code;
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return createdId;
 	}
@@ -77,6 +87,7 @@ public class OrderDAO implements DAO<Order> {
 
 	@Override
 	public ArrayList<Order> findAll() {
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Order> orders=new ArrayList<Order>();
 		int orderNumber=0;
 		Order order=null;
@@ -138,6 +149,13 @@ public class OrderDAO implements DAO<Order> {
 			
 		} catch (Exception e) {
 			System.out.println("ORDERDAO API :"+e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return orders;
 	}

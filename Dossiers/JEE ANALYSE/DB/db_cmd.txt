@@ -543,13 +543,19 @@ BEGIN
 		maintenance_end=end_t
 		WHERE maintenance_id=maintenance_id_param;
 	END IF;
-	
-	
 	IF status='validated' THEN
 		UPDATE maintenance 
 		SET maintenance_status=status,
 		maintenance_start=final_start_t,
 		maintenance_date=final_maintenance_d
+		WHERE maintenance_id=maintenance_id_param;
+	END IF;
+	IF status NOT IN ('done','toredo','validated') THEN
+		UPDATE maintenance 
+		SET maintenance_status=status,
+		maintenance_start=final_start_t,
+		maintenance_date=final_maintenance_d,
+		maintenance_end=end_t
 		WHERE maintenance_id=maintenance_id_param;
 	END IF;
 	
@@ -624,7 +630,7 @@ end;
 --Procedure of insertion in orders
 
 CREATE OR REPLACE PROCEDURE insert_orders(
-	order_date IN orders.order_date%TYPE,
+	order_date IN VARCHAR2,
 	price IN orders.price%TYPE,
 	empl_id IN factory_employee.employee_id%TYPE,
 	created_orders_id OUT orders.order_id%TYPE,
@@ -635,7 +641,7 @@ CREATE OR REPLACE PROCEDURE insert_orders(
 BEGIN
 	errorCode:=0;
 	INSERT INTO orders (order_date,price,employee_id)
-	VALUES (TO_DATE(order_date, 'DD-MM-YYYY'),price,empl_id) 
+	VALUES (TO_DATE(order_date, 'YYYY-MM-DD'),price,empl_id) 
 	RETURNING order_id INTO created_orders_id;
 	return_code:= sql%rowcount;
      	if(return_code<1)

@@ -1,7 +1,9 @@
 package be.project.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import be.project.enumerations.ColorCode;
@@ -33,6 +35,7 @@ public class AreaDAO implements DAO<Area> {
 	@Override
 	public Area find(int id) {
 		Area area=null;
+		Connection conn=DatabaseConnection.getConnection();
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
 					"SELECT  "
@@ -56,7 +59,13 @@ public class AreaDAO implements DAO<Area> {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		//SELECT * FROM areas LEFT JOIN site ON site.site_id=areas.site_id;
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return area;
 	}
 
@@ -75,6 +84,7 @@ public class AreaDAO implements DAO<Area> {
 	
 	public ArrayList<Area> getMachineAreas(int machineId){
 		ArrayList<Area> areas = new ArrayList<Area>();
+		Connection conn=DatabaseConnection.getConnection();
 		int area_id;
 		try {
 			PreparedStatement preparedStatement = conn.prepareStatement(
@@ -90,10 +100,18 @@ public class AreaDAO implements DAO<Area> {
 		} catch (Exception e) {
 			System.out.println("[AREADAO]: "+e.getMessage());
 		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		return areas;
 	}
 	
 	public ArrayList<Area> getSiteAreas(int siteId){
+		Connection conn=DatabaseConnection.getConnection();
 		ArrayList<Area> areas = new ArrayList<Area>();
 		int area_id;
 		try {
@@ -111,6 +129,13 @@ public class AreaDAO implements DAO<Area> {
 			}
 		} catch (Exception e) {
 			System.out.println("[AREADAO]: "+e.getMessage());
+		}
+		finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 		return areas;
 	}

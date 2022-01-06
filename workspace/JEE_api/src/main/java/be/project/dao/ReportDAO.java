@@ -1,6 +1,7 @@
 package be.project.dao;
 
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ public class ReportDAO implements DAO<Report> {
 
 	@Override
 	public int update(Report obj) {
+		Connection conn=DatabaseConnection.getConnection();
 		int code =-1;
 		CallableStatement callableStatement = null;
 		try {
@@ -35,7 +37,8 @@ public class ReportDAO implements DAO<Report> {
 			try {
 				if(callableStatement!=null) {
 					callableStatement.close();
-				}				
+				}	
+				conn.close();
 			}catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -72,6 +75,7 @@ public class ReportDAO implements DAO<Report> {
 	}
 	
 	public ArrayList<Report> getMaintenanceReports(int maintenanceId){
+		Connection conn=DatabaseConnection.getConnection();
 		 ArrayList<Report> reports=new  ArrayList<Report>();
 		 try {
 				PreparedStatement preparedStatement = conn.prepareStatement(
@@ -106,6 +110,15 @@ public class ReportDAO implements DAO<Report> {
 				
 			} catch (Exception e) {
 				System.out.println("RAPPORT DAO DAO : "+e.getMessage());
+			}
+		 
+		 	finally {
+				try {
+					
+					conn.close();
+				}catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
 			}
 		 return reports;
 	}
