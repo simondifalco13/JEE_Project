@@ -8126,8 +8126,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1151,
-									"top": 472,
+									"left": 1176,
+									"top": 464,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -8147,8 +8147,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 1151,
-									"top": 487,
+									"left": 1176,
+									"top": 479,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -8168,8 +8168,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1152,
-									"top": 443,
+									"left": 1175,
+									"top": 435,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -8187,7 +8187,7 @@
 								"$ref": "AAAAAAF9isyCMVU3Ef0="
 							},
 							"lineStyle": 1,
-							"points": "1177:831;1152:464;873:459",
+							"points": "1179:831;1176:456;873:458",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF9iszESVWEdJQ="
@@ -9868,7 +9868,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 40,
+									"left": 56,
 									"top": -264,
 									"width": 10,
 									"height": 10
@@ -9884,7 +9884,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 40,
+									"left": 56,
 									"top": -264,
 									"width": 10,
 									"height": 10
@@ -11803,8 +11803,8 @@
 								"$ref": "AAAAAAF9ishHXFQ5dnM="
 							},
 							"font": "Arial;13;0",
-							"left": 680,
-							"top": 656,
+							"left": 528,
+							"top": 536,
 							"width": 94.43896484375,
 							"height": 90,
 							"text": "The maintenance status will be an enumeration type"
@@ -14536,6 +14536,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
+									"left": 16,
+									"top": -24,
 									"width": 10,
 									"height": 10
 								},
@@ -14550,6 +14552,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
+									"left": 16,
+									"top": -24,
 									"width": 10,
 									"height": 10
 								}
@@ -16656,7 +16660,8 @@
 								"$ref": "AAAAAAF95mOn5cB7WLM="
 							},
 							"name": "quantity",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					]
 				},
@@ -16706,7 +16711,8 @@
 								"$ref": "AAAAAAF95mbTcvRzSDg="
 							},
 							"name": "report",
-							"visibility": "private"
+							"visibility": "private",
+							"type": ""
 						}
 					]
 				}
