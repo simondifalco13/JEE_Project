@@ -690,3 +690,65 @@ errorCode:=0;
 		WHEN OTHERS THEN 
 			DBMS_OUTPUT.PUT_lINE('Error while creating a new record in worker_maintenance');
 END;
+
+-----POUR WORKER----
+
+create or replace PROCEDURE selectWorkerMaintenances
+(worker_id_param worker_maintenance.worker_id%type, out_cursor OUT SYS_REFCURSOR)
+AS
+BEGIN
+  OPEN out_cursor FOR
+ SELECT m.maintenance_id,m.maintenance_date, m.maintenance_status,
+ m.maintenance_start,m.maintenance_end,m.machine_id, m.leader_id,
+ l.leader_lastname, wm.report 
+ FROM maintenance m, worker_maintenance wm, leader l
+ WHERE m.maintenance_id = wm.maintenance_id AND m.leader_id = l.leader_id 
+ AND worker_id=worker_id_param;
+END;
+
+-----------POUR EMPLOYEE---------------
+
+create or replace PROCEDURE selectAllFactoryMachines
+(out_cursor OUT SYS_REFCURSOR)
+AS
+BEGIN
+  OPEN out_cursor FOR
+ SELECT machine_id,machine_type,site_id,
+ machine_status,model,brand,description 
+ FROM machine ;
+END;
+
++++++++
+
+create or replace PROCEDURE selectMachineMaintenances
+(machine_id_param maintenance.machine_id%type, out_cursor OUT SYS_REFCURSOR)
+AS
+BEGIN
+  OPEN out_cursor FOR
+ SELECT 
+ maintenance_id,maintenance_date,maintenance_status,
+ leader_id,maintenance_start,maintenance_end 
+ FROM maintenance 
+ WHERE machine_id=machine_id_param;
+END;
+
+---------Pour leader------------
+create or replace PROCEDURE selectAllSiteMachine
+(site_id_param machine.site_id%type,out_cursor OUT SYS_REFCURSOR)
+AS
+BEGIN
+  OPEN out_cursor FOR BULK COLLECT SELECT 
+ machine_id,machine_type,site_id,machine_status,
+ model,brand,description 
+ FROM machine 
+ WHERE site_id=site_id_param;
+END;
+
+-------------
+DECLARE
+cursor SYS_REFCURSOR;
+BEGIN
+selectMachineMaintenances(1,cursor);
+dbms_output.put_line('Curseur : ' || cursor);
+END;
+/
