@@ -1,0 +1,48 @@
+package be.project.javabeans;
+
+import java.io.Serializable;
+
+public class Item implements Serializable {
+
+	
+	private static final long serialVersionUID = -8124487508738093428L;
+	private SupplierMachine machine;
+	private int quantity;
+	
+	public Item() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Item(SupplierMachine machine) {
+		this.machine=machine;
+	}
+	
+	public Item(SupplierMachine machine,int quantity) {
+		this(machine);
+		this.quantity=quantity;
+	}
+
+	public SupplierMachine getMachine() {
+		return machine;
+	}
+
+	public void setMachine(SupplierMachine machine) {
+		this.machine = machine;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	public double getTotalPrice() {
+		double price=0;
+		price=(this.getMachine().getPrice())*(this.getQuantity());
+		return price;
+	}
+
+	
+}
