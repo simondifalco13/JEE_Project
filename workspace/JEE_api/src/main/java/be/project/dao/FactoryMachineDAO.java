@@ -99,7 +99,7 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 			callableStatement = conn.prepareCall(sql);
 			callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
 			callableStatement.execute();
-			OffsetTime debutRequete = OffsetTime.now();
+			
 			
 			
 			resultSet = (ResultSet) callableStatement.getObject(1);
@@ -114,33 +114,18 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 				model=resultSet.getString("model");
 				brand=resultSet.getString("brand");
 				description=resultSet.getString("description");
-				
-				OffsetTime debutSite= OffsetTime.now();
+
 				site=Site.getSite(site_id,conn);
-				OffsetTime finSite = OffsetTime.now();
-				Duration duration2 = Duration.between(debutSite , finSite);
-				
-				System.out.println("Temps écoulé pour getSite: " + duration2.toHours() + "h/"+ duration2.toMinutes() + "m/" + duration2.toSeconds() + "s");
+
 				if(machineId!=0) {
-					OffsetTime debutArea= OffsetTime.now();
 					machineAreas=Area.getMachineAreas(machineId,conn);
-					OffsetTime finArea = OffsetTime.now();
-					Duration duration3 = Duration.between(debutArea , finArea);
-					System.out.println("Temps écoulé pour getMachineAreas: " + duration3.toHours() + "h/"+ duration3.toMinutes() + "m/" + duration3.toSeconds() + "s");
-					
-					OffsetTime debutmaintenance= OffsetTime.now();
+				
 					maintenances=Maintenance.getMachineMaintenances(machineId,conn);
-					OffsetTime finMaintenance = OffsetTime.now();
-					Duration duration4 = Duration.between(debutmaintenance , finMaintenance);
-					System.out.println("Temps écoulé pour maintenance: " + duration4.toHours() + "h/"+ duration4.toMinutes() + "m/" + duration4.toSeconds() + "s");
-				}
+					}
 				machine=new FactoryMachine(machineId,model,brand,description,type,status,machineAreas,maintenances);
 				machines.add(machine);
 				
-				OffsetTime finRequete = OffsetTime.now();
-				Duration duration5 = Duration.between(debutRequete , finRequete);
-				System.out.println("Temps écoulé pour requete: " + duration5.toHours() + "h/"+ duration5.toMinutes() + "m/" + duration5.toSeconds() + "s");
-			}
+				}
 			
 		} catch (Exception e) {
 			System.out.println("FACTORYMACHINEDAO FIND ALL:"+e.getMessage());
