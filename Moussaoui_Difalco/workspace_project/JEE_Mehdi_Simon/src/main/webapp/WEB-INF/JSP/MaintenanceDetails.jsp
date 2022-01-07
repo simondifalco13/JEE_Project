@@ -32,7 +32,7 @@
 				Date maintenanceDateFinal=new Date(maintenanceDate.getDate(),maintenanceDate.getMonth(),maintenanceDate.getYear());
 				String currentDateToString = dateFormat.format(currentDate);
 				String maintenanceDateToString = dateFormat.format(maintenanceDate);
-				if(maintenanceDateFinal.compareTo(currentDateFinal)<0) {
+				if(maintenanceDateFinal.compareTo(currentDateFinal)<=0) {
 					return true;
 				}
 				else return false;

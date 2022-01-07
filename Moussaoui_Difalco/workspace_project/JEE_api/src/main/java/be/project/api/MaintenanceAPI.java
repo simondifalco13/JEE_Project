@@ -100,7 +100,6 @@ public class MaintenanceAPI extends CommunAPI {
 				int idLeader=Integer.valueOf(leaderId);
 				int idMachine=Integer.valueOf(machineId);
 				Date maintenanceDate = dateFormat.parse(date);
-				System.out.println("MAINTENANCE API : "+maintenanceDate);
 				LocalTime localTime = LocalTime.parse(start, timeformat);
 				MaintenanceStatus maintenanceStatus=MaintenanceStatus.valueOf(status);
 				Leader leader=new Leader();
