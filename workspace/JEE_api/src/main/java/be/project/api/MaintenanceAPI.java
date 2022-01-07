@@ -43,8 +43,7 @@ public class MaintenanceAPI extends CommunAPI {
 	public MaintenanceAPI() {
 		// TODO Auto-generated constructor stub
 	}
-	/*GET**/
-	/////////////////
+
 	@GET
 	@Path("{maintenance_id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -73,8 +72,7 @@ public class MaintenanceAPI extends CommunAPI {
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
 	}
-	/*POST**/
-	//////////////////
+
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -87,11 +85,7 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("machineId") String machineId,
 			@HeaderParam("key") String key) 
 	{
-//		Connection conn=DatabaseConnection.getInstance();
-//		if(DatabaseConnection.getError()!=null && conn==null) {
-//			System.out.println(DatabaseConnection.getError().getJSON());
-//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-//		}
+
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			ArrayList<Worker> maintenanceWorkers=new ArrayList<Worker>();
@@ -146,8 +140,7 @@ public class MaintenanceAPI extends CommunAPI {
 		
 		
 	}
-	/*PUT**/
-	//////////////////////
+	
 	@PUT
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -156,18 +149,14 @@ public class MaintenanceAPI extends CommunAPI {
 			@FormParam("start_t") String start,
 			@FormParam("status") String status,
 			@HeaderParam("key") String key) {
-//		Connection conn=DatabaseConnection.getInstance();
-//		if(DatabaseConnection.getError()!=null && conn==null) {
-//			System.out.println(DatabaseConnection.getError().getJSON());
-//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-//		}
+
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			Maintenance maintenance=new Maintenance();
 			maintenance.setStartTime(null);
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			DateFormat DateFor= new SimpleDateFormat("yyyy-MM-dd");
-			//System.out.println("MAINTENANCEAPI : "+date);
+			
 			DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HH:mm:ss");
 			try {
 				Date maintenanceDate = dateFormat.parse(date);

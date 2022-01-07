@@ -37,12 +37,6 @@ public class UserAPI extends CommunAPI{
 			@FormParam("serialNumber") int matricule, 
 			@FormParam("pwd") String password) {
 		String responseJSON;
-//		Connection conn=DatabaseConnection.getInstance();
-//		if(DatabaseConnection.getError()!=null && conn==null) {
-//			System.out.println(DatabaseConnection.getError().getJSON());
-//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-//		}
-	
 		boolean success= User.login(matricule, password);
 		if(success) {
 			responseJSON="{\"connected\":\"true\"}";

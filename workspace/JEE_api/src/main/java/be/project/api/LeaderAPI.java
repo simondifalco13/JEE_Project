@@ -19,7 +19,7 @@ public class LeaderAPI extends CommunAPI {
 		// TODO Auto-generated constructor stub
 	}
 
-	//verifier qu'on recoit bien la clé de l'api
+	
 		@GET
 		@Path("{serialNumber}")
 		@Produces(MediaType.APPLICATION_JSON)

@@ -33,11 +33,6 @@ public class OrderAPI extends CommunAPI{
 	@Path("all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllOrders(@HeaderParam("key") String key) {
-//		Connection conn=DatabaseConnection.getInstance();
-//		if(DatabaseConnection.getError()!=null && conn==null) {
-//			System.out.println(DatabaseConnection.getError().getJSON());
-//			return Response.status(Status.OK).entity(DatabaseConnection.getError().getJSON()).build();
-//		}
 		String apiKey=getApiKey();
 		if(key.equals(apiKey)) {
 			ArrayList<Order> orders=Order.getAllOrders();

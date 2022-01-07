@@ -46,8 +46,6 @@ public class WorkerDAO implements DAO<Worker> {
 				String firstname=resultSet.getString("worker_firstname");
 				String lastname=resultSet.getString("worker_lastname");
 				String mail=resultSet.getString("worker_mail");
-				//mettre ou pas le PWD ? 
-				//String pwd=resultSet.getString("worker_password");
 				int siteId=resultSet.getInt("site_id");
 				Site site=Site.getSite(siteId,conn);
 				worker=new Worker(id,firstname,lastname,null,mail,site);

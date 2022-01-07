@@ -55,7 +55,6 @@ public class OrderDAO implements DAO<Order> {
 		
 		int httpResponseCode=res.getStatus();
 		URI URIlocation = res.getLocation();
-		//System.out.println("New URI" + URIlocation);
 		if(httpResponseCode == 201) {
 			success=true;
 		}

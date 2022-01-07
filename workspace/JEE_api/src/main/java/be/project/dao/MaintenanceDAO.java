@@ -119,7 +119,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			CallableStatement sql = conn.prepareCall("{call update_maintenance(?,?,?,?,?)}");
 			sql.setInt(1, obj.getMaintenanceId());
 			sql.setDate(2, new java.sql.Date(obj.getMaintenanceDate().getTime()));
-			//sql.setString(2, sqlDate.toString());
 			sql.setTimestamp(3,Timestamp.valueOf(start));
 			sql.setString(4,obj.getStatus().toString());
 			sql.registerOutParameter(5, java.sql.Types.NUMERIC);
@@ -271,8 +270,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 		CallableStatement callableStatement = null;
 		ResultSet resultSet=null;
 		ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();
-		//Connection conn=DatabaseConnection.getConnection();
-		
 		String sql="{call selectMachineMaintenances(?,?)}";
 	
 		try {
@@ -284,7 +281,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			while(resultSet.next()) {
 				int maintenanceId=resultSet.getInt("maintenance_id");
 				Date maintenanceDate=resultSet.getDate("maintenance_date");
-				//System.out.println("MAINTENANCE DAO API getMachineMaintenances : "+" m "+maintenanceId+"="+maintenanceDate);
 				MaintenanceStatus status=MaintenanceStatus.valueOf(resultSet.getString("maintenance_status"));
 				int leaderId=resultSet.getInt("leader_id");
 				Timestamp tsStart=resultSet.getTimestamp("maintenance_start");

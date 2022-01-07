@@ -97,7 +97,6 @@ public class FactoryMachineDAO implements DAO<FactoryMachine> {
 		try {
 			String sql="{call selectAllFactoryMachines(?)}";
 			callableStatement = conn.prepareCall(sql);
-			
 			callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
 			callableStatement.execute();
 			OffsetTime debutRequete = OffsetTime.now();
