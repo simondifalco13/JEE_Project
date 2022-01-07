@@ -49,7 +49,6 @@ public class MaintenanceDAO implements DAO<Maintenance> {
 			SimpleDateFormat sqlFormatDate = new SimpleDateFormat("MM/dd/yyyy");
 
 			java.sql.Date sqlDate=new java.sql.Date(obj.getMaintenanceDate().getTime());
-			System.out.println("CREATION MAINTENANCE : "+sqlDate.toString());
 			sql.setString(1,  sqlDate.toString());
 			sql.setString(2, obj.getStatus().toString());
 			sql.setInt(3, obj.getMachine().getId());
